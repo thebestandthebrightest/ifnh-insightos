@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --sage: #7A8F7A;
+  --coral: #C5705A;
+  --gold: #C8A96E;
+  --blue-grey: #7B9BB5;
+  --olive: #5C6B3C;
+  --text: #2D2D2D;
+  --text-muted: #6B6B6B;
+  --text-light: #9B9B9B;
+  --border: #E0DDD8;
+  --divider: #EEEBE6;
+  --bg: #F9F7F4;
+  --card: #FFFFFF;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-sage: var(--sage);
+  --color-coral: var(--coral);
+  --color-gold: var(--gold);
+  --color-blue-grey: var(--blue-grey);
+  --color-olive: var(--olive);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-light: var(--text-light);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base styles ───────────────────────────────────────────────────────────── */
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* ── Typography ────────────────────────────────────────────────────────────── */
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--divider);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* ── Recharts overrides ─────────────────────────────────────────────────────── */
+
+.recharts-text {
+  font-family: var(--font-sans) !important;
+  fill: var(--text-muted) !important;
+}
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 11px;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
 }
