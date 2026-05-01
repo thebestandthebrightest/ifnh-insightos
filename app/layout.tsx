@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Sidebar } from "@/components/Sidebar";
 
 export const metadata: Metadata = {
   title: "IFNH InsightOS",
@@ -22,16 +21,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
-        <div className="flex min-h-screen" style={{ background: "var(--bg)" }}>
-          <Sidebar />
-          <main className="flex-1 min-w-0 overflow-auto">
-            <div className="max-w-6xl mx-auto px-6 py-8 lg:px-10">
-              {children}
-            </div>
-          </main>
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
