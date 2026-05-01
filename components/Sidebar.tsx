@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import {
   LayoutDashboard,
@@ -10,7 +10,10 @@ import {
   Sliders,
   Star,
   FileText,
+  LogOut,
 } from "lucide-react";
+
+const AUTH_COOKIE = "ifnh_access";
 
 const NAV = [
   { href: "/", label: "Executive Summary", icon: LayoutDashboard },
@@ -23,6 +26,13 @@ const NAV = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  function handleLogout() {
+    // Expire the cookie immediately
+    document.cookie = `${AUTH_COOKIE}=; path=/; max-age=0; SameSite=Lax`;
+    router.push("/login");
+  }
 
   return (
     <aside
@@ -76,14 +86,27 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Footer */}
+      {/* Footer + Logout */}
       <div
-        className="px-5 py-4 border-t text-[0.68rem] leading-relaxed"
-        style={{ borderColor: "var(--border)", color: "var(--text-light)" }}
+        className="px-5 py-4 border-t"
+        style={{ borderColor: "var(--border)" }}
       >
-        IFNH / Harvest Survey
-        <br />
-        n = 93 · Spring 2026
+        <div
+          className="text-[0.68rem] leading-relaxed mb-3"
+          style={{ color: "var(--text-light)" }}
+        >
+          IFNH / Harvest Survey
+          <br />
+          n = 93 · Spring 2026
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 w-full px-2 py-1.5 rounded text-[0.75rem] transition-colors hover:bg-black/5"
+          style={{ color: "var(--text-light)" }}
+        >
+          <LogOut size={12} strokeWidth={1.75} />
+          Sign out
+        </button>
       </div>
     </aside>
   );
