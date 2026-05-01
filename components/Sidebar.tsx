@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import {
   LayoutDashboard,
@@ -12,8 +12,7 @@ import {
   FileText,
   LogOut,
 } from "lucide-react";
-
-const AUTH_COOKIE = "ifnh_access";
+import { logoutAction } from "@/app/actions";
 
 const NAV = [
   { href: "/", label: "Executive Summary", icon: LayoutDashboard },
@@ -26,13 +25,6 @@ const NAV = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter();
-
-  function handleLogout() {
-    // Expire the cookie immediately
-    document.cookie = `${AUTH_COOKIE}=; path=/; max-age=0; SameSite=Lax`;
-    router.push("/login");
-  }
 
   return (
     <aside
@@ -99,14 +91,16 @@ export function Sidebar() {
           <br />
           n = 93 · Spring 2026
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 w-full px-2 py-1.5 rounded text-[0.75rem] transition-colors hover:bg-black/5"
-          style={{ color: "var(--text-light)" }}
-        >
-          <LogOut size={12} strokeWidth={1.75} />
-          Sign out
-        </button>
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            className="flex items-center gap-2 w-full px-2 py-1.5 rounded text-[0.75rem] transition-colors hover:bg-black/5"
+            style={{ color: "var(--text-light)" }}
+          >
+            <LogOut size={12} strokeWidth={1.75} />
+            Sign out
+          </button>
+        </form>
       </div>
     </aside>
   );

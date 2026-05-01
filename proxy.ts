@@ -6,18 +6,19 @@ const LOGIN_PATH = "/login";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const isAuthenticated = request.cookies.has(AUTH_COOKIE);
 
-  // Always allow the login page itself
+  // Authenticated users who land on /login should go straight to the app
   if (pathname === LOGIN_PATH) {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
     return NextResponse.next();
   }
 
-  // Check for the auth cookie
-  const isAuthenticated = request.cookies.has(AUTH_COOKIE);
-
+  // All other routes require the auth cookie
   if (!isAuthenticated) {
-    const loginUrl = new URL(LOGIN_PATH, request.url);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL(LOGIN_PATH, request.url));
   }
 
   return NextResponse.next();
