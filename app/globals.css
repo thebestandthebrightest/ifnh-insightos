@@ -83,3 +83,53 @@ body {
 .recharts-tooltip-wrapper {
   outline: none;
 }
+
+/* ── Range slider track ─────────────────────────────────────────────────────── */
+/* Restores a visible track behind the thumb on all browsers.                    */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--olive);
+  margin-top: -5.5px;
+  cursor: pointer;
+  border: 2px solid var(--card);
+  box-shadow: 0 0 0 1.5px var(--olive);
+  transition: box-shadow 0.15s ease;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(92, 107, 60, 0.18);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--card);
+  border-radius: 50%;
+  background: var(--olive);
+  cursor: pointer;
+  box-shadow: 0 0 0 1.5px var(--olive);
+}

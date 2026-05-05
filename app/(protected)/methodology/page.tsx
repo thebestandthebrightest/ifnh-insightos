@@ -61,6 +61,33 @@ const SCENARIO_PARAMS = [
   { param: "programming_level", default: "1", range: "1–5", effect: "+1 level → +1.5pp interaction rate" },
 ];
 
+const CALC_SECTIONS = [
+  {
+    heading: "Demand percentages",
+    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of valid respondents (n = 93) who expressed a want or need — either through a binary Yes/No question or a Likert-scale item. For example, Quiet/Recharge Space demand is 75% because 74.6% of respondents answered 'Yes' to wanting a dedicated quiet area.",
+  },
+  {
+    heading: "Estimated current support percentages",
+    body: "Because IFNH does not yet have a formal space inventory, estimated support levels were assigned based on direct observation during the survey period and consultation with space staff. These are directional proxies — not measured values — and should be updated as the space evolves. For instance, 'Quiet/Recharge Space' support is estimated at 20% because a quiet corner exists informally but lacks dedicated furniture or signage.",
+  },
+  {
+    heading: "Gap score",
+    body: "Gap = Demand % − Estimated Current Support %. A large gap means many students want something the space does not currently provide well. Gaps above 40 percentage points are flagged as high-priority. Gaps between 10–40% are monitoring areas. The gap score is not a prediction — it is a planning signal.",
+  },
+  {
+    heading: "Needs & Gaps chart",
+    body: "The chart shows demand and estimated current support as grouped vertical bars for each need area. Blue bars represent demand; green bars represent estimated current support. The gap is the visible space between the two bars. A custom tooltip also displays the calculated gap when hovering over any bar group. Bars are sorted by gap size descending in the detail table below the chart.",
+  },
+  {
+    heading: "Scenario Lab outputs",
+    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 37.6%. Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
+  },
+  {
+    heading: "Recommendation priorities",
+    body: "Each recommendation is scored on three dimensions: impact (estimated effect on key metrics if implemented), feasibility (ease and cost of implementation), and demand (proportion of students who expressed this need). The final score is a weighted average. Dynamic boosts are applied when the current data makes a recommendation especially timely — for example, seating recommendations receive a 15% score boost when seating demand exceeds 40% of the survey. Quick Wins are high-impact, low-effort actions that can be taken immediately with minimal resources.",
+  },
+];
+
 export default function Methodology() {
   const m = METRICS;
   const timingColors: Record<string, string> = {
@@ -75,10 +102,10 @@ export default function Methodology() {
       <SectionHeader
         eyebrow="Section 06 · Data Notes"
         title="Methodology & Data Notes"
-        subtitle="Survey design, data cleaning, metric definitions, and scenario model assumptions."
+        subtitle="Survey design, data collection context, recommended actions, and calculation methodology."
       />
 
-      {/* Survey overview */}
+      {/* ── 1. Survey overview ── */}
       <Subhead>Survey Overview</Subhead>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <KPICard
@@ -111,7 +138,7 @@ export default function Methodology() {
       >
         <p>
           The survey was administered to students who use the IFNH / Harvest student space at Rutgers University
-          during Spring 2026. The survey was distributed via QR codes placed in the space and via direct outreach.
+          during Spring 2026. It was distributed via QR codes placed in the space and through direct outreach.
           All responses were collected anonymously. Two responses were excluded from analysis due to failed
           recaptcha validation or substantially incomplete submissions.
         </p>
@@ -124,7 +151,75 @@ export default function Methodology() {
 
       <Divider />
 
-      {/* Key metric definitions */}
+      {/* ── 2. Recommended Path Forward (elevated) ── */}
+      <Subhead>Recommended Path Forward</Subhead>
+      <Note>
+        These steps synthesize the survey findings into a prioritized action sequence. Timing reflects implementation
+        complexity, not urgency — all steps are worth beginning soon.
+      </Note>
+
+      <div className="space-y-0 mb-6">
+        {STRATEGY_STEPS.map((step, i) => {
+          const color = timingColors[step.timing] ?? "var(--text-muted)";
+          return (
+            <div
+              key={i}
+              className="flex items-start gap-5 py-4 border-b"
+              style={{ borderColor: "var(--divider)" }}
+            >
+              <div
+                className="font-serif text-xl font-medium shrink-0 w-6 text-right leading-none pt-0.5"
+                style={{ color }}
+              >
+                {i + 1}
+              </div>
+              <div>
+                <div
+                  className="text-[0.65rem] uppercase tracking-widest font-semibold mb-1"
+                  style={{ color, letterSpacing: "0.1em" }}
+                >
+                  {step.timing}
+                </div>
+                <div className="text-[0.88rem] leading-relaxed" style={{ color: "var(--text)" }}>
+                  {step.action}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <Divider />
+
+      {/* ── 3. How calculations and visuals were built ── */}
+      <Subhead>How the Calculations and Visuals Were Built</Subhead>
+      <Note>
+        Plain-English explanations of how each number, chart, and score in this report was produced.
+      </Note>
+
+      <div className="space-y-3 mb-6">
+        {CALC_SECTIONS.map(({ heading, body }) => (
+          <div
+            key={heading}
+            className="rounded border p-4"
+            style={{ background: "var(--card)", borderColor: "var(--border)" }}
+          >
+            <div
+              className="text-[0.82rem] font-semibold mb-1.5"
+              style={{ color: "var(--text)" }}
+            >
+              {heading}
+            </div>
+            <p className="text-[0.82rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              {body}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+
+      {/* ── 4. Key metric definitions ── */}
       <Subhead>Key Metric Definitions</Subhead>
 
       <div className="space-y-2 mb-6">
@@ -159,7 +254,7 @@ export default function Methodology() {
 
       <Divider />
 
-      {/* Column dictionary */}
+      {/* ── 5. Column dictionary ── */}
       <Subhead>Column Reference</Subhead>
       <Note>Key analysis columns from the cleaned dataset (IFNH_cleaned_analysis_ready.csv).</Note>
 
@@ -203,7 +298,7 @@ export default function Methodology() {
 
       <Divider />
 
-      {/* Scenario model */}
+      {/* ── 6. Scenario model assumptions ── */}
       <Subhead>Scenario Model Assumptions</Subhead>
       <Note>
         The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 37.6%.
@@ -252,42 +347,6 @@ export default function Methodology() {
         }}
       >
         <strong style={{ color: "var(--text)" }}>Model limitations:</strong> The interaction rate model is additive and linear. It does not account for non-linear interactions between parameters, individual behavioral variation, or time-of-day effects. Crowding penalties are applied when seating pressure exceeds 1.0×. All estimates should be treated as directional — the model is most useful for comparing relative scenarios, not as an absolute forecast.
-      </div>
-
-      <Divider />
-
-      {/* Strategy path */}
-      <Subhead>Recommended Path Forward</Subhead>
-
-      <div className="space-y-0 mb-6">
-        {STRATEGY_STEPS.map((step, i) => {
-          const color = timingColors[step.timing] ?? "var(--text-muted)";
-          return (
-            <div
-              key={i}
-              className="flex items-start gap-5 py-4 border-b"
-              style={{ borderColor: "var(--divider)" }}
-            >
-              <div
-                className="font-serif text-xl font-medium shrink-0 w-6 text-right leading-none pt-0.5"
-                style={{ color }}
-              >
-                {i + 1}
-              </div>
-              <div>
-                <div
-                  className="text-[0.65rem] uppercase tracking-widest font-semibold mb-1"
-                  style={{ color, letterSpacing: "0.1em" }}
-                >
-                  {step.timing}
-                </div>
-                <div className="text-[0.88rem] leading-relaxed" style={{ color: "var(--text)" }}>
-                  {step.action}
-                </div>
-              </div>
-            </div>
-          );
-        })}
       </div>
 
       {/* Footer note */}

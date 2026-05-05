@@ -166,28 +166,47 @@ export default function SpaceDesign() {
         Gap = Demand % − Estimated Current Support %. Blue bars show demand, green bars show estimated current support.
       </Note>
 
-      {/* Priority badges */}
-      <div className="flex flex-wrap items-center gap-4 mb-4">
-        {top3Gaps.map((g, i) => {
-          const colors = ["#C5705A", "#C8A96E", "#7B9BB5"];
-          const labels = ["Highest Impact", "High Demand", "Priority"];
-          return (
-            <span
-              key={g.need}
-              className="text-[0.73rem] font-semibold flex items-center gap-1.5"
-              style={{ color: colors[i] }}
-            >
-              <span>●</span> {labels[i]}: {g.need}
-            </span>
-          );
-        })}
-      </div>
-
       <div
-        className="rounded border p-4 mb-6"
+        className="rounded border p-4 mb-5"
         style={{ background: "var(--card)", borderColor: "var(--border)" }}
       >
         <GapBarsChart gaps={GAPS} />
+      </div>
+
+      {/* Key findings: top gaps as cards below the chart */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        {top3Gaps.map((g, i) => {
+          const rankLabel = ["Largest Gap", "Second Gap", "Third Gap"][i];
+          const gapColor =
+            g.gap > 0.4 ? "#C5705A" : g.gap > 0.25 ? "#C8A96E" : "var(--blue-grey)";
+          return (
+            <div
+              key={g.need}
+              className="rounded border p-4"
+              style={{ background: "var(--card)", borderColor: "var(--border)" }}
+            >
+              <div
+                className="text-[0.6rem] uppercase tracking-widest font-semibold mb-1"
+                style={{ color: "var(--text-muted)", letterSpacing: "0.1em" }}
+              >
+                {rankLabel}
+              </div>
+              <div
+                className="font-medium text-[0.85rem] mb-2 leading-snug"
+                style={{ color: "var(--text)" }}
+              >
+                {g.need}
+              </div>
+              <div className="flex gap-3 text-[0.78rem]" style={{ color: "var(--text-muted)" }}>
+                <span>Demand <strong style={{ color: "#7B9BB5" }}>{g.demand_pct}</strong></span>
+                <span>·</span>
+                <span>Support <strong style={{ color: "#7A8F7A" }}>{g.support_pct}</strong></span>
+                <span>·</span>
+                <span>Gap <strong style={{ color: gapColor }}>{g.gap_pct}</strong></span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <InsightCard
