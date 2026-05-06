@@ -1,5 +1,4 @@
 import type { Recommendation } from "@/lib/types";
-import clsx from "clsx";
 
 interface RecommendationCardProps {
   rec: Recommendation;

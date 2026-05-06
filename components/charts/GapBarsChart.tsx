@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import type { GapItem } from "@/lib/types";
@@ -23,8 +22,9 @@ function splitLabel(label: string): [string, string] {
   return [words.slice(0, mid).join(" "), words.slice(mid).join(" ")];
 }
 
-const CustomXTick = ({ x, y, payload }: any) => {
-  const [line1, line2] = splitLabel(payload.value as string);
+interface TickProps { x?: number; y?: number; payload?: { value: string } }
+const CustomXTick = ({ x = 0, y = 0, payload }: TickProps) => {
+  const [line1, line2] = splitLabel(payload?.value ?? "");
   return (
     <g transform={`translate(${x},${y + 8})`}>
       <text
@@ -73,10 +73,13 @@ const CustomLegend = () => (
   </div>
 );
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem { dataKey: string; value: number }
+interface CustomTooltipProps { active?: boolean; payload?: TooltipPayloadItem[]; label?: string }
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
-  const demandEntry = payload.find((p: any) => p.dataKey === "demand");
-  const supportEntry = payload.find((p: any) => p.dataKey === "support");
+  const demandEntry = payload.find((p) => p.dataKey === "demand");
+  const supportEntry = payload.find((p) => p.dataKey === "support");
   const demand = demandEntry?.value ?? 0;
   const support = supportEntry?.value ?? 0;
   const gap = demand - support;
@@ -137,13 +140,22 @@ export function GapBarsChart({ gaps }: GapBarsChartProps) {
           />
           <YAxis
             domain={[0, 1]}
-            tickFormatter={(v) => `${(v * 100).toFixed(0)}%`}
+            tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`}
             tick={{ fontSize: 11, fill: "var(--text-muted)" }}
             axisLine={false}
             tickLine={false}
             width={40}
           />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.03)" }} />
+          <Tooltip
+            content={(props) => (
+              <CustomTooltip
+                active={props.active}
+                payload={props.payload as unknown as TooltipPayloadItem[]}
+                label={props.label as string}
+              />
+            )}
+            cursor={{ fill: "rgba(0,0,0,0.03)" }}
+          />
           <Bar
             dataKey="demand"
             name="Demand %"

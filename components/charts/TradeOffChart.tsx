@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  ScatterChart,
-  Scatter,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -25,9 +23,12 @@ interface Props {
   scenarioSharedPct: number;
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipPayloadItem { payload: TradeOffPoint }
+interface CustomTooltipProps { active?: boolean; payload?: CustomTooltipPayloadItem[] }
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
-  const d = payload[0]?.payload as TradeOffPoint;
+  const d = payload[0]?.payload;
   return (
     <div
       className="rounded border px-3 py-2 text-[0.78rem] shadow-sm"
@@ -56,7 +57,7 @@ export function TradeOffChart({ curveData, currentSharedPct, scenarioSharedPct }
         <CartesianGrid strokeDasharray="3 3" stroke="var(--divider)" />
         <XAxis
           dataKey="shared_pct"
-          tickFormatter={(v) => `${v}%`}
+          tickFormatter={(v: number) => `${v}%`}
           tick={{ fontSize: 11, fill: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}
           axisLine={false}
           tickLine={false}
@@ -69,7 +70,7 @@ export function TradeOffChart({ curveData, currentSharedPct, scenarioSharedPct }
           }}
         />
         <YAxis
-          tickFormatter={(v) => `${(v * 100).toFixed(0)}%`}
+          tickFormatter={(v: number) => `${(v * 100).toFixed(0)}%`}
           domain={[0.3, 0.65]}
           tick={{ fontSize: 11, fill: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}
           axisLine={false}
@@ -83,7 +84,14 @@ export function TradeOffChart({ curveData, currentSharedPct, scenarioSharedPct }
             fill: "var(--text-muted)",
           }}
         />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip
+          content={(props) => (
+            <CustomTooltip
+              active={props.active}
+              payload={props.payload as unknown as CustomTooltipPayloadItem[]}
+            />
+          )}
+        />
         <ReferenceLine x={currentSharedPct} stroke="var(--text-light)" strokeDasharray="4 4" label="" />
         <ReferenceLine x={scenarioSharedPct} stroke="#7A8F7A" strokeDasharray="4 4" label="" />
         <Line

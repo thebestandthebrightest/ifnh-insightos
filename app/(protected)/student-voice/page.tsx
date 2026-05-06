@@ -28,12 +28,6 @@ export default function StudentVoice() {
   // Sort themes by pct descending; override Quiet Reflection with survey demand
   const sortedThemes = Object.entries(themes).sort((a, b) => b[1].pct - a[1].pct);
 
-  const channelItems = Object.entries(channels.norm).map(([label, value]) => ({
-    label,
-    value,
-    count: (channels.dist as Record<string, number>)[label],
-  }));
-
   const activityItems = Object.entries(activities.norm).map(([label, value]) => ({
     label,
     value,

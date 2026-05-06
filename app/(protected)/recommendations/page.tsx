@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { SectionHeader, Subhead, Divider, Note } from "@/components/SectionHeader";
+import { SectionHeader, Divider, Note } from "@/components/SectionHeader";
 import { KPICard } from "@/components/KPICard";
 import { InsightCard } from "@/components/InsightCard";
 import { RecommendationCard } from "@/components/RecommendationCard";
@@ -34,7 +34,6 @@ export default function Recommendations() {
 
   const qwCount = allRecs.filter((r) => r.quick_win && r.effort === "Low").length;
   const highCount = allRecs.filter((r) => r.priority === "High").length;
-  const topScore = allRecs[0]?.adjusted_score ?? 0;
 
   return (
     <div>

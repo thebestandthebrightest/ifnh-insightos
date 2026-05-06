@@ -2,10 +2,11 @@ import type { ScenarioParams, ScenarioResult, ScenarioComparison } from "./types
 
 // ── Baseline (mirrors scenario_model.py BASELINE) ─────────────────────────────
 
+// Baseline updated from May 6, 2026 Qualtrics export (n = 103 valid responses).
 export const BASELINE = {
-  interaction_rate: 0.376,
-  connection_score: 3.97,
-  n_survey: 93,
+  interaction_rate: 0.359,
+  connection_score: 3.96,
+  n_survey: 103,
   daily_demand: 150,
 };
 

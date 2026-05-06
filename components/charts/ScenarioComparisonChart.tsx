@@ -16,10 +16,54 @@ interface Props {
   comparison: ScenarioComparison;
 }
 
+interface DataRow {
+  metric: string;
+  Current: number;
+  Scenario: number;
+  unit: string;
+}
+
+interface TooltipPayloadItem {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+  data: DataRow[];
+}
+
+function CustomTooltip({ active, payload, label, data }: CustomTooltipProps) {
+  if (!active || !payload?.length) return null;
+  const unit = data.find((d) => d.metric === label)?.unit ?? "";
+  return (
+    <div
+      className="rounded border p-2.5 text-[0.78rem] shadow-sm"
+      style={{ background: "var(--card)", borderColor: "var(--border)" }}
+    >
+      <div className="font-medium mb-1" style={{ color: "var(--text)" }}>{label}</div>
+      {payload.map((p) => (
+        <div key={p.name} className="flex items-center gap-2">
+          <span
+            className="w-2 h-2 rounded-full inline-block"
+            style={{ background: p.color }}
+          />
+          <span style={{ color: "var(--text-muted)" }}>
+            {p.name}: <strong>{p.value}{unit}</strong>
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ScenarioComparisonChart({ comparison }: Props) {
   const { current, scenario } = comparison;
 
-  const data = [
+  const data: DataRow[] = [
     {
       metric: "Interaction Rate",
       Current: Math.round(current.interaction_rate * 1000) / 10,
@@ -40,30 +84,6 @@ export function ScenarioComparisonChart({ comparison }: Props) {
     },
   ];
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (!active || !payload?.length) return null;
-    const unit = data.find((d) => d.metric === label)?.unit ?? "";
-    return (
-      <div
-        className="rounded border p-2.5 text-[0.78rem] shadow-sm"
-        style={{ background: "var(--card)", borderColor: "var(--border)" }}
-      >
-        <div className="font-medium mb-1" style={{ color: "var(--text)" }}>{label}</div>
-        {payload.map((p: any) => (
-          <div key={p.name} className="flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full inline-block"
-              style={{ background: p.color }}
-            />
-            <span style={{ color: "var(--text-muted)" }}>
-              {p.name}: <strong>{p.value}{unit}</strong>
-            </span>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <ResponsiveContainer width="100%" height={200}>
       <BarChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 8 }} barSize={22} barGap={4}>
@@ -80,7 +100,17 @@ export function ScenarioComparisonChart({ comparison }: Props) {
           tickLine={false}
           width={32}
         />
-        <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.03)" }} />
+        <Tooltip
+          content={(props) => (
+            <CustomTooltip
+              active={props.active}
+              payload={props.payload as unknown as TooltipPayloadItem[]}
+              label={props.label as string}
+              data={data}
+            />
+          )}
+          cursor={{ fill: "rgba(0,0,0,0.03)" }}
+        />
         <Legend
           wrapperStyle={{ fontSize: 11, fontFamily: "Inter, sans-serif", color: "var(--text-muted)" }}
         />

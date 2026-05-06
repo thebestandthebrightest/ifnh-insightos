@@ -1,6 +1,5 @@
 import { SectionHeader, Subhead, Divider, Note } from "@/components/SectionHeader";
 import { KPICard } from "@/components/KPICard";
-import { InsightCard } from "@/components/InsightCard";
 import { SURVEY_META, METRICS, STRATEGY_STEPS } from "@/lib/data";
 
 const COLUMN_GROUPS = [
@@ -64,7 +63,7 @@ const SCENARIO_PARAMS = [
 const CALC_SECTIONS = [
   {
     heading: "Demand percentages",
-    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of valid respondents (n = 93) who expressed a want or need — either through a binary Yes/No question or a Likert-scale item. For example, Quiet/Recharge Space demand is 75% because 74.6% of respondents answered 'Yes' to wanting a dedicated quiet area.",
+    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of valid respondents (n = 103) who expressed a want or need — either through a binary Yes/No question or a Likert-scale item. For example, Quiet/Recharge Space demand is 77% because 77.3% of respondents answered 'Yes' to wanting a dedicated quiet area (denominator excludes 'Not Sure' responses).",
   },
   {
     heading: "Estimated current support percentages",
@@ -80,7 +79,7 @@ const CALC_SECTIONS = [
   },
   {
     heading: "Scenario Lab outputs",
-    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 37.6%. Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
+    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 35.9%. Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
   },
   {
     heading: "Recommendation priorities",
@@ -139,8 +138,10 @@ export default function Methodology() {
         <p>
           The survey was administered to students who use the IFNH / Harvest student space at Rutgers University
           during Spring 2026. It was distributed via QR codes placed in the space and through direct outreach.
-          All responses were collected anonymously. Two responses were excluded from analysis due to failed
-          recaptcha validation or substantially incomplete submissions.
+          All responses were collected anonymously. One response was excluded from analysis due to failed
+          recaptcha validation or substantially incomplete submissions. Data was exported on {SURVEY_META.export_date} from
+          the source file <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>{SURVEY_META.source_file}</code> and
+          normalized prior to analysis.
         </p>
         <p>
           Open-text responses were manually reviewed and coded into seven thematic categories. Theme binary flags
@@ -256,7 +257,7 @@ export default function Methodology() {
 
       {/* ── 5. Column dictionary ── */}
       <Subhead>Column Reference</Subhead>
-      <Note>Key analysis columns from the cleaned dataset (IFNH_cleaned_analysis_ready.csv).</Note>
+      <Note>Key analysis columns from the cleaned dataset ({SURVEY_META.source_file}).</Note>
 
       <div className="space-y-5 mb-6">
         {COLUMN_GROUPS.map(({ group, columns }) => (
@@ -301,7 +302,7 @@ export default function Methodology() {
       {/* ── 6. Scenario model assumptions ── */}
       <Subhead>Scenario Model Assumptions</Subhead>
       <Note>
-        The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 37.6%.
+        The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 35.9%.
       </Note>
 
       <div className="rounded border overflow-hidden mb-6" style={{ borderColor: "var(--border)" }}>

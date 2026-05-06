@@ -14,7 +14,10 @@ const SLICE_COLORS: Record<string, string> = {
 };
 const FALLBACK_COLORS = ["#7A8F7A", "#C5705A", "#C8A96E", "#7B9BB5"];
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface TooltipPayloadItem { name: string; value: number }
+interface CustomTooltipProps { active?: boolean; payload?: TooltipPayloadItem[] }
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
   const { name, value } = payload[0];
   return (
@@ -30,7 +33,8 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 const RADIAN = Math.PI / 180;
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value, name }: any) => {
+interface LabelProps { cx?: number; cy?: number; midAngle?: number; innerRadius?: number; outerRadius?: number; value?: number; name?: string }
+const renderCustomLabel = ({ cx = 0, cy = 0, midAngle = 0, innerRadius = 0, outerRadius = 0, value = 0 }: LabelProps) => {
   if (value < 0.06) return null;
   const radius = innerRadius + (outerRadius - innerRadius) * 0.65;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);

@@ -22,7 +22,9 @@ interface Props {
   data: DataItem[];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem { value: number }
+interface CustomTooltipProps { active?: boolean; payload?: TooltipPayloadItem[]; label?: string }
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
   return (
     <div
