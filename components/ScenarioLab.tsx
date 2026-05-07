@@ -86,13 +86,15 @@ export function ScenarioLab() {
   const s = comparison.scenario;
   const d = comparison.deltas;
 
+  // Pressure status is always Watch or worse — the model does not capture
+  // peak-time rushes or seat-type mismatch, so no reading is "Strong."
   const pressureStatus =
-    s.seating_pressure < 0.9 ? "Strong" : s.seating_pressure < 1.2 ? "Watch" : "Needs Attention";
+    s.seating_pressure < 1.0 ? "Watch" : "Needs Attention";
   const interStatus = s.interaction_rate >= 0.5 ? "Strong" : "Watch";
   const connStatus = s.connection_score >= 4.0 ? "Strong" : "Watch";
 
   const verdictColor =
-    s.seating_pressure < 0.9 ? "var(--sage)" : s.seating_pressure > 1.1 ? "var(--coral)" : "var(--gold)";
+    s.seating_pressure >= 1.0 ? "var(--coral)" : "var(--gold)";
 
   return (
     <div>
@@ -245,9 +247,27 @@ export function ScenarioLab() {
             }}
           >
             <span className="mt-0.5 text-base leading-none" style={{ color: verdictColor }}>
-              {s.seating_pressure < 0.9 ? "✓" : s.seating_pressure > 1.1 ? "⚠" : "~"}
+              {s.seating_pressure >= 1.0 ? "⚠" : "~"}
             </span>
             <span>{verdict}</span>
+          </div>
+
+          {/* Model limitation + why this matters */}
+          <div
+            className="rounded px-4 py-3 text-[0.80rem] leading-relaxed"
+            style={{
+              background: "rgba(200,169,110,0.04)",
+              border: "1px solid rgba(200,169,110,0.18)",
+              borderLeftWidth: "3px",
+              borderLeftColor: "var(--gold)",
+              color: "var(--text-muted)",
+            }}
+          >
+            <span className="font-semibold" style={{ color: "var(--text)" }}>Why this matters: </span>
+            Students are not only asking for more seats. They are describing peak-time bottlenecks, more desirable table types, clearer zones, and lower-friction ways to sit with or near others.
+            <span className="block mt-1.5 text-[0.76rem]" style={{ color: "var(--text-light)" }}>
+              Model note: seating pressure uses total seat count with a 65% peak factor. It does not capture lunch-rush spikes, preferred table-type mismatch, or zoning friction. All readings should be treated as directional.
+            </span>
           </div>
         </div>
       </div>

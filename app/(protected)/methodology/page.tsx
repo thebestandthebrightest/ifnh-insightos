@@ -79,7 +79,7 @@ const CALC_SECTIONS = [
   },
   {
     heading: "Scenario Lab outputs",
-    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3). Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
+    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3). Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity, adjusted by a 65% peak factor — this is a directional fit indicator, not a precise crowding forecast. It does not capture lunch-rush spikes, preferred table-type mismatch, traffic flow, or zoning clarity. Student comments confirm peak-time crowding is felt even when total seat count appears adequate. Use it to compare relative scenarios, not as an absolute forecast.",
   },
   {
     heading: "Recommendation priorities",
@@ -347,7 +347,7 @@ export default function Methodology() {
           color: "var(--text-muted)",
         }}
       >
-        <strong style={{ color: "var(--text)" }}>Model limitations:</strong> The interaction rate model is additive and linear. It does not account for non-linear interactions between parameters, individual behavioral variation, or time-of-day effects. Crowding penalties are applied when seating pressure exceeds 1.0×. All estimates should be treated as directional — the model is most useful for comparing relative scenarios, not as an absolute forecast.
+        <strong style={{ color: "var(--text)" }}>Model limitations:</strong> The interaction rate model is additive and linear. It does not account for non-linear interactions between parameters, individual behavioral variation, or time-of-day effects. Seating pressure is a total-seat metric with a 65% peak factor — it does not capture lunch-rush spikes, preferred seat-type mismatch, traffic flow, or zoning friction. Student qualitative data shows peak-time crowding occurs even when the model reads below 1.0×. All outputs should be treated as directional planning estimates, not predictions. The model is most useful for comparing relative scenarios.
       </div>
 
       {/* Footer note */}

@@ -27,19 +27,21 @@ export function CapacityGauge({ pressure, capacity }: CapacityGaugeProps) {
   const clamped = Math.min(2, Math.max(0, pressure));
   const needleDeg = START_DEG + (clamped / 2) * TOTAL;
 
-  // Zone boundaries
-  const okEnd = START_DEG + (0.9 / 2) * TOTAL;   // 0.9×
-  const warnEnd = START_DEG + (1.1 / 2) * TOTAL; // 1.1×
+  // Zone boundaries — shifted to reflect functional fit, not just total seats
+  const okEnd = START_DEG + (0.7 / 2) * TOTAL;   // 0.7× watch starts here
+  const warnEnd = START_DEG + (1.0 / 2) * TOTAL; // 1.0× over-capacity starts here
 
-  // Color based on pressure
-  let color = "#7A8F7A"; // green
-  let label = "Meets Demand";
-  if (pressure >= 1.1) {
+  // Color based on pressure — no green zone.
+  // The model does not capture peak-time rushes, seat-type mismatch, or zoning friction.
+  // Even a low pressure reading should be read as "watch" not "good."
+  let color = "#C8A96E"; // gold — default watch state
+  let label = "Hidden strain possible";
+  if (pressure >= 1.0) {
     color = "#C5705A"; // coral
-    label = "Over Capacity";
-  } else if (pressure >= 0.9) {
+    label = "Over capacity risk";
+  } else if (pressure >= 0.7) {
     color = "#C8A96E"; // gold
-    label = "Near Capacity";
+    label = "Near peak strain";
   }
 
   const CX = 120, CY = 120, R = 88;
@@ -51,7 +53,7 @@ export function CapacityGauge({ pressure, capacity }: CapacityGaugeProps) {
         className="text-[0.62rem] uppercase tracking-widest font-semibold mb-2 text-center"
         style={{ color: "var(--olive)", letterSpacing: "0.12em" }}
       >
-        Capacity Fit
+        Peak-Time Seating Fit
       </div>
       <svg width={240} height={168} viewBox="0 0 240 168">
         {/* Track */}

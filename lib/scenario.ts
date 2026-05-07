@@ -180,13 +180,15 @@ export function generateInterpretation(comparison: ScenarioComparison): string {
   if (Math.abs(deltas.seating_pressure) > 0.02) {
     const dir = deltas.seating_pressure < 0 ? "reduces" : "increases";
     const label =
-      scenario.seating_pressure < 1.0
-        ? "manageable"
+      scenario.seating_pressure < 0.7
+        ? "watch — hidden peak strain possible"
+        : scenario.seating_pressure < 1.0
+        ? "watch — near peak strain"
         : scenario.seating_pressure < 1.3
-        ? "tight"
-        : "high";
+        ? "over capacity risk"
+        : "high over-capacity risk";
     parts.push(
-      `Seating pressure ${dir} from ${current.seating_pressure.toFixed(2)}× to ${scenario.seating_pressure.toFixed(2)}× (${label} range).`
+      `Peak-time seating fit ${dir} from ${current.seating_pressure.toFixed(2)}× to ${scenario.seating_pressure.toFixed(2)}× (${label}).`
     );
   }
 
@@ -211,16 +213,22 @@ export function generateInterpretation(comparison: ScenarioComparison): string {
 
 // ── Demand verdict ────────────────────────────────────────────────────────────
 
+// ── Demand verdict ────────────────────────────────────────────────────────────
+// Note: this model uses total seat count and a 65% peak factor.
+// It does not capture lunch-rush spikes, preferred table-type mismatch, or zoning friction.
+// Student comments describe crowding even when total seat count appears adequate.
+// All verdicts should be read as directional, not confirmatory.
+
 export function getDemandVerdict(comparison: ScenarioComparison): string {
   const pressure = comparison.scenario.seating_pressure;
 
   let verdict: string;
-  if (pressure < 0.90) {
-    verdict = "This scenario comfortably meets expected demand.";
-  } else if (pressure <= 1.10) {
-    verdict = `Near capacity at peak hours (${pressure.toFixed(2)}×) — monitor crowding.`;
+  if (pressure < 0.70) {
+    verdict = `Likely hidden peak-time strain (${pressure.toFixed(2)}×). Total seat count may appear adequate, but this model does not capture lunch-rush spikes, preferred table types, or zoning friction.`;
+  } else if (pressure < 1.00) {
+    verdict = `Moderate seating strain likely at peak hours (${pressure.toFixed(2)}×). Consider seat-type mix and zoning to reduce perceived crowding.`;
   } else {
-    verdict = `Exceeds peak capacity (${pressure.toFixed(2)}×). Consider adding temporary seating or spreading daily demand.`;
+    verdict = `Exceeds peak capacity (${pressure.toFixed(2)}×). Add temporary seating or rebalance seat types and zones.`;
   }
 
   if (pressure > 1.2) {
