@@ -18,9 +18,12 @@ export const COLORS = {
 };
 
 // ── Survey metadata ───────────────────────────────────────────────────────────
-// Source: Shape This Space! Harvest IFNH_May 6, 2026_16.39_CLEANED.csv
+// Source: ifnh_shape_this_space_cleaned_may_6_2026.csv
 // Exported from Qualtrics on May 6, 2026 at 16:39.
-// One response excluded: recaptcha error / no core fields answered.
+// The CSV contains 3 metadata header rows (Q-codes, human labels, ImportId JSON)
+// followed by 104 submission rows.
+// Validity rule: Q_RecaptchaStatus == "complete". One row had status "error" → excluded.
+// Valid responses: 103.
 
 export const SURVEY_META = {
   raw_rows: 104,
@@ -33,128 +36,150 @@ export const SURVEY_META = {
 
 // ── Core KPI metrics (computed from 103 valid responses) ──────────────────────
 // NOTE: Denominators vary by question. Each metric notes its effective n.
-// Percentages are calculated from respondents who answered the relevant question.
+// "answered" means the respondent gave a non-blank response to that question.
 
 export const METRICS = {
   // ── Visit Frequency ──────────────────────────────────────────────────────────
-  // Q1: "How often do you visit IFNH/Harvest during a typical week?" (n=103, all answered)
+  // Q1: "How often do you visit IFNH/Harvest during a typical week?"
+  // 102 of 103 valid respondents answered Q1 (1 left blank).
+  // Regular visitor = 1+ times/week (Daily, 1–2/week, 3–4/week).
   visit: {
-    rate: 0.7864,
+    rate: 0.7941,         // 81 / 102 (answered denominator)
     rate_pct: "79%",
-    n: 81,            // regular visitors (1+/week)
-    n_total: 103,
+    n: 81,               // regular visitors (1+/week)
+    n_total: 102,         // answered Q1
     freq_dist: {
-      "1–2 times/week": 0.417,
-      "3–4 times/week": 0.282,
-      Occasionally: 0.204,
-      Daily: 0.087,
+      "1–2 times/week": 0.422,   // 43/102
+      "3–4 times/week": 0.284,   // 29/102
+      Occasionally: 0.206,       // 21/102
+      Daily: 0.088,              // 9/102
     },
     score_mean_1_4: 2.25,
   },
 
   // ── Interaction Rate ─────────────────────────────────────────────────────────
-  // Q3: "I have met new people here." (n=103, all answered)
+  // Q3: "I have met new people here."
+  // Options: Yes / No / "Not yet, but I would like to"
+  // 102 of 103 valid respondents answered Q3 (1 left blank).
   // met_someone = "Yes"; open_to_meeting = "Yes" + "Not yet, but I would like to"
   interaction: {
-    rate: 0.3592,
+    rate: 0.3627,         // 37 / 102 (answered denominator)
     rate_pct: "36%",
     n_met: 37,
-    n_total: 103,
-    open_rate: 0.6699,
-    open_rate_pct: "67%",
+    n_total: 102,         // answered Q3
+    open_rate: 0.6765,    // 69 / 102 (Yes=37 + NotYet=32)
+    open_rate_pct: "68%",
   },
 
   // ── Sense of Connection ───────────────────────────────────────────────────────
-  // Q2: "I feel a sense of connection when I spend time in this space." (1–5 Likert, n=102)
-  // One respondent left Q2 blank.
+  // Q2: "I feel a sense of connection when I spend time in this space." (1–5 Likert)
+  // 102 of 103 valid respondents answered Q2 (1 left blank).
   connection: {
     mean: 3.96,
     mean_str: "3.96",
-    high_rate: 0.7059,  // ≥4 (Agree or Strongly agree)
+    high_rate: 0.7059,   // 72/102: Agree or Strongly agree (≥4)
     distribution: {
-      1: 0.010,
-      2: 0.010,
-      3: 0.275,
-      4: 0.422,
-      5: 0.284,
+      1: 0.010,           // 1/102
+      2: 0.010,           // 1/102
+      3: 0.275,           // 28/102
+      4: 0.422,           // 43/102
+      5: 0.284,           // 29/102
     },
     n: 102,
   },
 
   // ── ScarletWell Awareness ─────────────────────────────────────────────────────
-  // Q13: "I am aware of the ScarletWell resources available to me." (n=101 answered; 2 blank)
-  // Awareness rate = Yes / (Yes + No), excluding "Not sure" from denominator.
+  // Q13: "I am aware of the ScarletWell resources available to me."
+  // Options: Yes / No / Not sure
+  // 101 of 103 valid respondents answered Q13 (2 left blank).
+  //
+  // DEFINITION: Awareness rate = Yes / (Yes + No + Not sure)
+  // This matches what the pie chart displays and treats "Not sure" as not aware,
+  // which is the appropriate planning baseline.
+  //
+  // Yes=44, No=37, Not sure=20 → total answered=101 → rate=44/101=43.6%
   awareness: {
-    rate: 0.5432,
-    rate_pct: "54%",
-    n_aware: 44,
-    n_not_aware: 37,
-    n_total: 101,     // total who responded (Yes + No + Not sure)
-    n_not_sure: 20,
+    rate: 0.4356,         // 44 / 101
+    rate_pct: "44%",
+    n_aware: 44,          // answered Yes
+    n_not_aware: 37,      // answered No
+    n_total: 101,         // total who answered (Yes + No + Not sure)
+    n_not_sure: 20,       // answered Not sure
     raw_dist: {
-      Yes: 0.436,       // 44/101
-      No: 0.366,        // 37/101
-      "Not sure": 0.198, // 20/101
+      Yes: 0.436,          // 44/101
+      No: 0.366,           // 37/101
+      "Not sure": 0.198,   // 20/101
     },
   },
 
   // ── Reflection / Recharge Demand ─────────────────────────────────────────────
-  // Q8: "Would a designated reflection/recharge area be helpful?" (n=96 answered; 7 blank)
-  // Closed-ended demand rate = Yes / (Yes + No), excluding "Not sure" from denominator.
-  // Open-text mention rate ("quiet"/"recharge" keywords): ~1% (1/103) — see themes below.
-  // These are two different signals and should not be combined.
+  // Q8: "Would a designated reflection/recharge area be helpful?"
+  // Options: Yes / No / Not sure
+  // 96 of 103 valid respondents answered Q8 (7 left blank).
+  // Yes=51, No=15, Not sure=30.
+  //
+  // HEADLINE RATE (rate): Yes / (Yes + No) = 51/66 = 77.3%
+  //   Denominator excludes "Not sure" to isolate the yes/no preference signal.
+  //   Subtext: "Among students who gave a yes/no preference; 51 of 66 said yes."
+  //
+  // BREAKDOWN RATE (raw_dist): proportions of all 96 who answered, including "Not sure".
+  //   Interpretation: 53% Yes · 31% Not sure · 16% No (of all Q8 respondents)
+  //
+  // Open-text mention rate: ~2% (2/103) — very different signal; don't conflate.
   reflection: {
-    rate: 0.7727,
+    rate: 0.7727,           // 51 / 66 (Yes + No denominator = yes/no preference rate)
     rate_pct: "77%",
     n_yes: 51,
-    n_total: 66,       // Yes + No only (Not sure excluded from rate denominator)
+    n_no: 15,
+    n_total: 66,            // Yes + No (preference-only denominator for headline KPI)
     n_not_sure: 30,
-    n_answered: 96,    // all who gave any answer including Not sure
-    opentext_rate: 0.010, // 1/103 — qualitative mention only, very different signal
+    n_answered: 96,         // all who gave any answer (Yes + No + Not sure)
+    opentext_rate: 0.019,   // 2/103 open-text mentions — different signal entirely
     raw_dist: {
-      Yes: 0.531,        // 51/96
-      "Not sure": 0.313, // 30/96
-      No: 0.156,         // 15/96
+      Yes: 0.531,           // 51/96 (of all Q8 respondents)
+      "Not sure": 0.313,    // 30/96
+      No: 0.156,            // 15/96
     },
   },
 
   // ── Layout Interaction Support ────────────────────────────────────────────────
-  // Q6: "The current layout encourages conversation and interaction." (1–5 Likert, n=96)
-  // Seven respondents left Q6 blank.
+  // Q6: "The current layout encourages conversation and interaction." (1–5 Likert)
+  // 96 of 103 valid respondents answered Q6 (7 left blank).
   layout: {
     mean: 3.57,
     mean_str: "3.57",
-    agree_rate: 0.5833,   // ≥4 (Agree or Strongly agree)
+    agree_rate: 0.5833,     // 56/96: Agree or Strongly agree (≥4)
     agree_rate_pct: "58%",
-    disagree_rate: 0.1146, // ≤2 (Disagree or Strongly disagree)
+    disagree_rate: 0.1146,  // 11/96: Disagree or Strongly disagree (≤2)
     raw_dist: {
-      Agree: 0.469,
-      Neutral: 0.302,
-      "Strongly agree": 0.115,
-      Disagree: 0.104,
-      "Strongly disagree": 0.010,
+      Agree: 0.469,          // 45/96
+      Neutral: 0.302,        // 29/96
+      "Strongly agree": 0.115, // 11/96
+      Disagree: 0.104,       // 10/96
+      "Strongly disagree": 0.010, // 1/96
     },
   },
 
   // ── Wellness Resource Self-Awareness ──────────────────────────────────────────
-  // Q11: "I am aware of wellness campus resources available to me." (1–5 Likert, n=91)
-  // Twelve respondents left Q11 blank.
+  // Q11: "I am aware of wellness campus resources available to me." (1–5 Likert)
+  // 91 of 103 valid respondents answered Q11 (12 left blank).
   wellness: {
     mean: 3.65,
     mean_str: "3.65",
-    high_rate: 0.6593,  // ≥4
+    high_rate: 0.6593,   // 60/91: Agree or Strongly agree (≥4)
     distribution: {
-      1: 0.011,
-      2: 0.121,
-      3: 0.209,
-      4: 0.527,
-      5: 0.132,
+      1: 0.011,           // 1/91
+      2: 0.121,           // 11/91
+      3: 0.209,           // 19/91
+      4: 0.527,           // 48/91
+      5: 0.132,           // 12/91
     },
     n: 91,
   },
 
   // ── Preferred Wellness Learning Channel ───────────────────────────────────────
-  // Q12: "How would you prefer to learn about wellness campus resources?" (n=90 answered; 13 blank)
+  // Q12: "How would you prefer to learn about wellness campus resources?"
+  // 90 of 103 valid respondents answered Q12 (13 left blank).
   channels: {
     dist: {
       "Table cards": 35,
@@ -164,18 +189,19 @@ export const METRICS = {
       "Peer ambassadors": 2,
     },
     norm: {
-      "Table cards": 0.389,
-      Events: 0.267,
-      "QR codes": 0.178,
-      "Digital screens": 0.144,
-      "Peer ambassadors": 0.022,
+      "Table cards": 0.389,    // 35/90
+      Events: 0.267,           // 24/90
+      "QR codes": 0.178,       // 16/90
+      "Digital screens": 0.144, // 13/90
+      "Peer ambassadors": 0.022, // 2/90
     },
     top: "Table cards",
     n: 90,
   },
 
   // ── Seating Preferences ───────────────────────────────────────────────────────
-  // Q7: "What types of seating or table arrangements would encourage more interaction?" (n=96; 7 blank)
+  // Q7: "What types of seating or table arrangements would encourage more interaction?"
+  // 96 of 103 valid respondents answered Q7 (7 left blank).
   seating: {
     dist: {
       "Mixed options": 61,
@@ -185,20 +211,21 @@ export const METRICS = {
       "Other": 4,
     },
     norm: {
-      "Mixed options": 0.635,
-      "Shared long tables": 0.135,
-      "Round tables": 0.135,
-      "Lounge seating": 0.052,
-      "Other": 0.042,
+      "Mixed options": 0.635,      // 61/96
+      "Shared long tables": 0.135, // 13/96
+      "Round tables": 0.135,       // 13/96
+      "Lounge seating": 0.052,     // 5/96
+      "Other": 0.042,              // 4/96
     },
     top: "Mixed options",
     n: 96,
   },
 
   // ── Table Activity Preferences ────────────────────────────────────────────────
-  // Q9: "What table-based activities would you participate in?" (select all that apply; n=94 who answered)
-  // Counts are per 94 respondents; multi-select so totals exceed 100%.
-  // "None" (9 respondents) and "Other" (6) are excluded from display ranking.
+  // Q9: "What table-based activities would you participate in?" (single-select)
+  // 94 of 103 valid respondents answered Q9 (9 left blank).
+  // "None" (9) and "Other" (6) are excluded from the ranked display.
+  // Norm uses n=94 (all who answered) as denominator.
   activities: {
     dist: {
       "Trivia or theme days": 32,
@@ -208,28 +235,29 @@ export const METRICS = {
       "Conversation prompts": 8,
     },
     norm: {
-      "Trivia or theme days": 0.340,
-      "Creative prompts": 0.149,
-      "Daily/weekly challenges": 0.149,
-      "Resource bingo": 0.117,
-      "Conversation prompts": 0.085,
+      "Trivia or theme days": 0.340,  // 32/94
+      "Creative prompts": 0.149,      // 14/94
+      "Daily/weekly challenges": 0.149, // 14/94
+      "Resource bingo": 0.117,        // 11/94
+      "Conversation prompts": 0.085,  // 8/94
     },
     top: "Trivia or theme days",
-    n: 94,   // respondents who chose at least one activity
+    n: 94,   // respondents who answered Q9 (including None/Other, excluded from ranking)
   },
 
   // ── Open-Text Theme Mention Rates ─────────────────────────────────────────────
-  // Derived from manual keyword coding of Q5 ("what would make this space more welcoming")
-  // and Q13 ("services/activities you'd like"). Coded per respondent — a respondent is
-  // counted once per theme regardless of how many keywords matched. n = 103.
+  // Derived from keyword coding of Q5 ("what would make this space more welcoming")
+  // and Q13 ("services/activities you'd like"). A respondent is counted once per theme
+  // regardless of keyword match count. n = 103 valid respondents.
+  // These are open-text mention rates — qualitative signals, not closed-ended survey demand.
   themes: {
-    "Seating Capacity":    { count: 45, pct: 0.437 },
-    "Food & Harvest":      { count: 43, pct: 0.417 },
-    "Events & Programming":{ count: 16, pct: 0.155 },
-    "Social Connection":   { count: 15, pct: 0.146 },
-    "Wellness Resources":  { count: 10, pct: 0.097 },
-    "Comfort & Design":    { count:  2, pct: 0.019 },
-    "Quiet Reflection":    { count:  1, pct: 0.010 },
+    "Seating Capacity":     { count: 45, pct: 0.437 },  // 45/103
+    "Food & Harvest":       { count: 44, pct: 0.427 },  // 44/103
+    "Events & Programming": { count: 17, pct: 0.165 },  // 17/103
+    "Social Connection":    { count: 16, pct: 0.155 },  // 16/103
+    "Wellness Resources":   { count: 11, pct: 0.107 },  // 11/103
+    "Comfort & Design":     { count:  5, pct: 0.049 },  // 5/103
+    "Quiet Reflection":     { count:  2, pct: 0.019 },  // 2/103 — see reflection.rate for survey demand
   },
 
   n_total: 103,
@@ -239,13 +267,15 @@ export const METRICS = {
 // Cross-tabulations from May 6, 2026 dataset.
 
 export const SEGMENTS = [
-  { label: "Frequent Visitors",   metric: "Interaction Rate",      value: 0.370, n: 81 },
-  { label: "Infrequent Visitors", metric: "Interaction Rate",      value: 0.333, n: 21 },
-  { label: "ScarletWell Aware",   metric: "Avg Connection Score",  value: 4.159, n: 44 },
-  { label: "ScarletWell Unaware", metric: "Avg Connection Score",  value: 3.730, n: 37 },
+  { label: "Frequent Visitors",   metric: "Interaction Rate",     value: 0.370, n: 81 },  // 30/81 answered Q3
+  { label: "Infrequent Visitors", metric: "Interaction Rate",     value: 0.333, n: 21 },  // 7/21 answered Q3
+  { label: "ScarletWell Aware",   metric: "Avg Connection Score", value: 4.159, n: 44 },  // mean Q2 score for Yes respondents
+  { label: "ScarletWell Unaware", metric: "Avg Connection Score", value: 3.730, n: 37 },  // mean Q2 score for No respondents
 ];
 
-// ── Engagement funnel (first 3 stages only) ───────────────────────────────────
+// ── Engagement funnel (first 3 stages) ───────────────────────────────────────
+// pct = fraction of all 103 respondents who reach that stage (funnel perspective).
+// Drop counts reflect respondents who visited but didn't progress to next stage.
 
 export const FUNNEL: FunnelStage[] = [
   { stage: "All Respondents",  n: 103, pct: 1.0,    drop: null, stage_drop_pct: 0     },
@@ -254,8 +284,8 @@ export const FUNNEL: FunnelStage[] = [
 ];
 
 // ── Needs & gaps ──────────────────────────────────────────────────────────────
-// Demand %: derived from survey closed-ended or open-text responses (see notes per item).
-// Estimated Current Support %: based on direct observation; directional proxy, not measured.
+// Demand %: from closed-ended survey questions or open-text keyword rates (noted per item).
+// Estimated Current Support %: directional proxy based on observation; not measured.
 // Gap = Demand % − Estimated Current Support %.
 
 export const GAPS: GapItem[] = [
@@ -264,7 +294,7 @@ export const GAPS: GapItem[] = [
     demand: 0.773,
     support: 0.20,
     gap: 0.573,
-    note: "77% want it (closed-ended Q8 Yes/Yes+No); no dedicated zone exists",
+    note: "77% want it (Q8: Yes among yes/no respondents); no dedicated zone exists",
     impact_potential: 53.4,
     demand_pct: "77%",
     support_pct: "20%",
@@ -272,32 +302,32 @@ export const GAPS: GapItem[] = [
   },
   {
     need: "Social Connection",
-    demand: 0.670,
-    support: 0.359,
-    gap: 0.311,
-    note: "67% open to meeting someone (Q3 Yes+Would Like); only 36% have",
-    impact_potential: 29.0,
-    demand_pct: "67%",
+    demand: 0.677,
+    support: 0.363,
+    gap: 0.314,
+    note: "68% open to meeting someone (Q3 Yes + Would Like); only 36% have",
+    impact_potential: 29.2,
+    demand_pct: "68%",
     support_pct: "36%",
     gap_pct: "31%",
   },
   {
     need: "Wellness Resource Awareness",
     demand: 0.75,
-    support: 0.543,
-    gap: 0.207,
-    note: "54% aware of ScarletWell; 46% not sure or unaware",
-    impact_potential: 19.3,
+    support: 0.436,
+    gap: 0.314,
+    note: "44% aware of ScarletWell (Q13: Yes/all answered); 56% not sure or unaware",
+    impact_potential: 29.2,
     demand_pct: "75%",
-    support_pct: "54%",
-    gap_pct: "21%",
+    support_pct: "44%",
+    gap_pct: "31%",
   },
   {
     need: "Layout Interaction Design",
     demand: 0.70,
     support: 0.583,
     gap: 0.117,
-    note: "Only 58% agree layout encourages interaction",
+    note: "Only 58% agree the layout encourages interaction (Q6)",
     impact_potential: 10.9,
     demand_pct: "70%",
     support_pct: "58%",
@@ -316,23 +346,23 @@ export const GAPS: GapItem[] = [
   },
   {
     need: "Events & Programming",
-    demand: 0.155,
+    demand: 0.165,
     support: 0.15,
-    gap: 0.005,
-    note: "16% mention events in open text (down from 28% in prior export)",
-    impact_potential: 0.5,
-    demand_pct: "16%",
+    gap: 0.015,
+    note: "17% mention events in open text; 27% prefer events as a wellness channel",
+    impact_potential: 1.4,
+    demand_pct: "17%",
     support_pct: "15%",
-    gap_pct: "1%",
+    gap_pct: "2%",
   },
   {
     need: "Food & Nutrition Awareness",
-    demand: 0.417,
+    demand: 0.427,
     support: 0.50,
     gap: 0,
-    note: "42% mention food/Harvest; support meets or exceeds demand",
+    note: "43% mention food/Harvest; estimated support meets or exceeds demand",
     impact_potential: 0,
-    demand_pct: "42%",
+    demand_pct: "43%",
     support_pct: "50%",
     gap_pct: "0%",
   },
@@ -352,25 +382,25 @@ export const THEME_META: Record<
   },
   "Events & Programming": {
     label: "Emerging opportunity",
-    desc: "16% of students mention events in open text — down from 28% in the prior export. Demand exists but is not yet the top-of-mind signal it once was. Programming is still a high-leverage, low-cost lever.",
+    desc: "17% of students mention events or programming in open text. The appetite for programming is real and actionable — trivia and themed days are the top-ranked table activity.",
     color: COLORS.SAGE,
     keywords: ["event", "trivia", "program", "activity", "game", "workshop"],
   },
   "Social Connection": {
     label: "The strategic gap",
-    desc: "The desire to connect is present — 67% of students are open to meeting someone new, but only 36% have. The environment is not yet facilitating it. Design and programming can close this gap.",
+    desc: "The desire to connect is present — 68% of students are open to meeting someone new, but only 36% have. The environment is not yet facilitating it. Design and programming can close this gap.",
     color: COLORS.BLUE_GREY,
     keywords: ["meet", "connect", "people", "friend", "social", "talk", "community"],
   },
   "Quiet Reflection": {
     label: "Clear design mandate",
-    desc: "77% of students answered Yes when asked if a quiet/recharge zone would be helpful (closed-ended survey). Only ~1% mention quiet space in open text — these measure different things. The closed-ended rate is the more reliable signal.",
+    desc: "77% of students answered Yes when asked if a quiet/recharge zone would be helpful (closed-ended Q8, yes/no preference). Only ~2% mention quiet space in open text — these measure entirely different things. The closed-ended rate is the planning signal.",
     color: COLORS.OLIVE,
     keywords: ["quiet", "relax", "recharge", "study", "peace", "calm", "reflect"],
   },
   "Wellness Resources": {
     label: "A communication gap",
-    desc: "Students are present in the space but not discovering the wellness ecosystem that surrounds it. Only 54% are aware of ScarletWell.",
+    desc: "Students are present in the space but not discovering the wellness ecosystem that surrounds it. Only 44% are aware of ScarletWell (Yes responses out of all who answered the awareness question).",
     color: COLORS.GOLD,
     keywords: ["wellness", "scarletwell", "health", "resource", "aware", "mental"],
   },
@@ -444,7 +474,7 @@ export const INSIGHTS: Insight[] = [
   {
     title: "High Latent Social Intent",
     description:
-      "67% of students are open to meeting someone new, but only 36% have. That 31-point gap represents students who want connection but have no current pathway to it.",
+      "68% of students are open to meeting someone new, but only 36% have. That 32-point gap represents students who want connection but have no current pathway to it.",
     severity: "opportunity",
     action:
       "Remove friction: shared seating clusters, table prompts, brief structured interactions at events.",
@@ -462,7 +492,7 @@ export const INSIGHTS: Insight[] = [
   {
     title: "ScarletWell Awareness Gap",
     description:
-      "Only 54% of students are aware of ScarletWell resources. Students are using the physical space without connecting to the wellness ecosystem it sits within.",
+      "Only 44% of students are aware of ScarletWell resources (Yes responses out of all who answered the awareness question, including Not sure). Students are using the physical space without connecting to the wellness ecosystem it sits within.",
     severity: "concern",
     action:
       "Embed QR codes, table cards, and ambient signage. Use events as organic discovery moments.",
@@ -471,11 +501,11 @@ export const INSIGHTS: Insight[] = [
   {
     title: "Strong Recharge Zone Demand",
     description:
-      "77% of students said Yes when asked if a quiet/recharge zone would be helpful (closed-ended question). This is one of the clearest design mandates in the dataset. Note: only ~1% spontaneously mention quiet space in open text — these are different signals.",
+      "77% of students said Yes when asked if a quiet/recharge zone would be helpful — among students who gave a yes/no preference (51 of 66). This is one of the clearest design mandates in the dataset. Note: only ~2% spontaneously mention quiet space in open text — these are different signals.",
     severity: "opportunity",
     action:
       "Zone a quiet corner with comfortable seating, soft lighting, and minimal traffic. Signal its purpose through signage and design.",
-    metric: "Reflection/recharge area demand (closed-ended)",
+    metric: "Reflection/recharge area demand (closed-ended, yes/no preference)",
   },
   {
     title: "Seating Is the #1 Student Complaint",
@@ -487,9 +517,9 @@ export const INSIGHTS: Insight[] = [
     metric: "Seating capacity theme frequency",
   },
   {
-    title: "Programming Demand Has Moderated",
+    title: "Programming Demand Is Present and Actionable",
     description:
-      "16% of students mention events or programming in open text — down from 28% in the prior export. The demand is still real and actionable, but is less top-of-mind than seating and social connection.",
+      "17% of students mention events or programming in open text — and 27% of respondents choose events as their preferred wellness learning channel. The demand is real and offers a high-leverage, low-cost opportunity.",
     severity: "opportunity",
     action:
       "Launch a monthly IFNH event series. Start with trivia/theme days (top-ranked activity). Use events as a ScarletWell awareness channel.",
@@ -498,7 +528,7 @@ export const INSIGHTS: Insight[] = [
   {
     title: "Harvest Is a Magnet — Use It",
     description:
-      "42% of students mention food or Harvest in their responses. The connection to Harvest Dining is a unique asset that could drive both visits and wellness awareness.",
+      "43% of students mention food or Harvest in their responses. The connection to Harvest Dining is a unique asset that could drive both visits and wellness awareness.",
     severity: "positive",
     action:
       "Leverage Harvest for event tie-ins, nutrition programming, and organic foot traffic activation.",

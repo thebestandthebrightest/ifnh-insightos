@@ -13,6 +13,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { logoutAction } from "@/app/actions";
+import { SURVEY_META } from "@/lib/data";
 
 const NAV = [
   { href: "/", label: "Executive Summary", icon: LayoutDashboard },
@@ -89,7 +90,7 @@ export function Sidebar() {
         >
           IFNH / Harvest Survey
           <br />
-          n = 93 · Spring 2026
+          n = {SURVEY_META.analysis_rows} · {SURVEY_META.semester}
         </div>
         <form action={logoutAction}>
           <button

@@ -4,7 +4,7 @@ import { InsightCard } from "@/components/InsightCard";
 import { RankedList } from "@/components/RankedList";
 import { ThemeCard } from "@/components/ThemeCard";
 import { AwarenessDonut } from "@/components/charts/AwarenessDonut";
-import { METRICS, THEME_META, QUOTES, CHANNEL_PRIORITY } from "@/lib/data";
+import { METRICS, THEME_META, QUOTES, CHANNEL_PRIORITY, SEGMENTS } from "@/lib/data";
 
 // Best quote for each theme (selected to be ~85 chars, substantive)
 const THEME_QUOTES: Record<string, string> = {
@@ -45,7 +45,7 @@ export default function StudentVoice() {
       {/* Theme cards grid */}
       <Subhead>Key Themes from Open-Text Responses</Subhead>
       <Note>
-        Each card shows the % of students who mentioned this theme in open-text, a strategic interpretation, and a representative quote. The Quiet Reflection card shows survey-question demand (74%) since only 3% mentioned it in open text — the survey question reveals the true magnitude.
+        Each card shows the % of students who mentioned this theme in open-text, a strategic interpretation, and a representative quote. The Quiet Reflection card shows survey-question demand (77%) since only 2% mentioned it in open text — these are different signals measuring different things.
       </Note>
 
       <div className="grid md:grid-cols-2 gap-0 mb-2">
@@ -53,11 +53,11 @@ export default function StudentVoice() {
           const meta = THEME_META[name];
           if (!meta) return null;
 
-          // Quiet Reflection: show survey demand (74%) not open-text mention (3%)
+          // Quiet Reflection: show survey demand (77%) not open-text mention (2%)
           const isQuietRefl = name === "Quiet Reflection";
           const displayPct = isQuietRefl ? m.reflection.rate : data.pct;
           const pctNote = isQuietRefl
-            ? `want a recharge zone (survey question) · ${(data.pct * 100).toFixed(0)}% open-text mentions`
+            ? `yes/no preference (Q8: 51 of 66) · ${(data.pct * 100).toFixed(0)}% open-text mentions`
             : undefined;
 
           return (
@@ -102,7 +102,7 @@ export default function StudentVoice() {
 
       <InsightCard
         title="Trivia & Theme Days Are the Clear Winner"
-        description="Trivia or theme days lead at 38%, followed by creative prompts (17%) and daily/weekly challenges (16%). These formats are all low-cost, require minimal setup, and can double as ScarletWell awareness moments."
+        description="Trivia or theme days lead at 34% of respondents, followed by creative prompts and daily/weekly challenges (each at 15%). These formats are all low-cost, require minimal setup, and can double as ScarletWell awareness moments."
         severity="opportunity"
         action="Start with trivia/theme days for the first IFNH event series. Rotate creative prompts at tables monthly."
       />
@@ -116,8 +116,8 @@ export default function StudentVoice() {
         <KPICard
           label="ScarletWell Awareness"
           value={aware.rate_pct}
-          status={aware.rate < 0.65 ? "Watch" : "Strong"}
-          note={`${aware.n_aware} of ${aware.n_total + aware.n_not_sure} respondents`}
+          status={aware.rate < 0.50 ? "Needs Attention" : aware.rate < 0.65 ? "Watch" : "Strong"}
+          note={`${aware.n_aware} of ${aware.n_total} who answered; ${aware.n_not_sure} not sure`}
         />
         <KPICard
           label="Wellness Resource Awareness"
@@ -184,7 +184,7 @@ export default function StudentVoice() {
       <div className="space-y-3">
         <InsightCard
           title="ScarletWell-Aware Students Report Higher Connection Scores"
-          description={`Aware students score 4.20/5 on connection vs. 3.70/5 for unaware — a 0.50-point gap. Awareness and belonging may be reinforcing each other.`}
+          description={`Aware students score ${(SEGMENTS.find(s => s.label === "ScarletWell Aware")?.value ?? 0).toFixed(2)}/5 on connection vs. ${(SEGMENTS.find(s => s.label === "ScarletWell Unaware")?.value ?? 0).toFixed(2)}/5 for unaware — a ${((SEGMENTS.find(s => s.label === "ScarletWell Aware")?.value ?? 0) - (SEGMENTS.find(s => s.label === "ScarletWell Unaware")?.value ?? 0)).toFixed(2)}-point gap. Awareness and belonging may be reinforcing each other.`}
           severity="opportunity"
           action="Use ScarletWell awareness as a connection lever — awareness appears to amplify belonging."
         />

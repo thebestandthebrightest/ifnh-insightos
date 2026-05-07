@@ -26,7 +26,7 @@ const ALL_RECS = [
   rec(
     "Create a Designated Reflection & Recharge Zone",
     "Space Design",
-    "77% of students want a dedicated quiet/recharge space (closed-ended Q8) — the clearest design mandate in the data.",
+    "77% of students want a dedicated quiet/recharge space (Q8: Yes among yes/no respondents, 51 of 66) — the clearest design mandate in the data.",
     "Reflection/recharge demand (77%)",
     "Serves an unmet need for ~79 of 103 surveyed students; reduces crowding in active zones.",
     5, 3, 5, "High", "Medium", "Facilities / IFNH Management",
@@ -42,15 +42,15 @@ const ALL_RECS = [
   rec(
     "Increase Shared & Collaborative Seating Options",
     "Seating & Zoning",
-    "Only 36% of students have met someone new here, but 67% are open to it. Shared-facing seating design is a proven interaction catalyst.",
-    "Interaction rate (36%) vs. open-to-meeting rate (67%)",
+    "Only 36% of students have met someone new here, but 68% are open to it. Shared-facing seating design is a proven interaction catalyst.",
+    "Interaction rate (36%) vs. open-to-meeting rate (68%)",
     "Closes the 31-point gap between intent and action; increases weak-tie formation.",
     4, 4, 4, "High", "Low", "IFNH Management", true,
   ),
   rec(
     "Launch a Monthly IFNH Activation Event Series",
     "Programming",
-    "16% of students mention events/programming in open text (moderated from prior export). Trivia and themed days remain the #1 preferred table activity. Events are the #2 preferred wellness awareness channel.",
+    "17% of students mention events/programming in open text. Trivia and themed days are the #1 preferred table activity. Events are the #2 preferred wellness awareness channel (27% of respondents).",
     "Events theme (16%); trivia preference (#1 activity)",
     "Creates recurring interaction moments; builds community identity; boosts ScarletWell awareness.",
     4, 4, 4, "High", "Medium", "ScarletWell / Student Affairs",
@@ -60,7 +60,7 @@ const ALL_RECS = [
     "Wellness Awareness",
     "Table cards are the #1 preferred wellness learning channel (39% of respondents). They are low-cost, ambient, and persistent.",
     "Table cards as preferred channel (39%)",
-    "Increases ScarletWell awareness from 54% toward 70%+ without requiring active student effort.",
+    "Increases ScarletWell awareness from 44% toward 70%+ without requiring active student effort.",
     4, 5, 4, "High", "Low", "ScarletWell Communications", true,
   ),
   rec(
@@ -75,7 +75,7 @@ const ALL_RECS = [
     "Introduce Conversation Prompt Table Cards",
     "Student Engagement",
     "Students want to meet people but lack a low-pressure entry point. Conversation prompts at tables reduce social friction.",
-    "Open-to-meeting rate (67%) vs. actual interaction (36%)",
+    "Open-to-meeting rate (68%) vs. actual interaction (36%)",
     "Activates latent social intent; creates organic connection moments without structured programming.",
     4, 5, 4, "High", "Low", "ScarletWell / Student Engagement", true,
   ),
@@ -128,10 +128,10 @@ export function generateRecommendations(): Recommendation[] {
 
   // Apply same boosts as recommendations.py generate_recommendations()
   // Values updated from May 6, 2026 Qualtrics export (n = 103).
-  const seatPct = 0.437; // themes.Seating Capacity.pct
-  const interRate = 0.359;
-  const awareRate = 0.543;
-  const reflRate = 0.773;
+  const seatPct = 0.437;  // themes.Seating Capacity.pct (45/103)
+  const interRate = 0.363; // METRICS.interaction.rate (37/102)
+  const awareRate = 0.436; // METRICS.awareness.rate (44/101 — Yes/all answered)
+  const reflRate = 0.773;  // METRICS.reflection.rate (51/66 — yes/no preference)
 
   const scored = recs.map((rec) => {
     let score = rec.score;

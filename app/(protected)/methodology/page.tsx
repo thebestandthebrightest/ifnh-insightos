@@ -63,7 +63,7 @@ const SCENARIO_PARAMS = [
 const CALC_SECTIONS = [
   {
     heading: "Demand percentages",
-    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of valid respondents (n = 103) who expressed a want or need — either through a binary Yes/No question or a Likert-scale item. For example, Quiet/Recharge Space demand is 77% because 77.3% of respondents answered 'Yes' to wanting a dedicated quiet area (denominator excludes 'Not Sure' responses).",
+    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of respondents who answered that question and expressed a want or need. Question-specific denominators are used throughout (respondents who left a question blank are excluded from that question's calculation). For example, Quiet/Recharge Space demand is 77% because 51 of 66 respondents who gave a yes or no preference said Yes (denominator excludes 'Not sure' to isolate the preference signal).",
   },
   {
     heading: "Estimated current support percentages",
@@ -79,7 +79,7 @@ const CALC_SECTIONS = [
   },
   {
     heading: "Scenario Lab outputs",
-    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 35.9%. Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
+    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3). Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity. The model is additive and linear — it does not simulate complex interactions between parameters. Use it to compare relative directions, not as an absolute forecast.",
   },
   {
     heading: "Recommendation priorities",
@@ -225,13 +225,13 @@ export default function Methodology() {
 
       <div className="space-y-2 mb-6">
         {[
-          { metric: "Regular Visit Rate", value: m.visit.rate_pct, def: "Proportion of respondents who visit IFNH 1+ times per week (visit_frequency_regular_binary = 1)." },
-          { metric: "Interaction Rate", value: m.interaction.rate_pct, def: "Proportion of respondents who have met someone new at IFNH (met_someone_new_binary = 1)." },
-          { metric: "Open-to-Meeting Rate", value: m.interaction.open_rate_pct, def: "Proportion open to meeting someone new (open_to_meeting_new_people_binary = 1)." },
-          { metric: "Connection Score", value: `${m.connection.mean_str} / 5`, def: "Mean Likert score (1–5) measuring sense of connection and belonging in the space." },
-          { metric: "ScarletWell Awareness", value: m.awareness.rate_pct, def: `Proportion who indicated awareness of ScarletWell (Yes responses only). Denominator excludes 'Not Sure' (n = ${m.awareness.n_total}).` },
-          { metric: "Reflection Demand", value: m.reflection.rate_pct, def: `Proportion who responded 'Yes' to wanting a quiet/recharge area. Denominator: ${m.reflection.n_total} (excludes non-responses).` },
-          { metric: "Layout Support Rate", value: m.layout.agree_rate_pct, def: "Proportion who Agree or Strongly Agree that the layout encourages interaction (layout_interaction_score_1_5 ≥ 4)." },
+          { metric: "Regular Visit Rate", value: m.visit.rate_pct, def: `Proportion of respondents who answered Q1 (n = ${m.visit.n_total}) who visit IFNH 1+ times per week (Daily, 1–2/week, or 3–4/week).` },
+          { metric: "Interaction Rate", value: m.interaction.rate_pct, def: `Proportion of Q3 respondents (n = ${m.interaction.n_total}) who answered "Yes" to having met someone new at IFNH.` },
+          { metric: "Open-to-Meeting Rate", value: m.interaction.open_rate_pct, def: `Proportion of Q3 respondents who answered "Yes" or "Not yet, but I would like to" — indicating openness to social connection (n = ${m.interaction.n_total}).` },
+          { metric: "Connection Score", value: `${m.connection.mean_str} / 5`, def: `Mean Likert score (1–5) from Q2: "I feel a sense of connection when I spend time in this space." (n = ${m.connection.n})` },
+          { metric: "ScarletWell Awareness", value: m.awareness.rate_pct, def: `Yes responses divided by all who answered Q13 (Yes + No + Not sure = ${m.awareness.n_total}). "Not sure" is treated as not yet aware for planning purposes but is shown separately in the breakdown chart. ${m.awareness.n_aware} of ${m.awareness.n_total} said Yes; ${m.awareness.n_not_sure} were not sure.` },
+          { metric: "Reflection Demand", value: m.reflection.rate_pct, def: `Headline rate: Yes / (Yes + No) = ${m.reflection.n_yes} / ${m.reflection.n_total} — excludes "Not sure" to isolate the yes/no preference signal. The response breakdown shows all ${m.reflection.n_answered} who answered Q8, including "Not sure" (${m.reflection.n_not_sure}).` },
+          { metric: "Layout Support Rate", value: m.layout.agree_rate_pct, def: `Proportion who Agree or Strongly Agree that the layout encourages interaction (Q6 ≥ 4 on 1–5 scale, n = 96).` },
         ].map(({ metric, value, def }) => (
           <div
             key={metric}
@@ -302,7 +302,7 @@ export default function Methodology() {
       {/* ── 6. Scenario model assumptions ── */}
       <Subhead>Scenario Model Assumptions</Subhead>
       <Note>
-        The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 35.9%.
+        The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3).
       </Note>
 
       <div className="rounded border overflow-hidden mb-6" style={{ borderColor: "var(--border)" }}>

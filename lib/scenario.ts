@@ -4,7 +4,7 @@ import type { ScenarioParams, ScenarioResult, ScenarioComparison } from "./types
 
 // Baseline updated from May 6, 2026 Qualtrics export (n = 103 valid responses).
 export const BASELINE = {
-  interaction_rate: 0.359,
+  interaction_rate: 0.363,   // 37/102 (answered Q3)
   connection_score: 3.96,
   n_survey: 103,
   daily_demand: 150,

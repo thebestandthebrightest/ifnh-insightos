@@ -122,7 +122,7 @@ export default function SpaceDesign() {
             label="Want a Reflection / Recharge Area"
             value={`${(refl.rate * 100).toFixed(0)}%`}
             status={refl.rate >= 0.70 ? "Strong" : "Watch"}
-            note={`${refl.n_yes} students say yes — strongest design signal in the dataset.`}
+            note={`${refl.n_yes} of ${refl.n_total} yes/no respondents — strongest design signal in the dataset.`}
           />
           <div
             className="rounded border p-4"
@@ -132,7 +132,7 @@ export default function SpaceDesign() {
               className="text-[0.65rem] uppercase tracking-widest font-semibold mb-3"
               style={{ color: "var(--olive)", letterSpacing: "0.12em" }}
             >
-              Response Breakdown (n = {refl.n_total})
+              Response Breakdown (n = {refl.n_answered})
             </div>
             <RankedList
               items={reflDist}
@@ -145,7 +145,7 @@ export default function SpaceDesign() {
         <div className="space-y-3">
           <InsightCard
             title="Recharge Zone Demand Is the Clearest Design Signal"
-            description={`${(refl.rate * 100).toFixed(0)}% of students want a designated reflection or recharge area. Even among the 'not sure' group, the instinct toward quieter space is implicit. This is not a niche preference — it reflects how students actually use the space.`}
+            description={`${(refl.rate * 100).toFixed(0)}% of students said Yes when asked directly (${refl.n_yes} of ${refl.n_total} who gave a yes/no preference). Including 'Not sure' respondents, ${(refl.raw_dist.Yes * 100).toFixed(0)}% said Yes among all ${refl.n_answered} who answered Q8. Either way, demand is strong and supply is absent.`}
             severity="opportunity"
             action="Zone a quiet corner with soft seating, reduced traffic, and soft lighting. Signal its purpose through design rather than rules."
           />
