@@ -51,13 +51,11 @@ const COLUMN_GROUPS = [
 ];
 
 const SCENARIO_PARAMS = [
-  { param: "tables_2seat", default: "10", range: "0–25", effect: "Reduces group-seating ratio; limits shared interaction" },
-  { param: "tables_4seat", default: "25", range: "0–40", effect: "Primary driver of group-table ratio; key interaction lever" },
-  { param: "lounge_seats", default: "42", range: "0–80", effect: "Social anchor; elevated lounge share boosts interaction slightly" },
-  { param: "temp_seats", default: "0", range: "0–30", effect: "Overflow capacity; reduces pressure but low interaction signal" },
-  { param: "shared_seating_pct", default: "20%", range: "0–80%", effect: "+1pp shared → +0.25pp interaction rate (above 20% baseline)" },
-  { param: "events_per_week", default: "0", range: "0–7", effect: "+1 event/week → +2.5pp interaction rate (capped at 5 events)" },
-  { param: "programming_level", default: "1", range: "1–5", effect: "+1 level → +1.5pp interaction rate" },
+  { param: "2-seat perimeter tables", default: "10", range: "5–20", effect: "Each table adds 1.80 est. usable seats (2 seats × 0.90 usability)" },
+  { param: "4-seat shared tables",    default: "25", range: "15–35", effect: "Each table adds 4.00 est. usable seats (4 seats × 1.00 usability)" },
+  { param: "Lounge seats",            default: "42", range: "30–65", effect: "Each seat adds 0.75 est. usable seats (0.75 usability)" },
+  { param: "Modeled peak demand",     default: "180", range: "130–230", effect: "Peak pressure = modeled demand ÷ estimated usable seats" },
+  { param: "Comfort priority",        default: "Balanced", range: "Low / Balanced / High", effect: "Shapes how recommended additions are distributed across seat types" },
 ];
 
 const CALC_SECTIONS = [
@@ -78,8 +76,8 @@ const CALC_SECTIONS = [
     body: "The chart shows demand and estimated current support as grouped vertical bars for each need area. Blue bars represent demand; green bars represent estimated current support. The gap is the visible space between the two bars. A custom tooltip also displays the calculated gap when hovering over any bar group. Bars are sorted by gap size descending in the detail table below the chart.",
   },
   {
-    heading: "Scenario Lab outputs",
-    body: "The Scenario Lab uses an additive behavioral model calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3). Each slider parameter has an estimated effect size derived from behavioral design research and the survey baseline. For example, each additional event per week adds approximately 2.5 percentage points to the interaction rate (capped at 5 events). Seating pressure is total daily demand ÷ total capacity, adjusted by a 65% peak factor — this is a directional fit indicator, not a precise crowding forecast. It does not capture lunch-rush spikes, preferred table-type mismatch, traffic flow, or zoning clarity. Student comments confirm peak-time crowding is felt even when total seat count appears adequate. Use it to compare relative scenarios, not as an absolute forecast.",
+    heading: "Seating Mix Optimizer outputs",
+    body: "The Seating Mix Optimizer models effective seating capacity using usability-weighted seat counts. Physical seats are adjusted by type: 4-seat shared tables count at 1.00 usability per seat (4.00 per table), 2-seat perimeter tables at 0.90 per seat (1.80 per table), and lounge seats at 0.75 per seat. Estimated usable seats = sum of (seat count × usability factor) across all types. Peak seating pressure = modeled peak demand ÷ estimated usable seats. Status thresholds: ≤ 0.85× meets modeled demand with buffer; 0.85–1.0× near capacity; > 1.0× over capacity. Three recommendation scenarios (Minimum Relief targeting 1.0×, Comfortable Buffer targeting 0.85×, and Collaboration-Heavy using only 4-seat tables) calculate the additions needed to reach each target, distributed by the selected comfort priority. All outputs are planning estimates — not predictions.",
   },
   {
     heading: "Recommendation priorities",
@@ -299,17 +297,17 @@ export default function Methodology() {
 
       <Divider />
 
-      {/* ── 6. Scenario model assumptions ── */}
-      <Subhead>Scenario Model Assumptions</Subhead>
+      {/* ── 6. Seating Mix Optimizer assumptions ── */}
+      <Subhead>Seating Mix Optimizer Assumptions</Subhead>
       <Note>
-        The Scenario Lab uses a directional behavioral model — not a prediction. All effect sizes are estimates based on behavioral design principles and the survey baseline. The model is calibrated to the observed interaction rate of 36.3% (37 of 102 respondents who answered Q3).
+        The Seating Mix Optimizer uses a usability-weighted seat model — not a precise occupancy measurement. Usability factors and peak demand are planning parameters that can be adjusted to reflect different space layouts and usage patterns.
       </Note>
 
       <div className="rounded border overflow-hidden mb-6" style={{ borderColor: "var(--border)" }}>
         <table className="w-full text-[0.79rem]">
           <thead>
             <tr style={{ background: "rgba(0,0,0,0.02)", borderBottom: "1px solid var(--border)" }}>
-              {["Parameter", "Default", "Range", "Effect on Interaction Rate"].map((h) => (
+              {["Parameter", "Default", "Range", "Effect on Seating Pressure"].map((h) => (
                 <th
                   key={h}
                   className="text-left px-4 py-2.5 font-semibold text-[0.67rem] uppercase tracking-wide"
@@ -347,7 +345,7 @@ export default function Methodology() {
           color: "var(--text-muted)",
         }}
       >
-        <strong style={{ color: "var(--text)" }}>Model limitations:</strong> The interaction rate model is additive and linear. It does not account for non-linear interactions between parameters, individual behavioral variation, or time-of-day effects. Seating pressure is a total-seat metric with a 65% peak factor — it does not capture lunch-rush spikes, preferred seat-type mismatch, traffic flow, or zoning friction. Student qualitative data shows peak-time crowding occurs even when the model reads below 1.0×. All outputs should be treated as directional planning estimates, not predictions. The model is most useful for comparing relative scenarios.
+        <strong style={{ color: "var(--text)" }}>Model limitations:</strong> Usability factors (1.00, 0.90, 0.75) are planning estimates, not measured values. They do not account for room layout, table placement, circulation paths, noise zoning, or time-of-day variation. Modeled peak demand is a configurable assumption — the actual number of simultaneous students seeking seats at a given moment is not measured. Student qualitative data confirms peak-time crowding occurs even when estimated usable counts appear adequate. Use the optimizer to compare relative scenarios and direction of change, not to predict exact occupancy.
       </div>
 
       {/* Footer note */}

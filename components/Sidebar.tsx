@@ -19,7 +19,7 @@ const NAV = [
   { href: "/", label: "Executive Summary", icon: LayoutDashboard },
   { href: "/space-design", label: "Space Design", icon: Sofa },
   { href: "/student-voice", label: "Student Voice", icon: MessageSquare },
-  { href: "/scenario-lab", label: "Scenario Lab", icon: Sliders },
+  { href: "/scenario-lab", label: "Seating Optimizer", icon: Sliders },
   { href: "/recommendations", label: "Recommendations", icon: Star },
   { href: "/methodology", label: "Methodology", icon: FileText },
 ];

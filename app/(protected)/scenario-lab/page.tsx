@@ -1,5 +1,5 @@
-import { ScenarioLab } from "@/components/ScenarioLab";
+import { SeatingMixOptimizer } from "@/components/SeatingMixOptimizer";
 
 export default function ScenarioLabPage() {
-  return <ScenarioLab />;
+  return <SeatingMixOptimizer />;
 }
