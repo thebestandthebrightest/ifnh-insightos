@@ -8,8 +8,12 @@ import { RecommendationCard } from "@/components/RecommendationCard";
 import { generateRecommendations, partitionTiers, CATEGORIES } from "@/lib/recommendations";
 import { Zap, TrendingUp, ArrowRight } from "lucide-react";
 
+type Priority = "All" | "High" | "Medium" | "Low";
+const PRIORITY_OPTIONS: Priority[] = ["All", "High", "Medium", "Low"];
+
 export default function Recommendations() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedPriority, setSelectedPriority] = useState<Priority>("All");
   const [quickWinsOnly, setQuickWinsOnly] = useState(false);
 
   const allRecs = useMemo(() => generateRecommendations(), []);
@@ -19,18 +23,21 @@ export default function Recommendations() {
     if (selectedCategory !== "All") {
       recs = recs.filter((r) => r.category === selectedCategory);
     }
+    if (selectedPriority !== "All") {
+      recs = recs.filter((r) => r.priority === selectedPriority);
+    }
     if (quickWinsOnly) {
       recs = recs.filter((r) => r.quick_win && r.effort === "Low");
     }
     return recs;
-  }, [allRecs, selectedCategory, quickWinsOnly]);
+  }, [allRecs, selectedCategory, selectedPriority, quickWinsOnly]);
 
   const { quickWins, strategic, longerTerm } = useMemo(
     () => partitionTiers(filtered),
     [filtered]
   );
 
-  const isGrouped = selectedCategory === "All" && !quickWinsOnly;
+  const isGrouped = selectedCategory === "All" && !quickWinsOnly && selectedPriority === "All";
 
   const qwCount = allRecs.filter((r) => r.quick_win && r.effort === "Low").length;
   const highCount = allRecs.filter((r) => r.priority === "High").length;
@@ -89,6 +96,58 @@ export default function Recommendations() {
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
+        </div>
+
+        <div className="shrink-0">
+          <div
+            className="text-[0.67rem] uppercase tracking-wide font-semibold mb-1.5"
+            style={{ color: "var(--text-muted)", letterSpacing: "0.1em" }}
+          >
+            Priority
+          </div>
+          <div
+            role="group"
+            aria-label="Filter by priority"
+            className="flex gap-1"
+          >
+            {PRIORITY_OPTIONS.map((opt) => {
+              const active = selectedPriority === opt;
+              return (
+                <button
+                  key={opt}
+                  onClick={() => setSelectedPriority(opt)}
+                  aria-pressed={active}
+                  className="rounded-full border px-3 py-1 text-[0.78rem] font-medium leading-none cursor-pointer transition-colors"
+                  style={{
+                    background: active ? "rgba(92,107,60,0.1)" : "transparent",
+                    borderColor: active ? "var(--olive)" : "var(--border)",
+                    color: active ? "var(--olive)" : "var(--text-muted)",
+                    outline: "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!active) {
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--sage)";
+                      (e.currentTarget as HTMLButtonElement).style.color = "var(--text)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!active) {
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)";
+                      (e.currentTarget as HTMLButtonElement).style.color = "var(--text-muted)";
+                    }
+                  }}
+                  onFocus={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 0 2px rgba(92,107,60,0.25)";
+                  }}
+                  onBlur={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                  }}
+                >
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="flex items-end pb-0.5">
@@ -180,7 +239,11 @@ export default function Recommendations() {
         /* Flat filtered view */
         <div>
           <Note>
-            Showing {filtered.length} of {allRecs.length} recommendations · sorted by composite score (Impact × Feasibility × Demand)
+            Showing {filtered.length} of {allRecs.length} recommendations
+            {selectedPriority !== "All" ? ` · ${selectedPriority} priority` : ""}
+            {selectedCategory !== "All" ? ` · ${selectedCategory}` : ""}
+            {quickWinsOnly ? " · Quick Wins only" : ""}
+            {" · sorted by composite score (Impact × Feasibility × Demand)"}
           </Note>
           {filtered.map((rec) => (
             <RecommendationCard key={rec.rank} rec={rec} showScore />

@@ -3,6 +3,7 @@ import { KPICard } from "@/components/KPICard";
 import { InsightCard } from "@/components/InsightCard";
 import { CoreTensionChart } from "@/components/charts/CoreTensionChart";
 import { FunnelChart } from "@/components/charts/FunnelChart";
+import { VisitFrequencyChart } from "@/components/charts/VisitFrequencyChart";
 import { METRICS, HIGHLIGHTS, FUNNEL, SURVEY_META } from "@/lib/data";
 
 export default function ExecutiveSummary() {
@@ -101,6 +102,30 @@ export default function ExecutiveSummary() {
             note={kpi.note}
           />
         ))}
+      </div>
+
+      <Divider />
+
+      {/* Visit frequency chart */}
+      <Subhead>Weekly Visit Frequency</Subhead>
+      <Note>How often respondents visit IFNH/Harvest during a typical week (n = 105)</Note>
+      <div
+        className="rounded border p-4 mb-4"
+        style={{ background: "var(--card)", borderColor: "var(--border)" }}
+      >
+        <VisitFrequencyChart />
+      </div>
+      <div
+        className="rounded border-l-2 px-4 py-3 mb-8 text-[0.8rem] leading-relaxed"
+        style={{
+          background: "rgba(92,107,60,0.04)",
+          border: "1px solid rgba(92,107,60,0.08)",
+          borderLeftWidth: "2px",
+          borderLeftColor: "var(--olive)",
+          color: "var(--text-muted)",
+        }}
+      >
+        80% of respondents report visiting IFNH/Harvest at least weekly, suggesting the space functions as a recurring part of student campus life rather than an occasional destination.
       </div>
 
       <Divider />
