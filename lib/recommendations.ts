@@ -21,6 +21,11 @@ function rec(
   return { title, category, why, metric, outcome, impact, feasibility, demand, score, priority, effort, owner, quick_win };
 }
 
+const percent = (value: number) => `${Math.round(value * 100)}%`;
+const interactionGapPoints = Math.round(
+  ((METRICS.interaction.open_rate ?? 0) - (METRICS.interaction.rate ?? 0)) * 100
+);
+
 // ── Static recommendation library ────────────────────────────────────────────
 
 const ALL_RECS = [
@@ -194,4 +199,196 @@ export const CATEGORIES = [
   "Wellness Awareness",
   "Student Engagement",
   "Measurement",
+];
+
+export interface ExecutivePriority {
+  title: string;
+  summary: string;
+  evidence: string[];
+  actions: string[];
+  expectedImpact: string;
+  cost: string;
+  impact: string;
+  timeline: string;
+  lead: string;
+}
+
+export interface ImplementationPhase {
+  phase: string;
+  timing: string;
+  goal: string;
+  actions: string[];
+}
+
+export interface SecondaryOpportunity {
+  title: string;
+  description: string;
+  timing: string;
+}
+
+export interface SuccessMarker {
+  label: string;
+  baseline: string;
+  shift: string;
+}
+
+export const EXECUTIVE_PRIORITIES: ExecutivePriority[] = [
+  {
+    title: "Activate Tables for Interaction",
+    summary:
+      "IFNH already has traffic. The fastest win is converting shared presence into low-pressure conversation, activity, and repeat engagement at the table level.",
+    evidence: [
+      `${METRICS.visit.rate_pct} of students visit regularly, but only ${METRICS.interaction.rate_pct} report meeting someone new here.`,
+      `${METRICS.interaction.open_rate_pct} are open to meeting someone new, leaving a ${interactionGapPoints}-point conversion gap between intent and experience.`,
+      `${percent(METRICS.themes["Events & Programming"].pct)} mention events or programming in open text, and ${percent(METRICS.activities.norm["Trivia or theme days"])} choose trivia or theme days as their top table activity.`,
+    ],
+    actions: [
+      "Pilot conversation-prompt table cards and opt-in shared-table cues.",
+      "Launch a lightweight trivia or theme-night rhythm to create recurring social activation.",
+      "Use collaborative tables and table hosts only as low-pressure entry points, not formal programming overhead.",
+    ],
+    expectedImpact:
+      "Raises the likelihood that regular visitors actually interact, building belonging without needing a major capital project.",
+    cost: "Low cost",
+    impact: "High impact",
+    timeline: "Immediate",
+    lead: "IFNH Management + Student Affairs",
+  },
+  {
+    title: "Improve Seating Flexibility + Comfort",
+    summary:
+      "The physical environment should make it easier to stay, gather, and self-select into the right kind of use. Right now, seating pressure and layout ambiguity are getting in the way.",
+    evidence: [
+      `${percent(METRICS.themes["Seating Capacity"].pct)} mention seating or crowding in open text, making it the strongest spontaneous operational complaint.`,
+      `${percent(METRICS.seating.norm["Mixed options"])} prefer a mixed seating strategy, signaling demand for variety rather than a single-use room type.`,
+      `Only ${METRICS.layout.agree_rate_pct} agree that the current layout encourages interaction, which suggests the room is not yet doing enough work on its own.`,
+    ],
+    actions: [
+      "Preserve mixed seating while increasing shared long tables, movable seats, and flexible group arrangements.",
+      "Improve traffic flow around peak seating zones so the room feels less congested during busy periods.",
+      "Add selective soft seating or lounge elements where they support comfort without turning the room into a quiet-first space.",
+    ],
+    expectedImpact:
+      "Reduces friction, helps students find the kind of seat they want, and creates a better physical foundation for interaction and longer stays.",
+    cost: "Medium cost",
+    impact: "Medium-high impact",
+    timeline: "Near term",
+    lead: "Facilities + IFNH Operations",
+  },
+  {
+    title: "Embed Wellness Discovery Into the Space",
+    summary:
+      "Students are using IFNH without consistently connecting to the ScarletWell ecosystem around it. Awareness should be built into the room, not left to chance.",
+    evidence: [
+      `Only ${METRICS.awareness.rate_pct} are aware of ScarletWell resources among students who answered the awareness question.`,
+      `${percent(METRICS.channels.norm["Table cards"])} prefer table cards for learning about wellness resources, making them the clearest passive discovery channel.`,
+      `${percent(METRICS.channels.norm.Events)} prefer events as a wellness channel, so programming can reinforce visibility rather than sit beside it.`,
+    ],
+    actions: [
+      "Deploy table cards as the first-line ScarletWell discovery tool at high-use seating zones.",
+      "Add QR prompts and ambient wellness cues so discovery happens while students are already present in the space.",
+      "Tie ScarletWell messaging into IFNH events, trivia, and Harvest-adjacent activations rather than relying on stand-alone promotion.",
+    ],
+    expectedImpact:
+      "Turns everyday use of the space into a repeated awareness touchpoint, improving discovery without adding major staffing burden.",
+    cost: "Low cost",
+    impact: "High impact",
+    timeline: "Immediate",
+    lead: "ScarletWell Communications + IFNH",
+  },
+];
+
+export const IMPLEMENTATION_PHASES: ImplementationPhase[] = [
+  {
+    phase: "Phase 1 — Immediate Pilots",
+    timing: "0–2 months",
+    goal: "Test interaction conversion quickly with low-cost, reversible moves.",
+    actions: [
+      "Pilot conversation prompts, shared-table signals, and a first round of trivia or theme-day activation.",
+      "Install table cards, QR prompts, and simple ScarletWell discovery signage in the highest-traffic zones.",
+      "Make quick movable-seating and table-placement tweaks to reduce crowding pressure during peak hours.",
+    ],
+  },
+  {
+    phase: "Phase 2 — Environmental Adjustments",
+    timing: "2–6 months",
+    goal: "Support comfort and longer engagement once the first interaction pilots show what works.",
+    actions: [
+      "Expand or reconfigure seating mixes, especially shared tables, flexible group seating, and soft seating where helpful.",
+      "Refine circulation and zone clarity so students can tell where to gather, linger, or work together.",
+      "If space remains, test a small recharge corner as a secondary environmental enhancement rather than the main redesign driver.",
+    ],
+  },
+  {
+    phase: "Phase 3 — Long-Term Identity",
+    timing: "6–12 months",
+    goal: "Position IFNH as a recognizable community and wellness hub, not just a place students pass through.",
+    actions: [
+      "Establish a recurring programming rhythm tied to IFNH identity, student life moments, and Harvest-adjacent opportunities.",
+      "Integrate ScarletWell discovery into the experience so wellness activation becomes part of how the space is known.",
+      "Use the next survey wave to measure interaction, awareness, layout support, and whether seating complaints are easing.",
+    ],
+  },
+];
+
+export const SECONDARY_OPPORTUNITIES: SecondaryOpportunity[] = [
+  {
+    title: "Quiet / Recharge Corner",
+    description:
+      `${METRICS.reflection.rate_pct} responded positively when asked directly about recharge space, but only ${percent(METRICS.reflection.opentext_rate)} raised it spontaneously in open text. Treat it as a useful secondary comfort layer, not the core redesign mandate.`,
+    timing: "After seating, interaction, and visibility basics are in place",
+  },
+  {
+    title: "Environmental Softening",
+    description:
+      "Selective lounge cues, softer materials, or comfort upgrades can improve dwell time, but they should support the main social and seating strategy rather than replace it.",
+    timing: "Best paired with Phase 2 layout adjustments",
+  },
+  {
+    title: "Digital Screens",
+    description:
+      `${percent(METRICS.channels.norm["Digital screens"])} prefer screens as a wellness channel. They can help, but they are a supporting layer after table cards and event-based discovery are established.`,
+    timing: "Useful once the analog visibility system is already live",
+  },
+  {
+    title: "Peer Ambassadors",
+    description:
+      "Peer outreach can add warmth and authenticity, but it is a higher-lift optional layer than passive environmental discovery tools.",
+    timing: "Consider later if staff capacity and student leadership structure exist",
+  },
+];
+
+export const GUIDING_PRINCIPLES = [
+  "Solve for conversion, not attendance. IFNH is already well used; the opportunity is what happens once students are there.",
+  "Use the room to lower social friction. Interventions should make interaction easier without forcing participation.",
+  "Pilot before investing heavily. Low-cost table, programming, and signage tests should shape later environment decisions.",
+  "Treat quiet/recharge as additive. It is a real prompted preference, but not the strongest cross-source driver of action.",
+];
+
+export const SUCCESS_MARKERS: SuccessMarker[] = [
+  {
+    label: "Students meeting someone new",
+    baseline: `${METRICS.interaction.rate_pct} today`,
+    shift: "Should move up first if table activation and programming are working.",
+  },
+  {
+    label: "ScarletWell awareness",
+    baseline: `${METRICS.awareness.rate_pct} aware today`,
+    shift: "Should rise as table cards, QR prompts, and events create more discovery moments.",
+  },
+  {
+    label: "Layout supports interaction",
+    baseline: `${METRICS.layout.agree_rate_pct} agree today`,
+    shift: "Should improve as seating mixes, zoning, and circulation become clearer.",
+  },
+  {
+    label: "Seating pressure in open text",
+    baseline: `${percent(METRICS.themes["Seating Capacity"].pct)} mention seating/capacity today`,
+    shift: "Should decline in the next survey wave if flexibility and overflow issues are addressed.",
+  },
+  {
+    label: "Regular visitation",
+    baseline: `${METRICS.visit.rate_pct} visit regularly today`,
+    shift: "Should stay strong while the space becomes more engaging and more discoverable.",
+  },
 ];
