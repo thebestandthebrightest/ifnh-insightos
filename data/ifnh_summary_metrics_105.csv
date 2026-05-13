@@ -1,0 +1,66 @@
+field,label,response,count,answered_n,percent_of_answered
+scarletwell_awareness,ScarletWell awareness,Yes,46,103,44.7
+scarletwell_awareness,ScarletWell awareness,No,37,103,35.9
+scarletwell_awareness,ScarletWell awareness,Not sure,20,103,19.4
+visit_frequency,Visit frequency,1-2 times/week,43,104,41.3
+visit_frequency,Visit frequency,3-4 times/week,29,104,27.9
+visit_frequency,Visit frequency,Occasionally,22,104,21.2
+visit_frequency,Visit frequency,Daily,10,104,9.6
+sense_of_connection,Sense of connection,Agree,44,104,42.3
+sense_of_connection,Sense of connection,Neutral,29,104,27.9
+sense_of_connection,Sense of connection,Strongly agree,29,104,27.9
+sense_of_connection,Sense of connection,Strongly disagree,1,104,1.0
+sense_of_connection,Sense of connection,Disagree,1,104,1.0
+met_new_people,Met new people,Yes,38,104,36.5
+met_new_people,Met new people,No,34,104,32.7
+met_new_people,Met new people,"Not yet, but I would like to",32,104,30.8
+layout_encourages_interaction,Layout encourages conversation/interaction,Agree,47,98,48.0
+layout_encourages_interaction,Layout encourages conversation/interaction,Neutral,29,98,29.6
+layout_encourages_interaction,Layout encourages conversation/interaction,Strongly agree,11,98,11.2
+layout_encourages_interaction,Layout encourages conversation/interaction,Disagree,10,98,10.2
+layout_encourages_interaction,Layout encourages conversation/interaction,Strongly disagree,1,98,1.0
+seating_preference,Preferred seating/table arrangement,Mixed options,63,98,64.3
+seating_preference,Preferred seating/table arrangement,Shared long tables,13,98,13.3
+seating_preference,Preferred seating/table arrangement,Round tables,13,98,13.3
+seating_preference,Preferred seating/table arrangement,Lounge seating,5,98,5.1
+seating_preference,Preferred seating/table arrangement,Other:,4,98,4.1
+reflection_recharge_helpful,Reflection/recharge area helpful,Yes,53,98,54.1
+reflection_recharge_helpful,Reflection/recharge area helpful,Not sure,30,98,30.6
+reflection_recharge_helpful,Reflection/recharge area helpful,No,15,98,15.3
+table_activity_preference,Table activity preference,Trivia or theme days,33,96,34.4
+table_activity_preference,Table activity preference,Daily/weekly challenges,14,96,14.6
+table_activity_preference,Table activity preference,Creative prompts,14,96,14.6
+table_activity_preference,Table activity preference,Resource bingo,11,96,11.5
+table_activity_preference,Table activity preference,None,9,96,9.4
+table_activity_preference,Table activity preference,Conversation prompts,9,96,9.4
+table_activity_preference,Table activity preference,Other:,6,96,6.2
+wellness_resource_awareness,Wellness campus resource awareness,Agree,49,92,53.3
+wellness_resource_awareness,Wellness campus resource awareness,Neutral,19,92,20.7
+wellness_resource_awareness,Wellness campus resource awareness,Strongly agree,12,92,13.0
+wellness_resource_awareness,Wellness campus resource awareness,Disagree,11,92,12.0
+wellness_resource_awareness,Wellness campus resource awareness,Strongly disagree,1,92,1.1
+wellness_info_channel,Preferred wellness information channel,Table cards,36,91,39.6
+wellness_info_channel,Preferred wellness information channel,Events,24,91,26.4
+wellness_info_channel,Preferred wellness information channel,QR codes,16,91,17.6
+wellness_info_channel,Preferred wellness information channel,Digital screens,13,91,14.3
+wellness_info_channel,Preferred wellness information channel,Peer ambassadors,2,91,2.2
+regular_visitor_flag,Regular weekly visitor flag,TRUE,82,104,78.8
+regular_visitor_flag,Regular weekly visitor flag,FALSE,22,104,21.2
+connection_positive_flag,Positive sense of connection,TRUE,73,104,70.2
+connection_positive_flag,Positive sense of connection,FALSE,31,104,29.8
+layout_positive_flag,Positive layout interaction rating,TRUE,58,98,59.2
+layout_positive_flag,Positive layout interaction rating,FALSE,40,98,40.8
+wellness_awareness_positive_flag,Positive wellness awareness,TRUE,61,92,66.3
+wellness_awareness_positive_flag,Positive wellness awareness,FALSE,31,92,33.7
+mentions_seating_capacity,Open text mentions seating/table/capacity,FALSE,55,105,52.4
+mentions_seating_capacity,Open text mentions seating/table/capacity,TRUE,50,105,47.6
+mentions_events_programming,Open text mentions events/programming,FALSE,79,105,75.2
+mentions_events_programming,Open text mentions events/programming,TRUE,26,105,24.8
+mentions_food_samples,Open text mentions food/samples,FALSE,83,105,79.0
+mentions_food_samples,Open text mentions food/samples,TRUE,22,105,21.0
+mentions_quiet_reflection,Open text mentions quiet/reflection/recharge,FALSE,102,105,97.1
+mentions_quiet_reflection,Open text mentions quiet/reflection/recharge,TRUE,3,105,2.9
+mentions_caps_health,Open text mentions CAPS/health/wellness,FALSE,95,105,90.5
+mentions_caps_health,Open text mentions CAPS/health/wellness,TRUE,10,105,9.5
+mentions_art_creative,Open text mentions art/creative/clay,FALSE,95,105,90.5
+mentions_art_creative,Open text mentions art/creative/clay,TRUE,10,105,9.5

@@ -45,7 +45,7 @@ export default function StudentVoice() {
       {/* Theme cards grid */}
       <Subhead>Key Themes from Open-Text Responses</Subhead>
       <Note>
-        Each card shows the % of students who mentioned this theme in open-text, a strategic interpretation, and a representative quote. The Quiet Reflection card shows survey-question demand (77%) since only 2% mentioned it in open text — these are different signals measuring different things.
+        Each card shows the % of students who mentioned this theme in open text, a strategic interpretation, and a representative quote. The Quiet Reflection card shows survey-question demand ({m.reflection.rate_pct}) since only {(m.reflection.opentext_rate * 100).toFixed(0)}% mentioned it in open text — these are different signals measuring different things.
       </Note>
 
       <div className="grid md:grid-cols-2 gap-0 mb-2">
@@ -53,11 +53,11 @@ export default function StudentVoice() {
           const meta = THEME_META[name];
           if (!meta) return null;
 
-          // Quiet Reflection: show survey demand (77%) not open-text mention (2%)
+          // Quiet Reflection: show survey demand, not the smaller open-text mention rate.
           const isQuietRefl = name === "Quiet Reflection";
           const displayPct = isQuietRefl ? m.reflection.rate : data.pct;
           const pctNote = isQuietRefl
-            ? `yes/no preference (Q8: 51 of 66) · ${(data.pct * 100).toFixed(0)}% open-text mentions`
+            ? `yes/no preference (Q8: ${m.reflection.n_yes} of ${m.reflection.n_total}) · ${(data.pct * 100).toFixed(0)}% open-text mentions`
             : undefined;
 
           return (

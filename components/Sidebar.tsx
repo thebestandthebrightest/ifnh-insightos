@@ -29,11 +29,10 @@ export function Sidebar() {
 
   return (
     <aside
-      className="w-56 shrink-0 flex flex-col border-r"
+      className="hidden w-56 shrink-0 border-r lg:flex lg:flex-col"
       style={{
         background: "#FDFCFA",
         borderColor: "var(--border)",
-        minHeight: "100vh",
       }}
     >
       {/* Brand */}
@@ -90,7 +89,7 @@ export function Sidebar() {
         >
           IFNH / Harvest Survey
           <br />
-          n = {SURVEY_META.analysis_rows} · {SURVEY_META.semester}
+          {SURVEY_META.total_responses} responses · {SURVEY_META.semester}
         </div>
         <form action={logoutAction}>
           <button

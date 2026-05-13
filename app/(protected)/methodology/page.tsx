@@ -61,7 +61,7 @@ const SCENARIO_PARAMS = [
 const CALC_SECTIONS = [
   {
     heading: "Demand percentages",
-    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of respondents who answered that question and expressed a want or need. Question-specific denominators are used throughout (respondents who left a question blank are excluded from that question's calculation). For example, Quiet/Recharge Space demand is 77% because 51 of 66 respondents who gave a yes or no preference said Yes (denominator excludes 'Not sure' to isolate the preference signal).",
+    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of respondents who answered that question and expressed a want or need. Question-specific denominators are used throughout, so respondents who skipped a question are excluded from that item. For example, Quiet/Recharge Space demand is 78% because 53 of 68 respondents who gave a yes or no preference said Yes; the denominator intentionally excludes 'Not sure' to isolate the preference signal.",
   },
   {
     heading: "Estimated current support percentages",
@@ -106,26 +106,26 @@ export default function Methodology() {
       <Subhead>Survey Overview</Subhead>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <KPICard
-          label="Raw Responses"
-          value={String(SURVEY_META.raw_rows)}
-          note="Total submissions collected"
+          label="Total Responses"
+          value={String(SURVEY_META.total_responses)}
+          note="All submitted survey responses"
         />
         <KPICard
-          label="Valid Responses"
-          value={String(SURVEY_META.analysis_rows)}
+          label="Complete Responses"
+          value={String(SURVEY_META.complete_responses)}
           status="Strong"
-          note="Passed validation and included in analysis"
+          note="Reached 100% progress in Qualtrics"
         />
         <KPICard
-          label="Excluded"
-          value={String(SURVEY_META.excluded_rows)}
-          note="Removed: failed recaptcha or incomplete"
+          label="Partial Responses"
+          value={String(SURVEY_META.partial_responses)}
+          note="Still included where a question was answered"
         />
         <KPICard
-          label="Data Quality"
-          value={`${(SURVEY_META.analysis_rows / SURVEY_META.raw_rows * 100).toFixed(0)}%`}
+          label="Item-Level n"
+          value="91-104"
           status="Strong"
-          note="Valid / Total response rate"
+          note="Answered counts vary by question across the dashboard"
         />
       </div>
 
@@ -136,15 +136,17 @@ export default function Methodology() {
         <p>
           The survey was administered to students who use the IFNH / Harvest student space at Rutgers University
           during Spring 2026. It was distributed via QR codes placed in the space and through direct outreach.
-          All responses were collected anonymously. One response was excluded from analysis due to failed
-          recaptcha validation or substantially incomplete submissions. Data was exported on {SURVEY_META.export_date} from
-          the source file <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>{SURVEY_META.source_file}</code> and
-          normalized prior to analysis.
+          All responses were collected anonymously. This refresh uses {SURVEY_META.total_responses} total responses,
+          including {SURVEY_META.complete_responses} complete submissions and {SURVEY_META.partial_responses} partial submissions that
+          still contribute to question-level analysis where an item was answered. Data was exported on {SURVEY_META.export_date}
+          and the app now uses <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>{SURVEY_META.source_file}</code>
+          as the primary in-app source, with <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>{SURVEY_META.summary_file}</code>
+          and <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>{SURVEY_META.cleaned_csv_file}</code> retained for auditability.
         </p>
         <p>
           Open-text responses were manually reviewed and coded into seven thematic categories. Theme binary flags
           (0/1) were applied to each respondent row. Quantitative metrics were derived from Likert-scale and
-          binary questions using standard proportion and mean calculations.
+          binary questions using standard proportion and mean calculations. {SURVEY_META.methodology_note}
         </p>
       </div>
 
@@ -229,7 +231,7 @@ export default function Methodology() {
           { metric: "Connection Score", value: `${m.connection.mean_str} / 5`, def: `Mean Likert score (1–5) from Q2: "I feel a sense of connection when I spend time in this space." (n = ${m.connection.n})` },
           { metric: "ScarletWell Awareness", value: m.awareness.rate_pct, def: `Yes responses divided by all who answered Q13 (Yes + No + Not sure = ${m.awareness.n_total}). "Not sure" is treated as not yet aware for planning purposes but is shown separately in the breakdown chart. ${m.awareness.n_aware} of ${m.awareness.n_total} said Yes; ${m.awareness.n_not_sure} were not sure.` },
           { metric: "Reflection Demand", value: m.reflection.rate_pct, def: `Headline rate: Yes / (Yes + No) = ${m.reflection.n_yes} / ${m.reflection.n_total} — excludes "Not sure" to isolate the yes/no preference signal. The response breakdown shows all ${m.reflection.n_answered} who answered Q8, including "Not sure" (${m.reflection.n_not_sure}).` },
-          { metric: "Layout Support Rate", value: m.layout.agree_rate_pct, def: `Proportion who Agree or Strongly Agree that the layout encourages interaction (Q6 ≥ 4 on 1–5 scale, n = 96).` },
+          { metric: "Layout Support Rate", value: m.layout.agree_rate_pct, def: `Proportion who Agree or Strongly Agree that the layout encourages interaction (Q6 ≥ 4 on 1–5 scale, n = ${m.layout.n}).` },
         ].map(({ metric, value, def }) => (
           <div
             key={metric}
@@ -255,7 +257,7 @@ export default function Methodology() {
 
       {/* ── 5. Column dictionary ── */}
       <Subhead>Column Reference</Subhead>
-      <Note>Key analysis columns from the cleaned dataset ({SURVEY_META.source_file}).</Note>
+      <Note>Key analysis columns from the cleaned dataset ({SURVEY_META.cleaned_csv_file}).</Note>
 
       <div className="space-y-5 mb-6">
         {COLUMN_GROUPS.map(({ group, columns }) => (
@@ -353,9 +355,7 @@ export default function Methodology() {
         className="mt-8 pt-6 border-t text-[0.72rem] leading-relaxed"
         style={{ borderColor: "var(--divider)", color: "var(--text-light)" }}
       >
-        IFNH InsightOS · {SURVEY_META.analysis_rows} students surveyed ·{" "}
-        {(SURVEY_META.analysis_rows / SURVEY_META.raw_rows * 100).toFixed(0)}% data quality ·{" "}
-        {SURVEY_META.semester} · All findings are observational. No causal claims are made.
+        IFNH InsightOS · {SURVEY_META.total_responses} total responses · {SURVEY_META.complete_responses} complete · question-level denominators throughout · {SURVEY_META.semester} · All findings are observational. No causal claims are made.
       </div>
     </div>
   );

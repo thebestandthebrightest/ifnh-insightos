@@ -13,12 +13,11 @@ import {
 
 const BAR_COLOR = "#7A8F7A";
 
-const DATA = [
-  { label: "Occasionally", percent: 21, count: 22 },
-  { label: "1–2×/week", percent: 41, count: 43 },
-  { label: "3–4×/week", percent: 29, count: 30 },
-  { label: "Daily", percent: 10, count: 10 },
-];
+interface VisitFrequencyDatum {
+  label: string;
+  percent: number;
+  count: number;
+}
 
 interface TickProps { x?: number; y?: number; payload?: { value: string } }
 const CustomXTick = ({ x = 0, y = 0, payload }: TickProps) => (
@@ -33,7 +32,10 @@ const CustomXTick = ({ x = 0, y = 0, payload }: TickProps) => (
   </g>
 );
 
-interface TooltipItem { value: number; payload?: { count: number } }
+interface TooltipItem {
+  value: number;
+  payload?: { count: number };
+}
 interface CustomTooltipProps { active?: boolean; payload?: TooltipItem[]; label?: string }
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload?.length) return null;
@@ -43,21 +45,25 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
       style={{ background: "var(--card)", borderColor: "var(--border)" }}
     >
       <div className="font-medium mb-1" style={{ color: "var(--text)" }}>{label}</div>
-      <div style={{ color: BAR_COLOR }}>{payload[0].value}% of respondents</div>
-      <div style={{ color: "var(--text-muted)" }}>n = {payload[0].payload?.count}</div>
+      <div style={{ color: BAR_COLOR }}>{payload[0].value?.toFixed(1)}% of answered responses</div>
+      <div style={{ color: "var(--text-muted)" }}>Count: {payload[0].payload?.count}</div>
     </div>
   );
 };
 
-export function VisitFrequencyChart() {
+interface VisitFrequencyChartProps {
+  data: VisitFrequencyDatum[];
+}
+
+export function VisitFrequencyChart({ data }: VisitFrequencyChartProps) {
   return (
     <div>
       <ResponsiveContainer width="100%" height={260}>
         <BarChart
-          data={DATA}
-          margin={{ top: 28, right: 16, left: 0, bottom: 8 }}
+          data={data}
+          margin={{ top: 28, right: 12, left: 8, bottom: 8 }}
           barSize={44}
-          barCategoryGap="30%"
+          barCategoryGap="22%"
         >
           <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="var(--divider)" />
           <XAxis
@@ -66,6 +72,7 @@ export function VisitFrequencyChart() {
             axisLine={false}
             tickLine={false}
             interval={0}
+            padding={{ left: 12, right: 12 }}
           />
           <YAxis
             domain={[0, 50]}
@@ -90,7 +97,7 @@ export function VisitFrequencyChart() {
             <LabelList
               dataKey="percent"
               position="top"
-              formatter={(v) => `${v}%`}
+              formatter={(value) => `${Math.round(Number(value ?? 0))}%`}
               style={{ fontSize: 11, fill: "var(--text-muted)", fontFamily: "Inter, sans-serif" }}
             />
           </Bar>

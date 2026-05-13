@@ -46,17 +46,17 @@ export function FunnelChart({ stages }: FunnelChartProps) {
               />
               {/* Labels overlaid */}
               <div
-                className="absolute inset-0 flex items-center justify-between px-4"
+                className="absolute inset-0 flex flex-col items-start justify-center gap-0.5 px-4 sm:flex-row sm:items-center sm:justify-between"
                 style={{ pointerEvents: "none" }}
               >
                 <span
-                  className="text-[0.83rem] font-medium text-white"
+                  className="text-[0.78rem] font-medium text-white sm:text-[0.83rem]"
                   style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
                 >
                   {stage.stage}
                 </span>
                 <span
-                  className="text-[0.83rem] font-medium text-white"
+                  className="text-[0.75rem] font-medium text-white sm:text-[0.83rem]"
                   style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
                 >
                   {stage.n} &nbsp;

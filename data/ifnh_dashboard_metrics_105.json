@@ -1,0 +1,136 @@
+{
+  "source_file": "Shape This Space! Harvest IFNH_May 12, 2026_15.41.csv",
+  "total_exported_responses": 105,
+  "complete_responses_progress_100": 93,
+  "partial_responses": 12,
+  "answered_n_by_question": {
+    "scarletwell_awareness": 103,
+    "visit_frequency": 104,
+    "sense_of_connection": 104,
+    "met_new_people": 104,
+    "layout_encourages_interaction": 98,
+    "seating_preference": 98,
+    "reflection_recharge_helpful": 98,
+    "table_activity_preference": 96,
+    "wellness_resource_awareness": 92,
+    "wellness_info_channel": 91
+  },
+  "visit_frequency": {
+    "1-2 times/week": 43,
+    "Occasionally": 22,
+    "Daily": 10,
+    "3-4 times/week": 29
+  },
+  "regular_weekly_visitors_all_answered": {
+    "count": 82,
+    "answered_n": 104,
+    "percent": 78.8,
+    "display_percent": 79
+  },
+  "regular_weekly_visitors_complete_only": {
+    "count": 75,
+    "answered_n": 92,
+    "percent": 81.5,
+    "display_percent": 82
+  },
+  "topline": {
+    "scarletwell_awareness_yes": 46,
+    "wellness_resource_awareness_agree_or_strongly_agree": 61,
+    "sense_of_connection_agree_or_strongly_agree": 73,
+    "layout_agree_or_strongly_agree": 58,
+    "reflection_area_yes": 53
+  },
+  "distributions": {
+    "scarletwell_awareness": {
+      "No": 37,
+      "Yes": 46,
+      "Not sure": 20
+    },
+    "visit_frequency": {
+      "1-2 times/week": 43,
+      "Occasionally": 22,
+      "Daily": 10,
+      "3-4 times/week": 29
+    },
+    "sense_of_connection": {
+      "Neutral": 29,
+      "Strongly agree": 29,
+      "Agree": 44,
+      "Strongly disagree": 1,
+      "Disagree": 1
+    },
+    "met_new_people": {
+      "Not yet, but I would like to": 32,
+      "No": 34,
+      "Yes": 38
+    },
+    "layout_encourages_interaction": {
+      "Neutral": 29,
+      "Strongly agree": 11,
+      "Disagree": 10,
+      "Agree": 47,
+      "Strongly disagree": 1
+    },
+    "seating_preference": {
+      "Lounge seating": 5,
+      "Shared long tables": 13,
+      "Mixed options": 63,
+      "Round tables": 13,
+      "Other:": 4
+    },
+    "reflection_recharge_helpful": {
+      "Yes": 53,
+      "No": 15,
+      "Not sure": 30
+    },
+    "table_activity_preference": {
+      "Trivia or theme days": 33,
+      "Resource bingo": 11,
+      "Daily/weekly challenges": 14,
+      "None": 9,
+      "Conversation prompts": 9,
+      "Other:": 6,
+      "Creative prompts": 14
+    },
+    "wellness_resource_awareness": {
+      "Agree": 49,
+      "Strongly agree": 12,
+      "Neutral": 19,
+      "Disagree": 11,
+      "Strongly disagree": 1
+    },
+    "wellness_info_channel": {
+      "Digital screens": 13,
+      "Events": 24,
+      "Table cards": 36,
+      "QR codes": 16,
+      "Peer ambassadors": 2
+    }
+  },
+  "open_text_theme_flags": {
+    "mentions_seating_capacity": {
+      "TRUE": 50,
+      "FALSE": 55
+    },
+    "mentions_events_programming": {
+      "TRUE": 26,
+      "FALSE": 79
+    },
+    "mentions_food_samples": {
+      "FALSE": 83,
+      "TRUE": 22
+    },
+    "mentions_quiet_reflection": {
+      "FALSE": 102,
+      "TRUE": 3
+    },
+    "mentions_caps_health": {
+      "FALSE": 95,
+      "TRUE": 10
+    },
+    "mentions_art_creative": {
+      "FALSE": 95,
+      "TRUE": 10
+    }
+  }
+}

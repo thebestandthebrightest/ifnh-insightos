@@ -1,3 +1,4 @@
+import { METRICS } from "./data";
 import type { Recommendation } from "./types";
 
 // ── Recommendation factory (mirrors recommendations.py _rec) ──────────────────
@@ -26,41 +27,41 @@ const ALL_RECS = [
   rec(
     "Create a Designated Reflection & Recharge Zone",
     "Space Design",
-    "77% of students want a dedicated quiet/recharge space (Q8: Yes among yes/no respondents, 51 of 66) — the clearest design mandate in the data.",
-    "Reflection/recharge demand (77%)",
-    "Serves an unmet need for ~79 of 103 surveyed students; reduces crowding in active zones.",
+    "78% of students want a dedicated quiet/recharge space (Q8: Yes among yes/no respondents, 53 of 68) — the clearest design mandate in the data.",
+    "Reflection/recharge demand (78%)",
+    "Serves an unmet need for roughly 82 of 105 surveyed students; reduces crowding in active zones.",
     5, 3, 5, "High", "Medium", "Facilities / IFNH Management",
   ),
   rec(
     "Expand and Reconfigure Seating",
     "Seating & Zoning",
-    "Seating capacity is the #1 qualitative theme (44% of respondents). Students describe peak-hour overflow, inability to find the table type they want (2-top vs. group vs. lounge), and crowding that discourages staying.",
-    "Seating capacity theme (44%)",
+    "Seating capacity is the #1 qualitative theme (48% of respondents). Students describe peak-hour overflow, inability to find the table type they want (2-top vs. group vs. lounge), and crowding that discourages staying.",
+    "Seating capacity theme (48%)",
     "Reduces peak overflow; adds movable or reconfigurable seating to absorb demand spikes; expands the mix of available table types.",
     5, 3, 5, "High", "Medium", "Facilities / Space Planning",
   ),
   rec(
     "Increase Shared & Collaborative Seating Options",
     "Seating & Zoning",
-    "Only 36% of students have met someone new here, but 68% are open to it. Opt-in shared tables with simple flip-sign indicators (open to company / prefer solo) reduce social friction while keeping seating choice fully voluntary.",
-    "Interaction rate (36%) vs. open-to-meeting rate (68%)",
+    "Only 37% of students have met someone new here, but 67% are open to it. Opt-in shared tables with simple flip-sign indicators (open to company / prefer solo) reduce social friction while keeping seating choice fully voluntary.",
+    "Interaction rate (37%) vs. open-to-meeting rate (67%)",
     "Closes the 31-point gap between intent and action; increases weak-tie formation without requiring structured programming.",
     4, 4, 4, "High", "Low", "IFNH Management", true,
   ),
   rec(
     "Launch a Monthly IFNH Activation Event Series",
     "Programming",
-    "17% of students mention events/programming in open text. Trivia and themed days are the #1 preferred table activity. Lightweight, ambient programming — starting with trivia/theme days — requires minimal setup and doubles as a ScarletWell awareness moment. Events are the #2 preferred wellness awareness channel (27% of respondents).",
-    "Events theme (17%); trivia preference (#1 activity)",
+    "25% of students mention events/programming in open text. Trivia and themed days are the #1 preferred table activity. Lightweight, ambient programming — starting with trivia/theme days — requires minimal setup and doubles as a ScarletWell awareness moment. Events are the #2 preferred wellness awareness channel (26% of respondents).",
+    "Events theme (25%); trivia preference (#1 activity)",
     "Creates recurring interaction moments; builds community identity; boosts ScarletWell awareness.",
     4, 4, 4, "High", "Medium", "ScarletWell / Student Affairs",
   ),
   rec(
     "Add Table Cards as Primary Wellness Resource Channel",
     "Wellness Awareness",
-    "Table cards are the #1 preferred wellness learning channel (39% of respondents). They are low-cost, ambient, and persistent.",
-    "Table cards as preferred channel (39%)",
-    "Increases ScarletWell awareness from 44% toward 70%+ without requiring active student effort.",
+    "Table cards are the #1 preferred wellness learning channel (40% of respondents). They are low-cost, ambient, and persistent.",
+    "Table cards as preferred channel (40%)",
+    "Increases ScarletWell awareness from 45% toward 70%+ without requiring active student effort.",
     4, 5, 4, "High", "Low", "ScarletWell Communications", true,
   ),
   rec(
@@ -75,7 +76,7 @@ const ALL_RECS = [
     "Introduce Conversation Prompt Table Cards",
     "Student Engagement",
     "Students want to meet people but lack a low-pressure entry point. Conversation prompts at tables reduce social friction.",
-    "Open-to-meeting rate (68%) vs. actual interaction (36%)",
+    "Open-to-meeting rate (67%) vs. actual interaction (37%)",
     "Activates latent social intent; creates organic connection moments without structured programming.",
     4, 5, 4, "High", "Low", "ScarletWell / Student Engagement", true,
   ),
@@ -83,15 +84,15 @@ const ALL_RECS = [
     "Zone the Space into Clear Activity Areas",
     "Space Design",
     "64% of students prefer 'mixed options' for seating — the clearest preference signal. Current layout ambiguity may suppress both interaction and quiet use. Clear zoning into Quiet/Recharge, Shared/Social, Flexible Group, and Activation/Events areas helps students self-select the right environment.",
-    "Seating preference (mixed options 64%); layout support rate (58%)",
+    "Seating preference (mixed options 64%); layout support rate (59%)",
     "Students self-select the right environment; reduces conflict between social and quiet users; makes peak crowding feel less chaotic.",
     4, 3, 4, "High", "Medium", "Facilities / IFNH Management",
   ),
   rec(
     "Partner with Harvest Dining on Nutrition Programming",
     "Programming",
-    "42% of students mention food or Harvest in open text. The dining connection is an underused asset.",
-    "Food & Harvest theme (42%)",
+    "22% of students mention food, samples, or Harvest-adjacent activation in open text. The dining connection is an underused asset.",
+    "Food & Harvest theme (22%)",
     "Deepens the wellness + nutrition mission; drives foot traffic; creates natural event anchor.",
     3, 4, 3, "Medium", "Medium", "Harvest Dining / IFNH",
   ),
@@ -114,8 +115,8 @@ const ALL_RECS = [
   rec(
     "Add Digital Screens for Ambient Wellness Content",
     "Wellness Awareness",
-    "Digital screens are preferred by 12% of students and enable rotating, timely content with no ongoing printing cost.",
-    "Digital screen channel preference (12%)",
+    "Digital screens are preferred by 14% of students and enable rotating, timely content with no ongoing printing cost.",
+    "Digital screen channel preference (14%)",
     "Continuous ambient wellness messaging; easy to update seasonally.",
     3, 3, 2, "Medium", "Medium", "IFNH Management / IT",
   ),
@@ -127,11 +128,11 @@ export function generateRecommendations(): Recommendation[] {
   const recs = ALL_RECS.map((r) => ({ ...r }));
 
   // Apply same boosts as recommendations.py generate_recommendations()
-  // Values updated from May 6, 2026 Qualtrics export (n = 103).
-  const seatPct = 0.437;  // themes.Seating Capacity.pct (45/103)
-  const interRate = 0.363; // METRICS.interaction.rate (37/102)
-  const awareRate = 0.436; // METRICS.awareness.rate (44/101 — Yes/all answered)
-  const reflRate = 0.773;  // METRICS.reflection.rate (51/66 — yes/no preference)
+  // Values updated from the May 12, 2026 105-response refresh.
+  const seatPct = METRICS.themes["Seating Capacity"].pct;
+  const interRate = METRICS.interaction.rate ?? 0;
+  const awareRate = METRICS.awareness.rate ?? 0;
+  const reflRate = METRICS.reflection.rate ?? 0;
 
   const scored = recs.map((rec) => {
     let score = rec.score;

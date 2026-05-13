@@ -23,40 +23,40 @@ export default function ExecutiveSummary() {
 
   const kpis = [
     {
-      label: "Responses Valid / Total",
-      value: `${SURVEY_META.analysis_rows} / ${SURVEY_META.raw_rows}`,
+      label: "Responses Total / Complete",
+      value: `${SURVEY_META.total_responses} / ${SURVEY_META.complete_responses}`,
       status: "Strong" as const,
-      note: `${SURVEY_META.analysis_rows} of ${SURVEY_META.raw_rows} passed validation — high data quality.`,
+      note: `${SURVEY_META.total_responses} responses were collected overall; ${SURVEY_META.partial_responses} partial responses still contribute where a question was answered.`,
     },
     {
       label: "Regular Visit Rate",
       value: `${(visit_r * 100).toFixed(0)}%`,
       status: status(visit_r, 0.75, 0.55),
-      note: "Students visiting 1+ times per week.",
+      note: `${m.visit.n} of ${m.visit.n_total} answered responses visit at least weekly.`,
     },
     {
       label: "Met Someone New Here",
       value: `${(inter_r * 100).toFixed(0)}%`,
       status: status(inter_r, 0.55, 0.40),
-      note: "Share who made a new social connection at IFNH.",
+      note: `${m.interaction.n_met} of ${m.interaction.n_total} answered Yes.`,
     },
     {
       label: "Avg Connection Score",
       value: `${conn_m.toFixed(2)} / 5`,
       status: status(conn_m / 5, 0.70, 0.55),
-      note: "Average sense of belonging reported.",
+      note: `Average sense-of-connection rating among ${m.connection.n} answered responses.`,
     },
     {
       label: "ScarletWell Awareness",
       value: `${(aware_r * 100).toFixed(0)}%`,
       status: status(aware_r, 0.65, 0.50),
-      note: "Respondents who know about ScarletWell resources.",
+      note: `${m.awareness.n_aware} of ${m.awareness.n_total} answered Yes; ${m.awareness.n_not_sure} were not sure.`,
     },
     {
       label: "Reflection Zone Demand",
       value: `${(refl_r * 100).toFixed(0)}%`,
       status: status(refl_r, 0.80, 0.60),
-      note: "Students who want a dedicated quiet/recharge area.",
+      note: `${m.reflection.n_yes} of ${m.reflection.n_total} yes/no responses said Yes; ${m.reflection.n_not_sure} others were not sure.`,
     },
   ];
 
@@ -72,7 +72,7 @@ export default function ExecutiveSummary() {
       <SectionHeader
         eyebrow="IFNH InsightOS · Executive Summary"
         title="What Is Happening in the Space?"
-        subtitle="A complete read of the data story — written for decision-makers."
+        subtitle={`A complete read of the ${SURVEY_META.total_responses}-response data story — written for decision-makers.`}
       />
 
       {/* Editorial lead */}
@@ -104,16 +104,22 @@ export default function ExecutiveSummary() {
         ))}
       </div>
 
+      <Note>
+        {SURVEY_META.total_responses} total responses were collected overall. {SURVEY_META.methodology_note}
+      </Note>
+
       <Divider />
 
       {/* Visit frequency chart */}
       <Subhead>Weekly Visit Frequency</Subhead>
-      <Note>How often respondents visit IFNH/Harvest during a typical week (n = 105)</Note>
+      <Note>
+        How often respondents visit IFNH/Harvest during a typical week (n = {m.visit.n_total} answered).
+      </Note>
       <div
         className="rounded border p-4 mb-4"
         style={{ background: "var(--card)", borderColor: "var(--border)" }}
       >
-        <VisitFrequencyChart />
+        <VisitFrequencyChart data={m.visit.chart} />
       </div>
       <div
         className="rounded border-l-2 px-4 py-3 mb-8 text-[0.8rem] leading-relaxed"
@@ -125,7 +131,7 @@ export default function ExecutiveSummary() {
           color: "var(--text-muted)",
         }}
       >
-        80% of respondents report visiting IFNH/Harvest at least weekly, suggesting the space functions as a recurring part of student campus life rather than an occasional destination.
+        Nearly four in five respondents ({m.visit.n} of {m.visit.n_total} who answered) report visiting IFNH/Harvest at least weekly, suggesting the space functions as a recurring part of student campus life rather than an occasional destination.
       </div>
 
       <Divider />
