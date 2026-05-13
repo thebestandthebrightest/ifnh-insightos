@@ -25,7 +25,7 @@ export default function StudentVoice() {
   const channels = m.channels;
   const activities = m.activities;
 
-  // Sort themes by pct descending; override Quiet Reflection with survey demand
+  // Sort themes by spontaneous open-text mention rate so qualitative prominence stays honest.
   const sortedThemes = Object.entries(themes).sort((a, b) => b[1].pct - a[1].pct);
 
   const activityItems = Object.entries(activities.norm).map(([label, value]) => ({
@@ -45,7 +45,7 @@ export default function StudentVoice() {
       {/* Theme cards grid */}
       <Subhead>Key Themes from Open-Text Responses</Subhead>
       <Note>
-        Each card shows the % of students who mentioned this theme in open text, a strategic interpretation, and a representative quote. The Quiet Reflection card shows survey-question demand ({m.reflection.rate_pct}) since only {(m.reflection.opentext_rate * 100).toFixed(0)}% mentioned it in open text — these are different signals measuring different things.
+        Each card shows the share of students who mentioned a theme spontaneously in open text. Prompted preference questions are referenced separately and are not treated as spontaneous qualitative themes.
       </Note>
 
       <div className="grid md:grid-cols-2 gap-0 mb-2">
@@ -53,11 +53,10 @@ export default function StudentVoice() {
           const meta = THEME_META[name];
           if (!meta) return null;
 
-          // Quiet Reflection: show survey demand, not the smaller open-text mention rate.
           const isQuietRefl = name === "Quiet Reflection";
-          const displayPct = isQuietRefl ? m.reflection.rate : data.pct;
+          const displayPct = data.pct;
           const pctNote = isQuietRefl
-            ? `yes/no preference (Q8: ${m.reflection.n_yes} of ${m.reflection.n_total}) · ${(data.pct * 100).toFixed(0)}% open-text mentions`
+            ? `open-text mentions: ${(data.pct * 100).toFixed(0)}% · prompted yes/no preference: ${m.reflection.rate_pct} (${m.reflection.n_yes} of ${m.reflection.n_total})`
             : undefined;
 
           return (
@@ -77,10 +76,28 @@ export default function StudentVoice() {
 
       <InsightCard
         title="What the Qualitative Data Is Telling Us"
-        description="Seating and food dominate open-text responses — but these are symptoms, not the root cause. Students want more of a good thing. Underneath the surface, the social connection and programming themes reveal students who want IFNH to feel more alive — not just more spacious."
+        description="Seating, food/Harvest, and programming-related activation dominate open-text responses. Students are not primarily asking for retreat from the space; they are asking for the space to work better, feel less crowded, and create easier pathways into activity and interaction."
         severity="opportunity"
-        action='Use qualitative themes as the "why" behind quantitative metrics. Seating is necessary; programming is the differentiator.'
+        action='Use qualitative themes as the "why" behind quantitative metrics. Seating and activation are the loudest operational signals; quiet/recharge is better treated as a later prompted preference.'
       />
+
+      <div className="grid md:grid-cols-3 gap-3 mb-8">
+        <InsightCard
+          title="Operational Frustrations"
+          description="Seating overflow and table availability are the clearest spontaneous complaints. Students often describe not finding a seat, not the need to withdraw from the space."
+          severity="concern"
+        />
+        <InsightCard
+          title="Desire for Social Activation"
+          description="Programming, themed activities, and low-pressure conversation cues recur in the open-ended responses, reinforcing the main behavioral opportunity around interaction."
+          severity="opportunity"
+        />
+        <InsightCard
+          title="Latent Recharge Preference"
+          description={`Quiet/recharge appears much more strongly when prompted (${m.reflection.rate_pct}) than it does in spontaneous comments (${(m.reflection.opentext_rate * 100).toFixed(0)}%). That makes it meaningful, but secondary.`}
+          severity="watch"
+        />
+      </div>
 
       <Divider />
 

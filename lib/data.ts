@@ -458,17 +458,6 @@ export const FUNNEL: FunnelStage[] = [
 
 export const GAPS: GapItem[] = [
   {
-    need: "Quiet / Recharge Space",
-    demand: reflectionRate,
-    support: 0.20,
-    gap: reflectionRate - 0.20,
-    note: ` ${pct(reflectionRate)} want it (Q8 yes/no preference: ${reflectionCounts.Yes} of ${reflectionPreferenceTotal}); no dedicated zone exists`.trim(),
-    impact_potential: Number((((reflectionRate - 0.20) * totalResponses)).toFixed(1)),
-    demand_pct: pct(reflectionRate),
-    support_pct: "20%",
-    gap_pct: pct(reflectionRate - 0.20),
-  },
-  {
     need: "Social Connection",
     demand: openMeetingRate,
     support: interactionRate,
@@ -478,30 +467,6 @@ export const GAPS: GapItem[] = [
     demand_pct: pct(openMeetingRate),
     support_pct: pct(interactionRate),
     gap_pct: pct(openMeetingRate - interactionRate),
-  },
-  {
-    need: "Wellness Resource Awareness",
-    demand: 0.75,
-    support: awarenessRate,
-    gap: 0.75 - awarenessRate,
-    note: `${pct(awarenessRate)} aware of ScarletWell (Q13 Yes/all answered); ${pct(
-      1 - awarenessRate
-    )} are unsure or unaware`,
-    impact_potential: Number(((0.75 - awarenessRate) * totalResponses).toFixed(1)),
-    demand_pct: "75%",
-    support_pct: pct(awarenessRate),
-    gap_pct: pct(0.75 - awarenessRate),
-  },
-  {
-    need: "Layout Interaction Design",
-    demand: 0.70,
-    support: layoutAgreeRate,
-    gap: 0.70 - layoutAgreeRate,
-    note: `Only ${pct(layoutAgreeRate)} agree the layout encourages interaction (Q6)`,
-    impact_potential: Number(((0.70 - layoutAgreeRate) * totalResponses).toFixed(1)),
-    demand_pct: "70%",
-    support_pct: pct(layoutAgreeRate),
-    gap_pct: pct(0.70 - layoutAgreeRate),
   },
   {
     need: "Seating Availability",
@@ -532,6 +497,43 @@ export const GAPS: GapItem[] = [
     demand_pct: pct(ratio(themeCounts["Events & Programming"], totalResponses)),
     support_pct: "15%",
     gap_pct: pct(ratio(themeCounts["Events & Programming"], totalResponses) - 0.15),
+  },
+  {
+    need: "Wellness Resource Awareness",
+    demand: 0.75,
+    support: awarenessRate,
+    gap: 0.75 - awarenessRate,
+    note: `${pct(awarenessRate)} aware of ScarletWell (Q13 Yes/all answered); ${pct(
+      1 - awarenessRate
+    )} are unsure or unaware`,
+    impact_potential: Number(((0.75 - awarenessRate) * totalResponses).toFixed(1)),
+    demand_pct: "75%",
+    support_pct: pct(awarenessRate),
+    gap_pct: pct(0.75 - awarenessRate),
+  },
+  {
+    need: "Layout Interaction Design",
+    demand: 0.70,
+    support: layoutAgreeRate,
+    gap: 0.70 - layoutAgreeRate,
+    note: `Only ${pct(layoutAgreeRate)} agree the layout encourages interaction (Q6)`,
+    impact_potential: Number(((0.70 - layoutAgreeRate) * totalResponses).toFixed(1)),
+    demand_pct: "70%",
+    support_pct: pct(layoutAgreeRate),
+    gap_pct: pct(0.70 - layoutAgreeRate),
+  },
+  {
+    need: "Quiet / Recharge Space",
+    demand: reflectionRate,
+    support: 0.20,
+    gap: reflectionRate - 0.20,
+    note: `${pct(reflectionRate)} responded positively when asked directly (Q8 yes/no preference: ${reflectionCounts.Yes} of ${reflectionPreferenceTotal}); only ${pct(
+      ratio(themeCounts["Quiet Reflection"], totalResponses)
+    )} raised quiet or recharge in open text`,
+    impact_potential: Number((((reflectionRate - 0.20) * totalResponses)).toFixed(1)),
+    demand_pct: pct(reflectionRate),
+    support_pct: "20%",
+    gap_pct: pct(reflectionRate - 0.20),
   },
   {
     need: "Food & Nutrition Awareness",
@@ -579,12 +581,12 @@ export const THEME_META: Record<
     keywords: ["meet", "connect", "people", "friend", "social", "talk", "community"],
   },
   "Quiet Reflection": {
-    label: "Clear design mandate",
+    label: "Latent prompted preference",
     desc: `${pct(
       reflectionRate
     )} of students answered Yes when asked if a quiet/recharge zone would be helpful (closed-ended Q8, yes/no preference). Only ${pct(
       ratio(themeCounts["Quiet Reflection"], totalResponses)
-    )} mention quiet space in open text, which measures a different signal. The closed-ended rate is the planning indicator.`,
+    )} mention quiet space in open text, so this reads as a positive latent preference rather than a primary spontaneous complaint.`,
     color: COLORS.OLIVE,
     keywords: ["quiet", "relax", "recharge", "study", "peace", "calm", "reflect"],
   },
@@ -693,14 +695,14 @@ export const INSIGHTS: Insight[] = [
     metric: "ScarletWell awareness rate",
   },
   {
-    title: "Strong Recharge Zone Demand",
+    title: "Prompted Recharge Preference",
     description:
-      `${METRICS.reflection.rate_pct} of students said Yes when asked if a quiet/recharge zone would be helpful, among students who gave a yes/no preference (${METRICS.reflection.n_yes} of ${METRICS.reflection.n_total}). This remains one of the clearest design mandates in the dataset. Note: only ${pct(
+      `${METRICS.reflection.rate_pct} of students said Yes when asked if a quiet/recharge zone would be helpful, among students who gave a yes/no preference (${METRICS.reflection.n_yes} of ${METRICS.reflection.n_total}). However, only ${pct(
         METRICS.reflection.opentext_rate
-      )} spontaneously mention quiet space in open text, which measures a different signal.`,
-    severity: "opportunity",
+      )} spontaneously mention quiet space in open text, so this should be treated as a secondary prompted preference rather than the dominant student complaint.`,
+    severity: "watch",
     action:
-      "Zone a quiet corner with comfortable seating, soft lighting, and minimal traffic. Signal its purpose through signage and design.",
+      "If space allows, pilot a quiet corner with comfortable seating and softer environmental cues after higher-leverage social and seating fixes are addressed.",
     metric: "Reflection/recharge area demand (closed-ended, yes/no preference)",
   },
   {
@@ -779,9 +781,11 @@ export const CHANNEL_PRIORITY = [
 
 export const STRATEGY_STEPS = [
   { timing: "Immediate", action: "Address seating overflow. Add shared long tables and temporary seating." },
-  { timing: "Short-Term", action: "Zone the space: quiet/recharge corner, group seating cluster, activation area." },
+  { timing: "Short-Term", action: "Add table interaction cues and shared seating that make co-presence feel more social." },
   { timing: "Short-Term", action: "Deploy table cards with ScarletWell resources and conversation prompts." },
   { timing: "Medium-Term", action: "Launch a monthly IFNH event series. Start with trivia/theme days." },
-  { timing: "Medium-Term", action: "Add QR codes for wellness resource discovery at tables and the entrance." },
+  { timing: "Medium-Term", action: "Use QR codes and ambient touchpoints to make wellness resources easier to discover." },
+  { timing: "Medium-Term", action: "Refine zoning for group seating, activation, and circulation before adding quieter lounge enhancements." },
+  { timing: "Ongoing", action: "Treat quiet/recharge additions as a secondary environmental layer, informed by pilots rather than assumed as the dominant need." },
   { timing: "Ongoing", action: "Re-measure annually using the same survey. Track interaction rate and awareness." },
 ];

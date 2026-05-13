@@ -56,7 +56,7 @@ export default function ExecutiveSummary() {
       label: "Reflection Zone Demand",
       value: `${(refl_r * 100).toFixed(0)}%`,
       status: status(refl_r, 0.80, 0.60),
-      note: `${m.reflection.n_yes} of ${m.reflection.n_total} yes/no responses said Yes; ${m.reflection.n_not_sure} others were not sure.`,
+      note: `${m.reflection.n_yes} of ${m.reflection.n_total} yes/no responses said Yes when asked directly; open-text mentions remained low.`,
     },
   ];
 

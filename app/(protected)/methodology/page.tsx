@@ -61,7 +61,7 @@ const SCENARIO_PARAMS = [
 const CALC_SECTIONS = [
   {
     heading: "Demand percentages",
-    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of respondents who answered that question and expressed a want or need. Question-specific denominators are used throughout, so respondents who skipped a question are excluded from that item. For example, Quiet/Recharge Space demand is 78% because 53 of 68 respondents who gave a yes or no preference said Yes; the denominator intentionally excludes 'Not sure' to isolate the preference signal.",
+    body: "Each demand figure comes directly from the survey. The percentage shown is the proportion of respondents who answered that question and expressed a want or need. Question-specific denominators are used throughout, so respondents who skipped a question are excluded from that item. Prompted yes/no preference items are interpreted differently from spontaneous open-text themes. For example, Quiet/Recharge Space demand is 78% because 53 of 68 respondents who gave a yes or no preference said Yes; that should be read as a prompted preference signal, not as a spontaneous theme frequency.",
   },
   {
     heading: "Estimated current support percentages",
@@ -69,11 +69,11 @@ const CALC_SECTIONS = [
   },
   {
     heading: "Gap score",
-    body: "Gap = Demand % − Estimated Current Support %. A large gap means many students want something the space does not currently provide well. Gaps above 40 percentage points are flagged as high-priority. Gaps between 10–40% are monitoring areas. The gap score is not a prediction — it is a planning signal.",
+    body: "Gap = Demand % − Estimated Current Support %. A large gap means many students want something the space does not currently provide well. Gaps above 40 percentage points are flagged as high-priority, but they are still interpreted alongside breadth of evidence and denominator type. The gap score is not a prediction — it is a planning signal.",
   },
   {
     heading: "Needs & Gaps chart",
-    body: "The chart shows demand and estimated current support as grouped vertical bars for each need area. Blue bars represent demand; green bars represent estimated current support. The gap is the visible space between the two bars. A custom tooltip also displays the calculated gap when hovering over any bar group. Bars are sorted by gap size descending in the detail table below the chart.",
+    body: "The chart shows demand and estimated current support as grouped vertical bars for each need area. Blue bars represent demand; green bars represent estimated current support. The gap is the visible space between the two bars. A custom tooltip also displays the calculated gap when hovering over any bar group. Because the chart mixes spontaneous qualitative themes, prompted preferences, and directional support estimates, the dashboard treats this section as evidence-weighted and directional rather than a pure raw-gap ranking.",
   },
   {
     heading: "Seating Mix Optimizer outputs",
@@ -230,7 +230,7 @@ export default function Methodology() {
           { metric: "Open-to-Meeting Rate", value: m.interaction.open_rate_pct, def: `Proportion of Q3 respondents who answered "Yes" or "Not yet, but I would like to" — indicating openness to social connection (n = ${m.interaction.n_total}).` },
           { metric: "Connection Score", value: `${m.connection.mean_str} / 5`, def: `Mean Likert score (1–5) from Q2: "I feel a sense of connection when I spend time in this space." (n = ${m.connection.n})` },
           { metric: "ScarletWell Awareness", value: m.awareness.rate_pct, def: `Yes responses divided by all who answered Q13 (Yes + No + Not sure = ${m.awareness.n_total}). "Not sure" is treated as not yet aware for planning purposes but is shown separately in the breakdown chart. ${m.awareness.n_aware} of ${m.awareness.n_total} said Yes; ${m.awareness.n_not_sure} were not sure.` },
-          { metric: "Reflection Demand", value: m.reflection.rate_pct, def: `Headline rate: Yes / (Yes + No) = ${m.reflection.n_yes} / ${m.reflection.n_total} — excludes "Not sure" to isolate the yes/no preference signal. The response breakdown shows all ${m.reflection.n_answered} who answered Q8, including "Not sure" (${m.reflection.n_not_sure}).` },
+          { metric: "Reflection Demand", value: m.reflection.rate_pct, def: `Headline rate: Yes / (Yes + No) = ${m.reflection.n_yes} / ${m.reflection.n_total} — excludes "Not sure" to isolate the yes/no preference signal. The response breakdown shows all ${m.reflection.n_answered} who answered Q8, including "Not sure" (${m.reflection.n_not_sure}). Because only ${(m.reflection.opentext_rate * 100).toFixed(0)}% of respondents raised quiet/recharge spontaneously in open text, this metric is framed as a prompted secondary preference rather than a dominant qualitative theme.` },
           { metric: "Layout Support Rate", value: m.layout.agree_rate_pct, def: `Proportion who Agree or Strongly Agree that the layout encourages interaction (Q6 ≥ 4 on 1–5 scale, n = ${m.layout.n}).` },
         ].map(({ metric, value, def }) => (
           <div

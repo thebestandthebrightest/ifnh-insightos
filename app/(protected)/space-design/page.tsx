@@ -27,10 +27,7 @@ export default function SpaceDesign() {
     color: label === "Yes" ? "#7A8F7A" : label === "No" ? "#C5705A" : "#C8A96E",
   }));
 
-  const top3Gaps = [...GAPS]
-    .filter((g) => g.gap > 0)
-    .sort((a, b) => b.gap - a.gap)
-    .slice(0, 3);
+  const top3Gaps = GAPS.filter((g) => g.gap > 0).slice(0, 3);
 
   return (
     <div>
@@ -114,15 +111,15 @@ export default function SpaceDesign() {
       <Divider />
 
       {/* Reflection demand */}
-      <Subhead>Reflection & Recharge Demand</Subhead>
+      <Subhead>Prompted Recharge Preference</Subhead>
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <div className="space-y-3">
           <KPICard
-            label="Want a Reflection / Recharge Area"
+            label="Positive Response to Recharge Prompt"
             value={`${(refl.rate * 100).toFixed(0)}%`}
-            status={refl.rate >= 0.70 ? "Strong" : "Watch"}
-            note={`${refl.n_yes} of ${refl.n_total} yes/no respondents — strongest design signal in the dataset.`}
+            status="Watch"
+            note={`${refl.n_yes} of ${refl.n_total} yes/no respondents said Yes when prompted; only ${(refl.opentext_rate * 100).toFixed(0)}% mentioned it spontaneously.`}
           />
           <div
             className="rounded border p-4"
@@ -144,14 +141,14 @@ export default function SpaceDesign() {
 
         <div className="space-y-3">
           <InsightCard
-            title="Recharge Zone Demand Is the Clearest Design Signal"
-            description={`${(refl.rate * 100).toFixed(0)}% of students said Yes when asked directly (${refl.n_yes} of ${refl.n_total} who gave a yes/no preference). Including 'Not sure' respondents, ${(refl.raw_dist.Yes * 100).toFixed(0)}% said Yes among all ${refl.n_answered} who answered Q8. Either way, demand is strong and supply is absent.`}
-            severity="opportunity"
-            action="Zone a quiet corner with soft seating, reduced traffic, and soft lighting. Signal its purpose through design rather than rules."
+            title="Meaningful When Prompted, Quiet in Open Text"
+            description={`${(refl.rate * 100).toFixed(0)}% of students said Yes when asked directly (${refl.n_yes} of ${refl.n_total} who gave a yes/no preference), but quiet/recharge was rarely raised spontaneously in open-ended feedback. This points to a real secondary comfort preference, not the primary operational complaint.`}
+            severity="watch"
+            action="Treat a recharge corner as a later environmental enhancement after stronger seating, social, and activation issues are addressed."
           />
           <InsightCard
             title="Recommended Space Zoning"
-            description="① Quiet / Recharge — soft seating, low noise, restorative · ② Flexible Group — shared long tables, conversation-oriented · ③ Activation / Events — reconfigurable space for programming · ④ Wellness Info Hub — QR codes, table cards, ScarletWell touchpoints"
+            description="① Shared / Social — conversation-friendly seating and co-presence cues · ② Flexible Group — long tables and reconfigurable collaboration space · ③ Activation / Events — visible room for low-lift programming · ④ Wellness Info Hub — QR codes, table cards, ScarletWell touchpoints · ⑤ Quiet / Recharge — optional softer corner if space remains"
             severity="positive"
             action="No full renovation required — zoning can begin with furniture and signage."
           />
@@ -163,7 +160,7 @@ export default function SpaceDesign() {
       {/* Needs & gaps */}
       <Subhead>Needs & Gaps Analysis</Subhead>
       <Note>
-        Gap = Demand % − Estimated Current Support %. Blue bars show demand, green bars show estimated current support.
+        Gap = Demand % − Estimated Current Support %. Blue bars show demand, green bars show estimated current support. Because denominator types vary, this view is directional and evidence-weighted rather than a pure ranking of raw percentage gaps.
       </Note>
 
       <div
@@ -176,7 +173,7 @@ export default function SpaceDesign() {
       {/* Key findings: top gaps as cards below the chart */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
         {top3Gaps.map((g, i) => {
-          const rankLabel = ["Largest Gap", "Second Gap", "Third Gap"][i];
+          const rankLabel = ["Priority 1", "Priority 2", "Priority 3"][i];
           const gapColor =
             g.gap > 0.4 ? "#C5705A" : g.gap > 0.25 ? "#C8A96E" : "var(--blue-grey)";
           return (
@@ -211,9 +208,9 @@ export default function SpaceDesign() {
 
       <InsightCard
         title="Critical Opportunities vs. Monitoring Areas"
-        description="The top three gaps — Quiet/Recharge Space, Social Connection, and Wellness Resource Awareness — all have high demand and low current support. These represent the highest-leverage investments."
+        description="The highest-leverage priorities are the gaps supported by the broadest evidence base: converting co-presence into interaction, relieving seating friction, and making activity and wellness touchpoints more visible. Quiet/recharge remains relevant, but it is better read as a secondary prompted preference than as the dominant cross-source issue."
         severity="opportunity"
-        action="Prioritize the top three gaps in any upcoming space or programming decision."
+        action="Prioritize social conversion, seating, programming, and wellness visibility first; layer quieter environmental enhancements in after those basics improve."
       />
 
       {/* Gap detail table */}

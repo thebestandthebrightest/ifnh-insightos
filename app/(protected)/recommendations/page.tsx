@@ -47,7 +47,13 @@ export default function Recommendations() {
       <SectionHeader
         eyebrow="Section 05 · Recommendation Engine"
         title="Recommendation Engine"
-        subtitle="Data-driven actions ranked by impact, feasibility, and student demand."
+        subtitle="Data-driven actions ranked by leverage, feasibility, and strength of evidence."
+      />
+
+      <InsightCard
+        title="Main Strategic Issue"
+        description="Students already come to IFNH. The central opportunity is not attracting more presence, but converting existing co-presence into interaction, activity, and wellness discovery. Recommendations are therefore ordered to emphasize social conversion, seating, activation, and visibility before quieter secondary enhancements."
+        severity="opportunity"
       />
 
       {/* Summary KPIs */}
@@ -243,7 +249,7 @@ export default function Recommendations() {
             {selectedPriority !== "All" ? ` · ${selectedPriority} priority` : ""}
             {selectedCategory !== "All" ? ` · ${selectedCategory}` : ""}
             {quickWinsOnly ? " · Quick Wins only" : ""}
-            {" · sorted by composite score (Impact × Feasibility × Demand)"}
+            {" · ordered by evidence-weighted strategic priority, then composite score"}
           </Note>
           {filtered.map((rec) => (
             <RecommendationCard key={rec.rank} rec={rec} showScore />
@@ -263,7 +269,7 @@ export default function Recommendations() {
 
       <InsightCard
         title="How Recommendations Are Scored"
-        description="Each recommendation is scored by Impact × Feasibility × Demand / 25, then adjusted based on live metric values. A seating recommendation scores higher when seating is a strong signal (≥40%). Wellness recommendations score higher when awareness is below 60%. The final rank reflects both the static data-driven score and these dynamic boosts."
+        description="Each recommendation starts with an Impact × Feasibility × Demand / 25 score, then receives light dynamic adjustments based on the live dataset. The final ordering is evidence-weighted: cross-source priorities such as social conversion, seating, activation, and wellness visibility are intentionally surfaced ahead of narrower or more weakly supported ideas."
         severity="watch"
       />
     </div>

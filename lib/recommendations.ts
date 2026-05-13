@@ -27,10 +27,10 @@ const ALL_RECS = [
   rec(
     "Create a Designated Reflection & Recharge Zone",
     "Space Design",
-    "78% of students want a dedicated quiet/recharge space (Q8: Yes among yes/no respondents, 53 of 68) — the clearest design mandate in the data.",
-    "Reflection/recharge demand (78%)",
-    "Serves an unmet need for roughly 82 of 105 surveyed students; reduces crowding in active zones.",
-    5, 3, 5, "High", "Medium", "Facilities / IFNH Management",
+    "78% of students responded positively when asked directly about a quiet/recharge area (Q8: Yes among yes/no respondents, 53 of 68), but only 3% raised this theme spontaneously in open text. This suggests a meaningful secondary comfort preference rather than the primary complaint.",
+    "Prompted recharge preference (78%) vs. open-text mentions (3%)",
+    "Adds a quieter comfort option for students who would use it, while softening pressure in active areas once higher-leverage interaction and seating fixes are underway.",
+    3, 3, 3, "Medium", "Medium", "Facilities / IFNH Management",
   ),
   rec(
     "Expand and Reconfigure Seating",
@@ -83,7 +83,7 @@ const ALL_RECS = [
   rec(
     "Zone the Space into Clear Activity Areas",
     "Space Design",
-    "64% of students prefer 'mixed options' for seating — the clearest preference signal. Current layout ambiguity may suppress both interaction and quiet use. Clear zoning into Quiet/Recharge, Shared/Social, Flexible Group, and Activation/Events areas helps students self-select the right environment.",
+    "64% of students prefer 'mixed options' for seating — the clearest seating-preference signal. Current layout ambiguity may suppress both interaction and activity. Clear zoning into Shared/Social, Flexible Group, Activation/Events, Wellness Info, and optionally Quiet/Recharge areas helps students self-select the right environment.",
     "Seating preference (mixed options 64%); layout support rate (59%)",
     "Students self-select the right environment; reduces conflict between social and quiet users; makes peak crowding feel less chaotic.",
     4, 3, 4, "High", "Medium", "Facilities / IFNH Management",
@@ -122,6 +122,21 @@ const ALL_RECS = [
   ),
 ];
 
+const NARRATIVE_PRIORITY: Record<string, number> = {
+  "Increase Shared & Collaborative Seating Options": 1,
+  "Expand and Reconfigure Seating": 2,
+  "Launch a Monthly IFNH Activation Event Series": 3,
+  "Introduce Conversation Prompt Table Cards": 4,
+  "Add Table Cards as Primary Wellness Resource Channel": 5,
+  "Embed QR Codes for Wellness Resource Discovery": 6,
+  "Zone the Space into Clear Activity Areas": 7,
+  "Partner with Harvest Dining on Nutrition Programming": 8,
+  "Run a Pre/Post Layout Change Measurement Study": 9,
+  "Create a Designated Reflection & Recharge Zone": 10,
+  "Add Digital Screens for Ambient Wellness Content": 11,
+  "Train Student Ambassadors for Peer Wellness Outreach": 12,
+};
+
 // ── Dynamic scoring ───────────────────────────────────────────────────────────
 
 export function generateRecommendations(): Recommendation[] {
@@ -139,11 +154,16 @@ export function generateRecommendations(): Recommendation[] {
     if (rec.category.includes("Seating") && seatPct >= 0.40) score *= 1.15;
     if (rec.category.includes("Wellness") && awareRate < 0.60) score *= 1.10;
     if (rec.category === "Programming" && interRate < 0.45) score *= 1.10;
-    if (rec.title.includes("Reflection") && reflRate >= 0.70) score *= 1.15;
+    if (rec.title.includes("Reflection") && reflRate >= 0.70) score *= 0.92;
     return { ...rec, adjusted_score: Math.round(score * 1000) / 1000 };
   });
 
-  scored.sort((a, b) => b.adjusted_score - a.adjusted_score);
+  scored.sort((a, b) => {
+    const aPriority = NARRATIVE_PRIORITY[a.title] ?? 999;
+    const bPriority = NARRATIVE_PRIORITY[b.title] ?? 999;
+    if (aPriority !== bPriority) return aPriority - bPriority;
+    return b.adjusted_score - a.adjusted_score;
+  });
 
   return scored.map((r, i) => ({ ...r, rank: i + 1 })) as Recommendation[];
 }
