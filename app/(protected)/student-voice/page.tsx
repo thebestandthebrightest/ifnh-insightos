@@ -45,7 +45,7 @@ export default function StudentVoice() {
       {/* Theme cards grid */}
       <Subhead>Key Themes from Open-Text Responses</Subhead>
       <Note>
-        Each card shows the share of students who mentioned a theme spontaneously in open text. Prompted preference questions are referenced separately and are not treated as spontaneous qualitative themes.
+        Theme percentages reflect the share of respondents who mentioned a topic in open-ended responses. Prompted preference questions are shown separately.
       </Note>
 
       <div className="grid md:grid-cols-2 gap-0 mb-2">
@@ -56,7 +56,7 @@ export default function StudentVoice() {
           const isQuietRefl = name === "Quiet Reflection";
           const displayPct = data.pct;
           const pctNote = isQuietRefl
-            ? `open-text mentions: ${(data.pct * 100).toFixed(0)}% · prompted yes/no preference: ${m.reflection.rate_pct} (${m.reflection.n_yes} of ${m.reflection.n_total})`
+            ? `${m.reflection.n_yes} of ${m.reflection.n_total} yes/no responses said Yes.`
             : undefined;
 
           return (
@@ -75,26 +75,26 @@ export default function StudentVoice() {
       </div>
 
       <InsightCard
-        title="What the Qualitative Data Is Telling Us"
-        description="Seating, food/Harvest, and programming-related activation dominate open-text responses. Students are not primarily asking for retreat from the space; they are asking for the space to work better, feel less crowded, and create easier pathways into activity and interaction."
+        title="What Students Are Asking For"
+        description="Seating, food/Harvest, and programming dominate the open-text responses. Students want the space to work better and feel less crowded — and to make it easier to connect and participate."
         severity="opportunity"
-        action='Use qualitative themes as the "why" behind quantitative metrics. Seating and activation are the loudest operational signals; quiet/recharge is better treated as a later prompted preference.'
+        action="Use the open-text themes to prioritize: seating and programming first, quiet/recharge as a later addition."
       />
 
       <div className="grid md:grid-cols-3 gap-3 mb-8">
         <InsightCard
-          title="Operational Frustrations"
-          description="Seating overflow and table availability are the clearest spontaneous complaints. Students often describe not finding a seat, not the need to withdraw from the space."
+          title="Seating Is the Top Complaint"
+          description="Seating overflow is the most common spontaneous complaint. Students describe not being able to find a table, not a desire to leave the space."
           severity="concern"
         />
         <InsightCard
-          title="Desire for Social Activation"
-          description="Programming, themed activities, and low-pressure conversation cues recur in the open-ended responses, reinforcing the main behavioral opportunity around interaction."
+          title="Students Want Activities"
+          description="Programming, themed activities, and conversation cues come up often, pointing to a clear appetite for things to do while in the space."
           severity="opportunity"
         />
         <InsightCard
-          title="Latent Recharge Preference"
-          description={`Quiet/recharge appears much more strongly when prompted (${m.reflection.rate_pct}) than it does in spontaneous comments (${(m.reflection.opentext_rate * 100).toFixed(0)}%). That makes it meaningful, but secondary.`}
+          title="Recharge Is a Secondary Preference"
+          description={`Quiet/recharge comes up much more when students are asked directly (${m.reflection.rate_pct}) than it does in spontaneous responses (${(m.reflection.opentext_rate * 100).toFixed(0)}%). It's worth addressing, but it's not the loudest signal.`}
           severity="watch"
         />
       </div>
@@ -132,20 +132,17 @@ export default function StudentVoice() {
       <div className="grid grid-cols-3 gap-3 mb-6">
         <KPICard
           label="ScarletWell Awareness"
-          value={aware.rate_pct}
-          status={aware.rate < 0.50 ? "Needs Attention" : aware.rate < 0.65 ? "Watch" : "Strong"}
+          value={`${aware.rate_pct} · n=${aware.n_aware}/${aware.n_total}`}
           note={`${aware.n_aware} of ${aware.n_total} who answered; ${aware.n_not_sure} not sure`}
         />
         <KPICard
           label="Wellness Resource Awareness"
-          value={`${wellness.mean_str} / 5`}
-          status={wellness.mean < 3.8 ? "Watch" : "Strong"}
+          value={`${wellness.mean_str} / 5 · n=${wellness.n}`}
           note="Average Likert rating of campus wellness resource awareness"
         />
         <KPICard
           label="Top Preferred Channel"
           value={channels.top}
-          status="Strong"
           note="Most-preferred way to discover wellness resources"
         />
       </div>

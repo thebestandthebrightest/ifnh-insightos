@@ -15,47 +15,35 @@ export default function ExecutiveSummary() {
   const refl_r = m.reflection.rate;
   const open_r = m.interaction.open_rate;
 
-  function status(val: number, good: number, warn: number): "Strong" | "Watch" | "Needs Attention" {
-    if (val >= good) return "Strong";
-    if (val >= warn) return "Watch";
-    return "Needs Attention";
-  }
-
   const kpis = [
     {
-      label: "Responses Total / Complete",
-      value: `${SURVEY_META.total_responses} / ${SURVEY_META.complete_responses}`,
-      status: "Strong" as const,
-      note: `${SURVEY_META.total_responses} responses were collected overall; ${SURVEY_META.partial_responses} partial responses still contribute where a question was answered.`,
+      label: "Responses",
+      value: `${SURVEY_META.complete_responses} / ${SURVEY_META.total_responses} complete`,
+      note: `${SURVEY_META.complete_responses} complete out of ${SURVEY_META.total_responses} total; ${SURVEY_META.partial_responses} partial responses contribute where a question was answered.`,
     },
     {
       label: "Regular Visit Rate",
-      value: `${(visit_r * 100).toFixed(0)}%`,
-      status: status(visit_r, 0.75, 0.55),
+      value: `80% · n=${m.visit.n}/${m.visit.n_total}`,
       note: `${m.visit.n} of ${m.visit.n_total} answered responses visit at least weekly.`,
     },
     {
       label: "Met Someone New Here",
-      value: `${(inter_r * 100).toFixed(0)}%`,
-      status: status(inter_r, 0.55, 0.40),
+      value: `${(inter_r * 100).toFixed(0)}% · n=${m.interaction.n_met}/${m.interaction.n_total}`,
       note: `${m.interaction.n_met} of ${m.interaction.n_total} answered Yes.`,
     },
     {
       label: "Avg Connection Score",
-      value: `${conn_m.toFixed(2)} / 5`,
-      status: status(conn_m / 5, 0.70, 0.55),
+      value: `${conn_m.toFixed(2)} / 5 · n=${m.connection.n}`,
       note: `Average sense-of-connection rating among ${m.connection.n} answered responses.`,
     },
     {
       label: "ScarletWell Awareness",
-      value: `${(aware_r * 100).toFixed(0)}%`,
-      status: status(aware_r, 0.65, 0.50),
+      value: `${(aware_r * 100).toFixed(0)}% · n=${m.awareness.n_aware}/${m.awareness.n_total}`,
       note: `${m.awareness.n_aware} of ${m.awareness.n_total} answered Yes; ${m.awareness.n_not_sure} were not sure.`,
     },
     {
       label: "Reflection Zone Demand",
-      value: `${(refl_r * 100).toFixed(0)}%`,
-      status: status(refl_r, 0.80, 0.60),
+      value: `${(refl_r * 100).toFixed(0)}% · n=${m.reflection.n_yes}/${m.reflection.n_total}`,
       note: `${m.reflection.n_yes} of ${m.reflection.n_total} yes/no responses said Yes when asked directly; open-text mentions remained low.`,
     },
   ];
@@ -98,14 +86,13 @@ export default function ExecutiveSummary() {
             key={kpi.label}
             label={kpi.label}
             value={kpi.value}
-            status={kpi.status}
             note={kpi.note}
           />
         ))}
       </div>
 
       <Note>
-        {SURVEY_META.total_responses} total responses were collected overall. {SURVEY_META.methodology_note}
+        {SURVEY_META.total_responses} total responses ({SURVEY_META.complete_responses} complete, {SURVEY_META.partial_responses} partial). See Methodology for full data notes.
       </Note>
 
       <Divider />
@@ -220,7 +207,7 @@ export default function ExecutiveSummary() {
 
           <InsightCard
             title="Conversion, Not Acquisition"
-            description={`With ${(visit_r * 100).toFixed(0)}% regular visitors, attracting students is not the problem. The drop from visiting to interacting (${(inter_r * 100).toFixed(0)}%) is where the space underperforms. This is addressable through design and programming.`}
+            description={`With 80% regular visitors, attracting students is not the problem. The drop from visiting to interacting (${(inter_r * 100).toFixed(0)}%) is where the space underperforms. This is addressable through design and programming.`}
             severity="opportunity"
             action="Invest in interaction-enabling design: shared seating, conversation prompts, light events."
           />

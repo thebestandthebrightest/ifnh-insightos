@@ -197,20 +197,17 @@ export default function Recommendations() {
         <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
           <KPICard
             label="Regular Visitation"
-            value={METRICS.visit.rate_pct ?? ""}
-            status="Strong"
+            value={`${METRICS.visit.rate_pct} · n=${METRICS.visit.n}/${METRICS.visit.n_total}`}
             note={`${METRICS.visit.n} of ${METRICS.visit.n_total} answered visitors come regularly.`}
           />
           <KPICard
             label="Met Someone New Here"
-            value={METRICS.interaction.rate_pct ?? ""}
-            status="Needs Attention"
+            value={`${METRICS.interaction.rate_pct} · n=${METRICS.interaction.n_met}/${METRICS.interaction.n_total}`}
             note={`${METRICS.interaction.open_rate_pct} are open to it, but the space is not converting that intent consistently.`}
           />
           <KPICard
             label="ScarletWell Awareness"
-            value={METRICS.awareness.rate_pct ?? ""}
-            status="Watch"
+            value={`${METRICS.awareness.rate_pct} · n=${METRICS.awareness.n_aware}/${METRICS.awareness.n_total}`}
             note={`${awarenessGap}% are still unsure or unaware, even while using IFNH.`}
           />
         </div>

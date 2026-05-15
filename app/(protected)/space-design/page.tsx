@@ -81,20 +81,17 @@ export default function SpaceDesign() {
       <div className="grid grid-cols-3 gap-3 mb-6">
         <KPICard
           label="Agree Layout Supports Interaction"
-          value={`${(agree * 100).toFixed(0)}%`}
-          status={agree >= 0.65 ? "Strong" : "Watch"}
+          value={`${(agree * 100).toFixed(0)}% · n=${Math.round(agree * METRICS.layout.n)}/${METRICS.layout.n}`}
           note="Students who feel the layout encourages interaction."
         />
         <KPICard
           label="Neutral or Undecided"
-          value={`${(neutral * 100).toFixed(0)}%`}
-          status="Watch"
+          value={`${(neutral * 100).toFixed(0)}% · n=${Math.round(neutral * METRICS.layout.n)}/${METRICS.layout.n}`}
           note="The layout is not sending a clear behavioral signal."
         />
         <KPICard
           label="Disagree or Strongly Disagree"
-          value={`${(disagree * 100).toFixed(0)}%`}
-          status={disagree >= 0.15 ? "Needs Attention" : "Watch"}
+          value={`${(disagree * 100).toFixed(0)}% · n=${Math.round(disagree * METRICS.layout.n)}/${METRICS.layout.n}`}
           note="Students who feel the layout works against interaction."
         />
       </div>
@@ -116,9 +113,8 @@ export default function SpaceDesign() {
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <div className="space-y-3">
           <KPICard
-            label="Positive Response to Recharge Prompt"
-            value={`${(refl.rate * 100).toFixed(0)}%`}
-            status="Watch"
+            label="Prompted Recharge Preference"
+            value={`${(refl.rate * 100).toFixed(0)}% · n=${refl.n_yes}/${refl.n_total}`}
             note={`${refl.n_yes} of ${refl.n_total} yes/no respondents said Yes when prompted; only ${(refl.opentext_rate * 100).toFixed(0)}% mentioned it spontaneously.`}
           />
           <div

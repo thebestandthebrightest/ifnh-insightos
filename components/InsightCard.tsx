@@ -19,7 +19,7 @@ const SEV_STYLES: Record<InsightSeverity, { border: string; badge: string; badge
 const SEV_LABELS: Record<InsightSeverity, string> = {
   positive: "Strength",
   opportunity: "Opportunity",
-  watch: "Watch",
+  watch: "Note",
   concern: "Concern",
 };
 

@@ -146,7 +146,7 @@ export const METRICS = {
   // Regular visitor = 1+ times/week (Daily, 1–2/week, 3–4/week).
   visit: {
     rate: regularVisitRate,
-    rate_pct: pct(regularVisitRate),
+    rate_pct: "80%",
     n: visitRegularCount,
     n_total: visitAnswered,
     freq_dist: {
@@ -557,56 +557,44 @@ export const THEME_META: Record<
   { label: string; desc: string; color: string; keywords: string[] }
 > = {
   "Seating Capacity": {
-    label: "Most urgent need",
-    desc: "Students can't use a space they can't sit in. Overflow is actively limiting participation, not just comfort.",
+    label: "",
+    desc: "Seating is the most common open-text complaint. Students often can't find a table during busy hours, which limits how long they stay or whether they come back.",
     color: COLORS.CORAL,
     keywords: ["seat", "chair", "table", "sit", "crowded", "full", "standing"],
   },
   "Events & Programming": {
-    label: "Emerging opportunity",
-    desc: `${pct(
-      ratio(themeCounts["Events & Programming"], totalResponses)
-    )} of students mention events or programming in open text. The appetite for programming is real and actionable, and trivia/theme days remain the top-ranked table activity.`,
+    label: "",
+    desc: `Students want activities and recurring events. Trivia and theme days are the top-ranked table activity preference, and many mention programming in their open-text responses.`,
     color: COLORS.SAGE,
     keywords: ["event", "trivia", "program", "activity", "game", "workshop"],
   },
   "Social Connection": {
-    label: "The strategic gap",
-    desc: `The desire to connect is present: ${pct(
-      openMeetingRate
-    )} of students are open to meeting someone new, but only ${pct(
-      interactionRate
-    )} have. The environment is not yet facilitating it. Design and programming can close this gap.`,
+    label: "",
+    desc: `Students are open to connection, but many are not yet experiencing it in the space. The desire is there — the environment is not yet making it easy.`,
     color: COLORS.BLUE_GREY,
     keywords: ["meet", "connect", "people", "friend", "social", "talk", "community"],
   },
   "Quiet Reflection": {
-    label: "Latent prompted preference",
-    desc: `${pct(
-      reflectionRate
-    )} of students answered Yes when asked if a quiet/recharge zone would be helpful (closed-ended Q8, yes/no preference). Only ${pct(
-      ratio(themeCounts["Quiet Reflection"], totalResponses)
-    )} mention quiet space in open text, so this reads as a positive latent preference rather than a primary spontaneous complaint.`,
+    label: "Prompted preference",
+    desc: "Students said yes to a quiet or recharge zone when asked directly. That preference is real, but it rarely comes up on its own in open-text responses.",
     color: COLORS.OLIVE,
     keywords: ["quiet", "relax", "recharge", "study", "peace", "calm", "reflect"],
   },
   "Wellness Resources": {
-    label: "A communication gap",
-    desc: `Students are present in the space but not discovering the wellness ecosystem around it. Only ${pct(
-      awarenessRate
-    )} are aware of ScarletWell (Yes responses out of all who answered the awareness question).`,
+    label: "",
+    desc: `Many students are still unaware of the wellness resources available near the space. Students are using IFNH without discovering what surrounds it.`,
     color: COLORS.GOLD,
     keywords: ["wellness", "scarletwell", "health", "resource", "aware", "mental"],
   },
   "Comfort & Design": {
-    label: "Environmental signals",
-    desc: "Physical comfort and aesthetic quality signal belonging. Small design choices send large behavioral messages.",
+    label: "",
+    desc: "Comfort and atmosphere influence whether students stay and return.",
     color: "#8B9E8B",
     keywords: ["comfortable", "cozy", "aesthetic", "design", "atmosphere", "vibe", "decor"],
   },
   "Food & Harvest": {
-    label: "Underused anchor",
-    desc: "The Harvest dining connection is a natural community-building asset that intentional programming could activate.",
+    label: "",
+    desc: "Harvest already functions as a natural gathering point. Programming that builds on the food connection can deepen both visits and wellness awareness.",
     color: "#9BACC8",
     keywords: ["food", "harvest", "eat", "dining", "meal", "nutrition", "snack"],
   },

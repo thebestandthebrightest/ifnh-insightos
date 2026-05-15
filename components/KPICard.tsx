@@ -10,14 +10,7 @@ interface KPICardProps {
   className?: string;
 }
 
-const STATUS_STYLES: Record<Status, { dot: string; text: string }> = {
-  Strong: { dot: "#7A8F7A", text: "#7A8F7A" },
-  Watch: { dot: "#C8A96E", text: "#C8A96E" },
-  "Needs Attention": { dot: "#C5705A", text: "#C5705A" },
-};
-
-export function KPICard({ label, value, status, note, className = "" }: KPICardProps) {
-  const s = status ? STATUS_STYLES[status] : null;
+export function KPICard({ label, value, note, className = "" }: KPICardProps) {
 
   return (
     <div
@@ -39,17 +32,6 @@ export function KPICard({ label, value, status, note, className = "" }: KPICardP
       >
         {value}
       </div>
-      {status && s && (
-        <div className="flex items-center gap-1.5 mt-0.5">
-          <span
-            className="inline-block w-1.5 h-1.5 rounded-full"
-            style={{ background: s.dot }}
-          />
-          <span className="text-[0.68rem] font-semibold" style={{ color: s.text }}>
-            {status}
-          </span>
-        </div>
-      )}
       {note && (
         <p className="text-[0.72rem] leading-snug mt-0.5" style={{ color: "var(--text-light)" }}>
           {note}
