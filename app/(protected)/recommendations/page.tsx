@@ -95,29 +95,16 @@ function PriorityCard({
             </div>
           </div>
 
-          <div className="mt-5 grid gap-3 border-t pt-4 md:grid-cols-[1.2fr_0.8fr]" style={{ borderColor: "var(--divider)" }}>
-            <div>
-              <div
-                className="text-[0.65rem] uppercase tracking-widest font-semibold mb-1.5"
-                style={{ color: "var(--olive)", letterSpacing: "0.12em" }}
-              >
-                Expected Impact
-              </div>
-              <p className="text-[0.83rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {priority.expectedImpact}
-              </p>
+          <div className="mt-5 border-t pt-4" style={{ borderColor: "var(--divider)" }}>
+            <div
+              className="text-[0.65rem] uppercase tracking-widest font-semibold mb-1.5"
+              style={{ color: "var(--olive)", letterSpacing: "0.12em" }}
+            >
+              Expected Impact
             </div>
-            <div>
-              <div
-                className="text-[0.65rem] uppercase tracking-widest font-semibold mb-1.5"
-                style={{ color: "var(--olive)", letterSpacing: "0.12em" }}
-              >
-                Suggested Lead
-              </div>
-              <p className="text-[0.83rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {priority.lead}
-              </p>
-            </div>
+            <p className="text-[0.83rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              {priority.expectedImpact}
+            </p>
           </div>
         </div>
       </div>
@@ -205,13 +192,13 @@ export default function Recommendations() {
             label="Met Someone New Here"
             value={METRICS.interaction.rate_pct ?? ""}
             status="Needs Attention"
-            note={`${METRICS.interaction.open_rate_pct} are open to it, but the space is not converting that intent consistently.`}
+            note={`${METRICS.interaction.n_met} of ${METRICS.interaction.n_total} answered Yes; ${METRICS.interaction.open_rate_pct} are open to interaction overall.`}
           />
           <KPICard
             label="ScarletWell Awareness"
             value={METRICS.awareness.rate_pct ?? ""}
             status="Watch"
-            note={`${awarenessGap}% are still unsure or unaware, even while using IFNH.`}
+            note={`${METRICS.awareness.n_aware} of ${METRICS.awareness.n_total} answered Yes; ${awarenessGap}% are still unsure or unaware.`}
           />
         </div>
       </div>
@@ -338,7 +325,7 @@ export default function Recommendations() {
               Recommendation Calibration
             </div>
             <p className="text-[0.82rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              Priority order reflects the strongest cross-source evidence first: behavioral conversion gaps, dominant open-text themes, and the clearest low-friction activation opportunities. Prompted quiet/recharge interest remains part of the picture, but it is intentionally treated as a later environmental layer rather than the central strategic issue.
+              Priority order reflects the strongest cross-source evidence first: the interaction shortfall, the dominant open-text themes, and the clearest low-friction activation opportunities. Prompted quiet/recharge interest remains part of the picture, but it is intentionally treated as a later environmental layer rather than the central strategic issue.
             </p>
           </div>
         </div>

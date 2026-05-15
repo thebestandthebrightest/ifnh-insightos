@@ -161,7 +161,7 @@ export default function ExecutiveSummary() {
       <Subhead>The Core Tension</Subhead>
       <Note>
         The gap between students open to meeting someone ({(open_r * 100).toFixed(0)}%) and those who
-        actually have ({(inter_r * 100).toFixed(0)}%) is the defining strategic opportunity for IFNH.
+        actually have ({(inter_r * 100).toFixed(0)}%) is the defining strategic opportunity for IFNH (Q3 n = {m.interaction.n_total}).
       </Note>
       <div
         className="rounded border p-4 mb-8"
@@ -220,7 +220,7 @@ export default function ExecutiveSummary() {
 
           <InsightCard
             title="Conversion, Not Acquisition"
-            description={`With ${(visit_r * 100).toFixed(0)}% regular visitors, attracting students is not the problem. The drop from visiting to interacting (${(inter_r * 100).toFixed(0)}%) is where the space underperforms. This is addressable through design and programming.`}
+            description={`With ${(visit_r * 100).toFixed(0)}% regular visitors, attracting students is not the problem. Many students are already in the space; fewer are actually meeting someone new there. That is the clearest operational opportunity, and it is addressable through design and programming.`}
             severity="opportunity"
             action="Invest in interaction-enabling design: shared seating, conversation prompts, light events."
           />

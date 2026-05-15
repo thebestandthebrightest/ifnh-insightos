@@ -76,7 +76,7 @@ export default function StudentVoice() {
 
       <InsightCard
         title="What the Qualitative Data Is Telling Us"
-        description="Seating, food/Harvest, and programming-related activation dominate open-text responses. Students are not primarily asking for retreat from the space; they are asking for the space to work better, feel less crowded, and create easier pathways into activity and interaction."
+        description="Seating, programming-related activation, and the broader food/Harvest ecosystem dominate open-text responses. Students are not primarily asking for retreat from the space; they are asking for the space to work better, feel less crowded, and create easier pathways into activity and interaction."
         severity="opportunity"
         action='Use qualitative themes as the "why" behind quantitative metrics. Seating and activation are the loudest operational signals; quiet/recharge is better treated as a later prompted preference.'
       />
@@ -88,23 +88,29 @@ export default function StudentVoice() {
           severity="concern"
         />
         <InsightCard
-          title="Desire for Social Activation"
+          title="Programming & Social Activation"
           description="Programming, themed activities, and low-pressure conversation cues recur in the open-ended responses, reinforcing the main behavioral opportunity around interaction."
           severity="opportunity"
         />
         <InsightCard
-          title="Latent Recharge Preference"
-          description={`Quiet/recharge appears much more strongly when prompted (${m.reflection.rate_pct}) than it does in spontaneous comments (${(m.reflection.opentext_rate * 100).toFixed(0)}%). That makes it meaningful, but secondary.`}
-          severity="watch"
+          title="Food + Harvest as a Behavioral Anchor"
+          description={`Explicit Food + Harvest mentions land at ${(m.themes["Food & Harvest"].pct * 100).toFixed(0)}% of total responses. Even with stricter coding, dining-adjacent activation still looks like one of the easiest pathways into recurring interaction and engagement.`}
+          severity="positive"
         />
       </div>
+
+      <InsightCard
+        title="Quiet / Recharge Is Present, but Secondary"
+        description={`Quiet/recharge appears much more strongly when prompted (${m.reflection.rate_pct}, based on ${m.reflection.n_total} yes/no responses) than it does in spontaneous comments (${(m.reflection.opentext_rate * 100).toFixed(0)}% of all responses). That makes it meaningful, but not the dominant qualitative theme.`}
+        severity="watch"
+      />
 
       <Divider />
 
       {/* Activity preferences */}
       <Subhead>Preferred Table Activities</Subhead>
       <Note>
-        What kind of activities would students most want at their table? Students ranked their preferences across six options.
+        What kind of activities would students most want at their table? Students ranked their preferences across six options (n = {activities.n} answered).
       </Note>
 
       <div
@@ -129,24 +135,24 @@ export default function StudentVoice() {
       {/* Wellness awareness */}
       <Subhead>Wellness Awareness</Subhead>
 
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         <KPICard
           label="ScarletWell Awareness"
           value={aware.rate_pct}
           status={aware.rate < 0.50 ? "Needs Attention" : aware.rate < 0.65 ? "Watch" : "Strong"}
-          note={`${aware.n_aware} of ${aware.n_total} who answered; ${aware.n_not_sure} not sure`}
+          note={`${aware.n_aware} of ${aware.n_total} answered Yes; ${aware.n_not_sure} were not sure.`}
         />
         <KPICard
           label="Wellness Resource Awareness"
           value={`${wellness.mean_str} / 5`}
           status={wellness.mean < 3.8 ? "Watch" : "Strong"}
-          note="Average Likert rating of campus wellness resource awareness"
+          note={`Average Likert rating of campus wellness resource awareness (Q11 n = ${wellness.n}).`}
         />
         <KPICard
           label="Top Preferred Channel"
           value={channels.top}
           status="Strong"
-          note="Most-preferred way to discover wellness resources"
+          note={`Most-preferred way to discover wellness resources (Q12 n = ${channels.n}).`}
         />
       </div>
 
@@ -156,6 +162,7 @@ export default function StudentVoice() {
           className="rounded border p-5"
           style={{ background: "var(--card)", borderColor: "var(--border)" }}
         >
+          <Note>Awareness question denominator: n = {aware.n_total} answered.</Note>
           <AwarenessDonut dist={aware.raw_dist} title="ScarletWell Awareness" />
         </div>
 
@@ -170,6 +177,7 @@ export default function StudentVoice() {
           >
             Preferred Awareness Channels
           </div>
+          <Note>Channel preference denominator: n = {channels.n} answered.</Note>
           <div className="divide-y" style={{ borderColor: "var(--divider)" }}>
             {CHANNEL_PRIORITY.map(({ channel, priority, note, color }) => (
               <div
@@ -201,7 +209,7 @@ export default function StudentVoice() {
       <div className="space-y-3">
         <InsightCard
           title="ScarletWell-Aware Students Report Higher Connection Scores"
-          description={`Aware students score ${(SEGMENTS.find(s => s.label === "ScarletWell Aware")?.value ?? 0).toFixed(2)}/5 on connection vs. ${(SEGMENTS.find(s => s.label === "ScarletWell Unaware")?.value ?? 0).toFixed(2)}/5 for unaware — a ${((SEGMENTS.find(s => s.label === "ScarletWell Aware")?.value ?? 0) - (SEGMENTS.find(s => s.label === "ScarletWell Unaware")?.value ?? 0)).toFixed(2)}-point gap. Awareness and belonging may be reinforcing each other.`}
+          description={`Aware students score ${(SEGMENTS.find(s => s.label === "ScarletWell Aware")?.value ?? 0).toFixed(2)}/5 on connection versus ${(SEGMENTS.find(s => s.label === "ScarletWell Unaware")?.value ?? 0).toFixed(2)}/5 for unaware students. Awareness and belonging may be reinforcing each other.`}
           severity="opportunity"
           action="Use ScarletWell awareness as a connection lever — awareness appears to amplify belonging."
         />

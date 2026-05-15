@@ -416,7 +416,7 @@ export function SeatingMixOptimizer() {
       <SectionHeader
         eyebrow="Section 04 · Seating Mix Optimizer"
         title="Seating Mix Optimizer"
-        subtitle="Estimate how many additional seats and what mix would reduce peak-hour crowding. These are planning estimates — not predictions or official occupancy measurements."
+        subtitle="Compare directional seating scenarios that could reduce peak-hour crowding. These are planning estimates — not predictions or official occupancy measurements."
       />
 
       {/* Starting-point callout */}
@@ -541,7 +541,7 @@ export function SeatingMixOptimizer() {
           </div>
 
           {/* KPI row */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <KPICard
               label="Physical Seats"
               value={String(metrics.physicalSeats)}
@@ -648,8 +648,7 @@ export function SeatingMixOptimizer() {
       <Subhead>Seating Mix Recommendations</Subhead>
       <Note>
         Each scenario shows the additions needed to reach the target pressure, distributed by your
-        selected comfort priority. Planning estimates only — actual needs depend on layout,
-        circulation, and desired atmosphere.
+        selected comfort priority. Use this as a directional planning comparison, not as predictive occupancy science; actual needs still depend on layout, circulation, and desired atmosphere.
       </Note>
 
       <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -757,7 +756,7 @@ export function SeatingMixOptimizer() {
         measurements. Actual peak crowding depends on room layout, table placement, circulation
         paths, noise zoning, and time of day. Student qualitative data confirms peak-time strain
         even when total seat counts appear adequate. Use these scenarios to compare directions,
-        not to predict exact outcomes.
+        not to predict exact occupancy or future behavior.
       </div>
     </div>
   );

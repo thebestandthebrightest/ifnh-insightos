@@ -571,12 +571,12 @@ export const THEME_META: Record<
     keywords: ["event", "trivia", "program", "activity", "game", "workshop"],
   },
   "Social Connection": {
-    label: "The strategic gap",
+    label: "Key opportunity",
     desc: `The desire to connect is present: ${pct(
       openMeetingRate
     )} of students are open to meeting someone new, but only ${pct(
       interactionRate
-    )} have. The environment is not yet facilitating it. Design and programming can close this gap.`,
+    )} have. Many students are open to interaction, but fewer actually experience it. Design and programming can help close that distance.`,
     color: COLORS.BLUE_GREY,
     keywords: ["meet", "connect", "people", "friend", "social", "talk", "community"],
   },
@@ -605,8 +605,10 @@ export const THEME_META: Record<
     keywords: ["comfortable", "cozy", "aesthetic", "design", "atmosphere", "vibe", "decor"],
   },
   "Food & Harvest": {
-    label: "Underused anchor",
-    desc: "The Harvest dining connection is a natural community-building asset that intentional programming could activate.",
+    label: "Behavioral anchor",
+    desc: `${pct(
+      ratio(themeCounts["Food & Harvest"], totalResponses)
+    )} explicitly mention food or Harvest in open text. Treated as a broader behavioral ecosystem, Harvest-adjacent activity looks like one of the easiest pathways into recurring interaction and engagement.`,
     color: "#9BACC8",
     keywords: ["food", "harvest", "eat", "dining", "meal", "nutrition", "snack"],
   },
@@ -668,9 +670,7 @@ export const INSIGHTS: Insight[] = [
   {
     title: "High Latent Social Intent",
     description:
-      `${METRICS.interaction.open_rate_pct} of students are open to meeting someone new, but only ${METRICS.interaction.rate_pct} have. That ${Math.round(
-        (METRICS.interaction.open_rate - METRICS.interaction.rate) * 100
-      )}-point gap represents students who want connection but have no current pathway to it.`,
+      `${METRICS.interaction.open_rate_pct} of students are open to meeting someone new, but only ${METRICS.interaction.rate_pct} have. Many students are open to connection, but the space is not yet giving them an easy pathway into it.`,
     severity: "opportunity",
     action:
       "Remove friction: shared seating clusters, table prompts, brief structured interactions at events.",
@@ -699,7 +699,7 @@ export const INSIGHTS: Insight[] = [
     description:
       `${METRICS.reflection.rate_pct} of students said Yes when asked if a quiet/recharge zone would be helpful, among students who gave a yes/no preference (${METRICS.reflection.n_yes} of ${METRICS.reflection.n_total}). However, only ${pct(
         METRICS.reflection.opentext_rate
-      )} spontaneously mention quiet space in open text, so this should be treated as a secondary prompted preference rather than the dominant student complaint.`,
+      )} spontaneously mention quiet space in open text, so this should be treated as a secondary prompted preference rather than a primary qualitative theme.`,
     severity: "watch",
     action:
       "If space allows, pilot a quiet corner with comfortable seating and softer environmental cues after higher-leverage social and seating fixes are addressed.",
@@ -734,7 +734,7 @@ export const INSIGHTS: Insight[] = [
     description:
       `${pct(
         ratio(themeCounts["Food & Harvest"], totalResponses)
-      )} of students mention food, samples, or Harvest-adjacent activation in their responses. The dining connection remains a unique asset that could drive both visits and wellness awareness.`,
+      )} of students explicitly mention food, samples, or Harvest-adjacent activation in their responses. Even with stricter coding, the dining connection still reads as a meaningful behavioral anchor that can drive interaction, programming, and wellness visibility.`,
     severity: "positive",
     action:
       "Leverage Harvest for event tie-ins, nutrition programming, and organic foot traffic activation.",

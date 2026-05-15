@@ -58,7 +58,7 @@ export default function SpaceDesign() {
           style={{ background: "var(--card)", borderColor: "var(--border)" }}
         >
           <Subhead className="mt-0">Layout Encourages Interaction</Subhead>
-          <Note>Do students feel the layout supports social interaction?</Note>
+          <Note>Do students feel the layout supports social interaction? (n = {layout.n})</Note>
           <RankedList
             items={Object.entries(layout.raw_dist).map(([label, value]) => ({
               label,
@@ -78,7 +78,7 @@ export default function SpaceDesign() {
 
       {/* Layout KPI strip */}
       <Subhead>Layout Signal</Subhead>
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         <KPICard
           label="Agree Layout Supports Interaction"
           value={`${(agree * 100).toFixed(0)}%`}

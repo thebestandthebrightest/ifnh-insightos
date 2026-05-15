@@ -81,7 +81,7 @@ const CALC_SECTIONS = [
   },
   {
     heading: "Recommendation priorities",
-    body: "Each recommendation is scored on three dimensions: impact (estimated effect on key metrics if implemented), feasibility (ease and cost of implementation), and demand (proportion of students who expressed this need). The final score is a weighted average. Dynamic boosts are applied when the current data makes a recommendation especially timely — for example, seating recommendations receive a 15% score boost when seating demand exceeds 40% of the survey. Quick Wins are high-impact, low-effort actions that can be taken immediately with minimal resources.",
+    body: "The final action plan is evidence-weighted rather than purely score-driven. Behavioral conversion gaps, dominant spontaneous themes, and low-friction implementation opportunities are prioritized first. This is why seating, interaction, programming, and wellness visibility appear ahead of quieter secondary enhancements, even when a prompted preference item is numerically high on its own.",
   },
 ];
 
@@ -123,9 +123,9 @@ export default function Methodology() {
         />
         <KPICard
           label="Item-Level n"
-          value="91-104"
+          value="68-104"
           status="Strong"
-          note="Answered counts vary by question across the dashboard"
+          note="Answered counts vary by question; prompted yes/no items can use smaller denominators"
         />
       </div>
 
@@ -146,7 +146,7 @@ export default function Methodology() {
         <p>
           Open-text responses were manually reviewed and coded into seven thematic categories. Theme binary flags
           (0/1) were applied to each respondent row. Quantitative metrics were derived from Likert-scale and
-          binary questions using standard proportion and mean calculations. {SURVEY_META.methodology_note}
+          binary questions using standard proportion and mean calculations. The <code className="text-[0.80em] px-1 rounded" style={{ background: "var(--divider)" }}>theme_food_harvest</code> flag uses a stricter explicit coding rule for food, Harvest, dining, or eating references; in interpretation, those mentions are discussed as part of a broader Food + Harvest behavioral ecosystem rather than as isolated food demand. {SURVEY_META.methodology_note}
         </p>
       </div>
 
@@ -156,7 +156,7 @@ export default function Methodology() {
       <Subhead>Recommended Path Forward</Subhead>
       <Note>
         These steps synthesize the survey findings into a prioritized action sequence. Timing reflects implementation
-        complexity, not urgency — all steps are worth beginning soon.
+        complexity, not urgency. High-use, low-cost pilots come first; larger environment changes follow after early learning.
       </Note>
 
       <div className="space-y-0 mb-6">

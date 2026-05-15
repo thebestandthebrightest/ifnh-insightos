@@ -22,9 +22,6 @@ function rec(
 }
 
 const percent = (value: number) => `${Math.round(value * 100)}%`;
-const interactionGapPoints = Math.round(
-  ((METRICS.interaction.open_rate ?? 0) - (METRICS.interaction.rate ?? 0)) * 100
-);
 
 // ── Static recommendation library ────────────────────────────────────────────
 
@@ -50,7 +47,7 @@ const ALL_RECS = [
     "Seating & Zoning",
     "Only 37% of students have met someone new here, but 67% are open to it. Opt-in shared tables with simple flip-sign indicators (open to company / prefer solo) reduce social friction while keeping seating choice fully voluntary.",
     "Interaction rate (37%) vs. open-to-meeting rate (67%)",
-    "Closes the 31-point gap between intent and action; increases weak-tie formation without requiring structured programming.",
+    "Makes it easier for students who are already open to interaction to actually experience it, without requiring heavy programming.",
     4, 4, 4, "High", "Low", "IFNH Management", true,
   ),
   rec(
@@ -96,7 +93,7 @@ const ALL_RECS = [
   rec(
     "Partner with Harvest Dining on Nutrition Programming",
     "Programming",
-    "22% of students mention food, samples, or Harvest-adjacent activation in open text. The dining connection is an underused asset.",
+    "22% of students explicitly mention food, samples, or Harvest-adjacent activation in open text. Even with this stricter coding, Harvest remains a meaningful behavioral anchor and one of the easiest pathways into recurring interaction.",
     "Food & Harvest theme (22%)",
     "Deepens the wellness + nutrition mission; drives foot traffic; creates natural event anchor.",
     3, 4, 3, "Medium", "Medium", "Harvest Dining / IFNH",
@@ -238,9 +235,9 @@ export const EXECUTIVE_PRIORITIES: ExecutivePriority[] = [
     summary:
       "IFNH already has traffic. The fastest win is converting shared presence into low-pressure conversation, activity, and repeat engagement at the table level.",
     evidence: [
-      `${METRICS.visit.rate_pct} of students visit regularly, but only ${METRICS.interaction.rate_pct} report meeting someone new here.`,
-      `${METRICS.interaction.open_rate_pct} are open to meeting someone new, leaving a ${interactionGapPoints}-point conversion gap between intent and experience.`,
-      `${percent(METRICS.themes["Events & Programming"].pct)} mention events or programming in open text, and ${percent(METRICS.activities.norm["Trivia or theme days"])} choose trivia or theme days as their top table activity.`,
+      `${METRICS.visit.rate_pct} visit regularly (${METRICS.visit.n} of ${METRICS.visit.n_total}), but only ${METRICS.interaction.rate_pct} report meeting someone new here (${METRICS.interaction.n_met} of ${METRICS.interaction.n_total}).`,
+      `${METRICS.interaction.open_rate_pct} are open to interaction on Q3 (n = ${METRICS.interaction.n_total}), but fewer actually experience it.`,
+      `${percent(METRICS.themes["Events & Programming"].pct)} mention events or programming in open text, and ${percent(METRICS.activities.norm["Trivia or theme days"])} choose trivia or theme days as their top table activity (Q9 n = ${METRICS.activities.n}).`,
     ],
     actions: [
       "Pilot conversation-prompt table cards and opt-in shared-table cues.",
@@ -260,8 +257,8 @@ export const EXECUTIVE_PRIORITIES: ExecutivePriority[] = [
       "The physical environment should make it easier to stay, gather, and self-select into the right kind of use. Right now, seating pressure and layout ambiguity are getting in the way.",
     evidence: [
       `${percent(METRICS.themes["Seating Capacity"].pct)} mention seating or crowding in open text, making it the strongest spontaneous operational complaint.`,
-      `${percent(METRICS.seating.norm["Mixed options"])} prefer a mixed seating strategy, signaling demand for variety rather than a single-use room type.`,
-      `Only ${METRICS.layout.agree_rate_pct} agree that the current layout encourages interaction, which suggests the room is not yet doing enough work on its own.`,
+      `${percent(METRICS.seating.norm["Mixed options"])} prefer a mixed seating strategy (Q7 n = ${METRICS.seating.n}), signaling demand for variety rather than a single-use room type.`,
+      `Only ${METRICS.layout.agree_rate_pct} agree that the current layout encourages interaction (Q6 n = ${METRICS.layout.n}), which suggests the room is not yet doing enough work on its own.`,
     ],
     actions: [
       "Preserve mixed seating while increasing shared long tables, movable seats, and flexible group arrangements.",
@@ -280,9 +277,9 @@ export const EXECUTIVE_PRIORITIES: ExecutivePriority[] = [
     summary:
       "Students are using IFNH without consistently connecting to the ScarletWell ecosystem around it. Awareness should be built into the room, not left to chance.",
     evidence: [
-      `Only ${METRICS.awareness.rate_pct} are aware of ScarletWell resources among students who answered the awareness question.`,
-      `${percent(METRICS.channels.norm["Table cards"])} prefer table cards for learning about wellness resources, making them the clearest passive discovery channel.`,
-      `${percent(METRICS.channels.norm.Events)} prefer events as a wellness channel, so programming can reinforce visibility rather than sit beside it.`,
+      `Only ${METRICS.awareness.rate_pct} are aware of ScarletWell resources among students who answered Q13 (n = ${METRICS.awareness.n_total}).`,
+      `${percent(METRICS.channels.norm["Table cards"])} prefer table cards for learning about wellness resources (Q12 n = ${METRICS.channels.n}), making them the clearest passive discovery channel.`,
+      `${percent(METRICS.channels.norm.Events)} prefer events as a wellness channel (Q12 n = ${METRICS.channels.n}), so programming can reinforce visibility rather than sit beside it.`,
     ],
     actions: [
       "Deploy table cards as the first-line ScarletWell discovery tool at high-use seating zones.",
